@@ -39,9 +39,11 @@
             padding: 10px 20px;
             border-radius: 4px;
             backdrop-filter: blur(5px);
+            text-align: right;
         }
 
         .title-overlay h1 { margin: 0; font-size: 1.8rem; font-weight: 300; }
+        .title-overlay p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.8; }
 
         /* NAVEGACIÓN */
         nav {
@@ -62,10 +64,18 @@
         }
         #map { height: 100%; width: 100%; }
 
+        .map-instruction {
+            padding: 5px 5%;
+            text-align: right;
+            font-size: 0.75rem;
+            color: #888;
+            font-style: italic;
+        }
+
         /* CONTENIDO */
         .main-content {
             max-width: 900px;
-            margin: 50px auto;
+            margin: 30px auto;
             padding: 0 20px;
         }
         
@@ -81,7 +91,7 @@
         
         <div class="title-overlay">
             <h1>Plataforma Territorial Puerto Williams</h1>
-            <p>⬇hacer scroll hacia abajo⬇</p>
+            <p>⬇ hacer scroll hacia abajo ⬇</p>
         </div>
     </header>
 
@@ -96,14 +106,17 @@
     <div class="map-row">
         <div id="map"></div>
     </div>
+    
+    <div class="map-instruction">
+        * Haz clic en los iconos de casa para visualizar el registro fotográfico.
+    </div>
 
     <main class="main-content">
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
-        
         <p>
-            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum.
+            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.
         </p>
     </main>
 
@@ -113,16 +126,24 @@
     <script>
         const urlBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
 
-        // Mapa con zoom 16
         const map = L.map('map').setView([-54.9355, -67.6010], 16);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
+        // Definición del icono de casa personalizado
+        const iconoCasa = L.icon({
+            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzM0OThkYiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj48cGF0aCBkPSJNMTIgMkwyIDEyaDN2OGg0djZoNnYtNmg0djhoM3YtMTB6Ii8+PC9zdmc+',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+        });
+
         if (typeof puntosCasas !== 'undefined') {
             puntosCasas.forEach(punto => {
-                const marker = L.marker([punto.lat, punto.lng]).addTo(map);
+                // Aplicamos el icono de casa aquí
+                const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasa }).addTo(map);
                 const fullUrl = urlBase + punto.archivo;
 
                 const popupHtml = `
