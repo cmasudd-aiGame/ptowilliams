@@ -132,17 +132,16 @@
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Definición del icono de casa personalizado
+        // Icono de casa reducido a 24x24
         const iconoCasa = L.icon({
-            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzM0OThkYiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj48cGF0aCBkPSJNMTIgMkwyIDEyaDN2OGg0djZoNnYtNmg0djhoM3YtMTB6Ii8+PC9zdmc+',
-            iconSize: [32, 32],
-            iconAnchor: [16, 32],
-            popupAnchor: [0, -32]
+            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzM0OThkYiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTIgMkwyIDEyaDN2OGg0djZoNnYtNmg0djhoM3YtMTB6Ii8+PC9zdmc+',
+            iconSize: [24, 24],
+            iconAnchor: [12, 24], // El punto de anclaje es la mitad del ancho y el total del alto
+            popupAnchor: [0, -24] // El popup sale justo arriba del icono
         });
 
         if (typeof puntosCasas !== 'undefined') {
             puntosCasas.forEach(punto => {
-                // Aplicamos el icono de casa aquí
                 const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasa }).addTo(map);
                 const fullUrl = urlBase + punto.archivo;
 
