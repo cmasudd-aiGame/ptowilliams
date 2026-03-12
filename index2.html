@@ -10,7 +10,7 @@
     <style>
         :root {
             --primary: #2c3e50;
-            --accent: #e74c3c; /* Color rojo para destacar */
+            --accent: #e74c3c;
             --bg: #ffffff;
             --text: #333;
         }
@@ -40,19 +40,32 @@
         #map { height: 100%; width: 100%; }
         .map-instruction { padding: 5px 5%; text-align: right; font-size: 0.75rem; color: #888; font-style: italic; }
 
-        /* MODAL */
+        /* MODAL GALERÍA */
         .modal {
             display: none; position: fixed; z-index: 9999; 
             left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center; cursor: pointer;
+            background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;
         }
-        .modal-content { max-width: 90%; max-height: 90%; border: 3px solid white; border-radius: 4px; }
+        .modal-content { max-width: 85%; max-height: 85%; border: 3px solid white; border-radius: 4px; position: relative; }
+        
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.2); color: white; border: none;
+            font-size: 40px; padding: 10px 20px; cursor: pointer; border-radius: 5px;
+            transition: 0.3s; z-index: 10000;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.4); }
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
 
         /* IMAGEN POPUP */
         .popup-img { width: 220px; border-radius: 4px; cursor: zoom-in; }
-        
-        /* Estilo para que el icono no tenga fondo raro */
         .custom-house-icon { background: none; border: none; }
+        
+        /* CONTENIDO PRINCIPAL */
+        .main-content { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .main-content p { margin-bottom: 25px; text-align: justify; font-size: 1.1rem; color: #555; }
     </style>
 </head>
 <body>
@@ -76,10 +89,22 @@
     <div class="map-row">
         <div id="map"></div>
     </div>
-    <div class="map-instruction">* Haz clic en una casita (se pondrá roja) y luego en la foto para ampliar.</div>
+    <div class="map-instruction">* Haz clic en una casa y luego en la foto para abrir la galería. Usa las flechas para navegar.</div>
 
-    <div id="imageModal" class="modal" onclick="closeModal()">
+    <main class="main-content">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum.
+        </p>
+    </main>
+
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
         <img class="modal-content" id="imgFull">
+        <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -88,61 +113,76 @@
     <script>
         const urlBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
         const map = L.map('map').setView([-54.9355, -67.6010], 16);
+        let currentIndex = 0;
+        const markers = [];
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Función para generar el SVG con un color específico
         function createHouseIcon(color) {
             const svgString = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13.9897 20.9982H19.0001V12H21.0001L12.0001 3L3.04309 12H5.00006V20.9982H10.0001V15.5H13.9897V20.9982Z" 
                           stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="${color === 'black' ? 'none' : 'rgba(231, 76, 60, 0.2)'}"/>
                 </svg>`;
-            return L.divIcon({
-                html: svgString,
-                className: 'custom-house-icon',
-                iconSize: [24, 24],
-                iconAnchor: [12, 24],
-                popupAnchor: [0, -24]
-            });
+            return L.divIcon({ html: svgString, className: 'custom-house-icon', iconSize: [24, 24], iconAnchor: [12, 24], popupAnchor: [0, -24] });
         }
 
         const iconNormal = createHouseIcon('black');
-        const iconSelected = createHouseIcon('#e74c3c'); // Rojo
+        const iconSelected = createHouseIcon('#e74c3c');
 
         if (typeof puntosCasas !== 'undefined') {
-            puntosCasas.forEach(punto => {
+            puntosCasas.forEach((punto, index) => {
                 const marker = L.marker([punto.lat, punto.lng], { icon: iconNormal }).addTo(map);
                 const fullUrl = urlBase + punto.archivo;
 
-                const popupHtml = `
+                marker.bindPopup(`
                     <div style="text-align:center">
                         <small style="color:#888">${punto.archivo}</small><br>
-                        <img src="${fullUrl}" class="popup-img" onclick="openModal('${fullUrl}')">
+                        <img src="${fullUrl}" class="popup-img" onclick="openModal(${index})">
                     </div>
-                `;
-                marker.bindPopup(popupHtml);
+                `);
 
-                // Eventos para cambiar color
-                marker.on('popupopen', function() {
-                    this.setIcon(iconSelected);
-                });
-
-                marker.on('popupclose', function() {
-                    this.setIcon(iconNormal);
-                });
+                marker.on('popupopen', () => marker.setIcon(iconSelected));
+                marker.on('popupclose', () => marker.setIcon(iconNormal));
+                
+                markers.push(marker);
             });
         }
 
-        function openModal(src) {
+        function openModal(index) {
+            currentIndex = index;
+            updateModalView();
             document.getElementById("imageModal").style.display = "flex";
-            document.getElementById("imgFull").src = src;
         }
 
         function closeModal() {
             document.getElementById("imageModal").style.display = "none";
+        }
+
+        function changeImage(step) {
+            currentIndex += step;
+            if (currentIndex >= puntosCasas.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = puntosCasas.length - 1;
+            updateModalView();
+        }
+
+        function updateModalView() {
+            const punto = puntosCasas[currentIndex];
+            const marker = markers[currentIndex];
+            
+            // Actualizar Imagen Modal
+            document.getElementById("imgFull").src = urlBase + punto.archivo;
+            
+            // Sincronizar Mapa
+            map.panTo([punto.lat, punto.lng]);
+            marker.openPopup(); 
+        }
+
+        // Cerrar modal al hacer clic fuera de la imagen
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("imageModal")) closeModal();
         }
     </script>
 </body>
