@@ -3,39 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Puerto Williams</title>
+    <title>Mapa Puerto Williams - Registro Fotográfico</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
-        body { margin: 0; padding: 0; }
+        body { margin: 0; padding: 0; font-family: sans-serif; }
         #map { height: 100vh; width: 100%; }
-        
-        /* Estilo del cuadro (popup) que se abre al hacer clic */
-        .leaflet-popup-content-wrapper {
-            padding: 0;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        .leaflet-popup-content {
-            margin: 0 !important;
-            width: 300px !important;
-        }
-        .contenedor-foto {
-            text-align: center;
-            font-family: sans-serif;
-        }
-        .contenedor-foto img {
-            width: 100%;
-            display: block;
-            height: auto;
-        }
-        .contenedor-foto p {
-            padding: 10px;
-            margin: 0;
-            font-size: 12px;
-            color: #333;
-            background: white;
+        .popup-content { text-align: center; max-width: 250px; }
+        .popup-image { 
+            width: 100%; 
+            height: auto; 
+            margin-top: 8px; 
+            border-radius: 5px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -45,46 +26,54 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <script src="puntos.js"></script>
+    <script src="https://cmasudd-aigame.github.io/ptowilliams/puntos.js"></script>
 
     <script>
-        // 1. Crear el mapa centrado en Puerto Williams
-        const map = L.map('map').setView([-54.9339, -67.6110], 16);
+        // 1. Configuración de rutas
+        const pathImagenes = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
 
-        // 2. Capa base de OpenStreetMap
+        // 2. Inicializar Mapa (Centrado en Puerto Williams)
+        const map = L.map('map').setView([-54.9339, -67.6131], 15);
+
+        // 3. Capa de mapa (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
+            attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // 3. Ruta de la carpeta donde están las fotos en tu GitHub
-        const rutaBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
+        // 4. Procesar los puntos del archivo JS
+        // Asumo que tu puntos.js define una variable llamada 'puntos' o 'features'
+        const datosMapa = window.puntos || window.features || [];
 
-        // 4. Vincular puntos con imágenes
-        // 'puntos' es la variable que contiene los datos en tu puntos.js
-        L.geoJSON(puntos, {
-            onEachFeature: function (feature, layer) {
-                // Verificamos que el punto tenga la propiedad 'archivo' (ej: 20260218_150429.jpg)
-                if (feature.properties && feature.properties.archivo) {
-                    const nombreImagen = feature.properties.archivo;
-                    const urlImagen = rutaBase + nombreImagen;
+        if (datosMapa.length === 0) {
+            console.warn("No se detectaron puntos. Revisa que puntos.js defina la variable 'puntos'.");
+        }
 
-                    // Creamos el HTML que vincula el punto con su imagen específica
-                    const contenidoPopup = `
-                        <div class="contenedor-foto">
-                            <img src="${urlImagen}" alt="Cargando foto...">
-                            <p><strong>Archivo:</strong> ${nombreImagen}</p>
-                        </div>
-                    `;
+        datosMapa.forEach(punto => {
+            // Extraer coordenadas: Leaflet usa [lat, lng]
+            // Ajustamos según el formato de tu JS (ej: punto.lat, punto.lng o punto.geometry.coordinates)
+            const lat = punto.lat || (punto.geometry && punto.geometry.coordinates[1]);
+            const lng = punto.lng || (punto.geometry && punto.geometry.coordinates[0]);
 
-                    // Al hacer clic en el punto, se abre el popup con la imagen vinculada
-                    layer.bindPopup(contenidoPopup);
-                }
+            if (lat && lng) {
+                const marker = L.marker([lat, lng]).addTo(map);
+
+                // Determinar el nombre de la imagen
+                // Buscamos en propiedades comunes como 'foto', 'imagen' o 'filename'
+                const nombreFoto = punto.foto || punto.imagen || punto.properties?.foto || "";
+                const urlCompleta = pathImagenes + nombreFoto;
+
+                // Contenido del Popup
+                const popupHtml = `
+                    <div class="popup-content">
+                        <strong>${punto.nombre || punto.properties?.nombre || "Punto de Interés"}</strong><br>
+                        ${nombreFoto ? `<img src="${urlCompleta}" class="popup-image" alt="Foto Casa">` : "<em>Sin imagen</em>"}
+                        <p style="font-size: 0.8em; color: #666; margin-top: 5px;">${nombreFoto}</p>
+                    </div>
+                `;
+
+                marker.bindPopup(popupHtml);
             }
-        }).addTo(map);
-
-        // Ajustar el mapa para que se vean todos los puntos cargados automáticamente
-        const limites = L.geoJSON(puntos).getBounds();
-        map.fitBounds(limites, { padding: [50, 50] });
+        });
     </script>
 </body>
 </html>
