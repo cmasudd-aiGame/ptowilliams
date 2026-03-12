@@ -3,20 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Puerto Williams - Registro Fotográfico</title>
+    <title>Mapa Puerto Williams - Registro de Casas</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         #map { height: 100vh; width: 100%; }
-        .popup-content { text-align: center; max-width: 250px; }
-        .popup-image { 
-            width: 100%; 
-            height: auto; 
-            margin-top: 8px; 
-            border-radius: 5px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        
+        /* Ajustes del popup para que la imagen se vea bien */
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            padding: 5px;
+        }
+        .popup-container {
+            width: 240px;
+            text-align: center;
+        }
+        .popup-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .popup-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 2px;
+            color: #333;
+        }
+        .popup-filename {
+            font-size: 10px;
+            color: #888;
         }
     </style>
 </head>
@@ -29,51 +48,42 @@
     <script src="https://cmasudd-aigame.github.io/ptowilliams/puntos.js"></script>
 
     <script>
-        // 1. Configuración de rutas
-        const pathImagenes = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
+        // URL base de la carpeta de imágenes
+        const urlBaseFotos = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
 
-        // 2. Inicializar Mapa (Centrado en Puerto Williams)
-        const map = L.map('map').setView([-54.9339, -67.6131], 15);
+        // 1. Inicializar el mapa centrado en los puntos
+        const map = L.map('map').setView([-54.9350, -67.6050], 14);
 
-        // 3. Capa de mapa (OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
+        // 2. Capa de fondo (CartoDB Positron es más limpia para resaltar puntos)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // 4. Procesar los puntos del archivo JS
-        // Asumo que tu puntos.js define una variable llamada 'puntos' o 'features'
-        const datosMapa = window.puntos || window.features || [];
+        // 3. Dibujar los puntos y configurar el click
+        if (typeof puntosCasas !== 'undefined') {
+            puntosCasas.forEach(punto => {
+                // Crear marcador
+                const marker = L.marker([punto.lat, punto.lng]).addTo(map);
 
-        if (datosMapa.length === 0) {
-            console.warn("No se detectaron puntos. Revisa que puntos.js defina la variable 'puntos'.");
-        }
+                // Construir URL de la imagen
+                const urlImagen = urlBaseFotos + punto.archivo;
 
-        datosMapa.forEach(punto => {
-            // Extraer coordenadas: Leaflet usa [lat, lng]
-            // Ajustamos según el formato de tu JS (ej: punto.lat, punto.lng o punto.geometry.coordinates)
-            const lat = punto.lat || (punto.geometry && punto.geometry.coordinates[1]);
-            const lng = punto.lng || (punto.geometry && punto.geometry.coordinates[0]);
-
-            if (lat && lng) {
-                const marker = L.marker([lat, lng]).addTo(map);
-
-                // Determinar el nombre de la imagen
-                // Buscamos en propiedades comunes como 'foto', 'imagen' o 'filename'
-                const nombreFoto = punto.foto || punto.imagen || punto.properties?.foto || "";
-                const urlCompleta = pathImagenes + nombreFoto;
-
-                // Contenido del Popup
-                const popupHtml = `
-                    <div class="popup-content">
-                        <strong>${punto.nombre || punto.properties?.nombre || "Punto de Interés"}</strong><br>
-                        ${nombreFoto ? `<img src="${urlCompleta}" class="popup-image" alt="Foto Casa">` : "<em>Sin imagen</em>"}
-                        <p style="font-size: 0.8em; color: #666; margin-top: 5px;">${nombreFoto}</p>
+                // Contenido del Popup (se activa al hacer click)
+                const contenido = `
+                    <div class="popup-container">
+                        <span class="popup-title">Registro Fotográfico</span>
+                        <span class="popup-filename">${punto.archivo}</span>
+                        <a href="${urlImagen}" target="_blank">
+                            <img src="${urlImagen}" alt="Cargando..." onerror="this.src='https://via.placeholder.com/240x180?text=Error+al+cargar+imagen'">
+                        </a>
                     </div>
                 `;
 
-                marker.bindPopup(popupHtml);
-            }
-        });
+                marker.bindPopup(contenido);
+            });
+        } else {
+            console.error("Error: La variable 'puntosCasas' no está definida. Verifica puntos.js.");
+        }
     </script>
 </body>
 </html>
