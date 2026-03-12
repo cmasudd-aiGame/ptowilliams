@@ -19,8 +19,17 @@
 
         /* HEADER */
         header {
-            background: white;
+            background: #fdfdfd;
             border-bottom: 1px solid #eaeaea;
+        }
+
+        /* Imagen del Header: se muestra entera */
+        .header-image { 
+            width: 100%; 
+            max-height: 500px; /* Ajustable según prefieras el tamaño visual */
+            object-fit: contain; 
+            background-color: #000; /* Fondo negro por si la imagen es proporcionalmente distinta */
+            display: block;
         }
 
         .header-top {
@@ -30,45 +39,31 @@
             justify-content: space-between;
         }
 
-        .brand { display: flex; align-items: center; gap: 20px; }
-        
-        /* Imagen del Header (Drone) */
-        .header-image { 
-            width: 100%; 
-            height: 250px; 
-            object-fit: cover; 
-            display: block;
-        }
-
-        h1 { margin: 0; font-size: 1.5rem; color: var(--primary); }
+        .brand h1 { margin: 0; font-size: 1.5rem; color: var(--primary); }
 
         /* NAVEGACIÓN */
         nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
         nav a { text-decoration: none; color: var(--primary); font-weight: 500; font-size: 0.9rem; }
         nav a:hover { color: var(--accent); }
 
-        /* CONTENEDOR DEL MAPA (ROW 400px) */
+        /* MAPA: 450px de alto */
         .map-row {
             width: 100%;
-            height: 400px;
+            height: 450px;
             background: #f0f0f0;
             border-bottom: 1px solid #ddd;
         }
         #map { height: 100%; width: 100%; }
 
-        /* SECCIÓN DE TEXTO */
+        /* CONTENIDO */
         .main-content {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
         
-        .main-content p {
-            margin-bottom: 20px;
-            text-align: justify;
-        }
+        .main-content p { margin-bottom: 20px; text-align: justify; }
 
-        /* POPUP MAPA */
         .popup-img { width: 220px; border-radius: 4px; margin-top: 5px; }
     </style>
 </head>
@@ -107,13 +102,13 @@
     </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
     <script src="https://cmasudd-aigame.github.io/ptowilliams/puntos.js"></script>
 
     <script>
         const urlBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
 
-        const map = L.map('map').setView([-54.9355, -67.6010], 14);
+        // Zoom aumentado en 2 puntos (de 14 a 16)
+        const map = L.map('map').setView([-54.9355, -67.6010], 16);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap'
