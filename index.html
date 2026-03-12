@@ -2,43 +2,103 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Observatorio Casas - Puerto Williams</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Puerto Williams - 51 Fotos</title>
     <style>
-        body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
-        #map { height: 100vh; width: 100%; background: #f0f0f0; }
-        .popup-content { text-align: center; }
-        .popup-img { width: 100%; max-width: 250px; border-radius: 4px; margin-top: 8px; }
-        h2 { margin: 5px 0; font-size: 16px; color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #121212; color: #eee; }
+        header { padding: 50px 20px; text-align: center; background: #1f1f1f; border-bottom: 2px solid #333; }
+        h1 { margin: 0; color: #00d4ff; }
+        
+        .gallery { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 12px; 
+            padding: 20px; 
+        }
+        
+        .gallery img { 
+            width: 100%; 
+            height: 220px; 
+            object-fit: cover; 
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: grayscale(20%);
+        }
+
+        .gallery img:hover { 
+            transform: scale(1.05); 
+            filter: grayscale(0%);
+            box-shadow: 0 5px 15px rgba(0,212,255,0.3);
+        }
+
+        /* Estilos para ver la foto en grande */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        #lightbox img { max-width: 90%; max-height: 90%; border: 3px solid white; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <div id="map"></div>
+<header>
+    <h1>Puerto Williams</h1>
+    <p>Catálogo visual de 51 viviendas</p>
+</header>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="puntos.js"></script> <script>
-        // Coordenadas iniciales centradas en Puerto Williams
-        var map = L.map('map').setView([-54.9338, -67.6130], 14);
+<div class="gallery" id="contenedor-fotos"></div>
 
-        // Capa de mapa (OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
+<div id="lightbox" onclick="this.style.display='none'">
+    <img id="foto-grande" src="" alt="Vista ampliada">
+</div>
 
-        // Agregar los puntos automáticamente
-        puntosCasas.forEach(function(punto) {
-            var marker = L.marker([punto.lat, punto.lng]).addTo(map);
-            
-            // Contenido de la burbuja (asumimos que las fotos estarán en una carpeta llamada 'fotos')
-            var html = `
-                <div class="popup-content">
-                    <h2>Casa: ${punto.archivo}</h2>
-                    <img src="fotos/${punto.archivo}" class="popup-img">
-                </div>
-            `;
-            marker.bindPopup(html);
-        });
-    </script>
+<script>
+    // Lista completa de las 51 fotos basada en tus capturas
+    const fotos = [
+        "20260219_105901.jpg", "20260218_154920.jpg", "20260219_155618.jpg",
+        "20260218_160838.jpg", "20260218_155703.jpg", "20260218_151739.jpg",
+        "20260219_155940.jpg", "20260218_154142.jpg", "20260218_163443.jpg",
+        "20260218_155212.jpg", "20260218_160151.jpg", "20260218_154230.jpg",
+        "20260218_151445.jpg", "20260218_151616.jpg", "20260218_151359.jpg",
+        "20260218_162510.jpg", "20260218_155604.jpg", "20260218_152050.jpg",
+        "20260219_162003.jpg", "20260219_105237.jpg", "20260219_155734.jpg",
+        "20260218_163357.jpg", "20260218_163924.jpg", "20260218_151259.jpg",
+        "20260218_152401.jpg", "20260218_154332.jpg", "20260218_150429.jpg",
+        "20260218_151534.jpg", "20260218_154300.jpg", "20260218_162323.jpg",
+        "20260218_163313.jpg", "20260219_161934.jpg", "20260218_162950.jpg",
+        "20260219_161211.jpg", "20260218_163741.jpg", "20260219_110809.jpg",
+        "20260219_155502.jpg", "20260218_150646.jpg", "20260219_155803.jpg",
+        "20260218_163549.jpg", "20260219_105405.jpg", "20260219_105332.jpg",
+        "20260219_161903.jpg", "20260218_155333.jpg", "20260219_105531.jpg",
+        "20260218_150613.jpg", "20260219_111027.jpg", "20260218_154510.jpg",
+        "20260218_163705.jpg", "20260218_155833.jpg", "20260218_151933.jpg"
+    ];
+
+    const contenedor = document.getElementById('contenedor-fotos');
+    const lightbox = document.getElementById('lightbox');
+    const fotoGrande = document.getElementById('foto-grande');
+    const carpeta = "foto_casas_ptoWilliams/";
+
+    fotos.forEach(nombreFoto => {
+        const img = document.createElement('img');
+        img.src = carpeta + nombreFoto;
+        img.alt = "Casa Williams";
+        
+        // Al hacer clic, mostramos la foto en grande
+        img.onclick = () => {
+            fotoGrande.src = img.src;
+            lightbox.style.display = 'flex';
+        };
+        
+        contenedor.appendChild(img);
+    });
+</script>
+
 </body>
 </html>
