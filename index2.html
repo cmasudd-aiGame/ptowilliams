@@ -89,7 +89,7 @@
     <div class="map-row">
         <div id="map"></div>
     </div>
-    <div class="map-instruction">* Haz clic en una casa y luego en la foto para abrir la galería. Usa las flechas para navegar.</div>
+    <div class="map-instruction">* Zoom bloqueado con scroll. Usa los botones + y - del mapa.</div>
 
     <main class="main-content">
         <p>
@@ -112,7 +112,12 @@
 
     <script>
         const urlBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
-        const map = L.map('map').setView([-54.9355, -67.6010], 16);
+        
+        // Bloqueo de zoom con rueda de mouse (scrollWheelZoom: false)
+        const map = L.map('map', {
+            scrollWheelZoom: false
+        }).setView([-54.9355, -67.6010], 16);
+
         let currentIndex = 0;
         const markers = [];
 
@@ -126,7 +131,7 @@
                     <path d="M13.9897 20.9982H19.0001V12H21.0001L12.0001 3L3.04309 12H5.00006V20.9982H10.0001V15.5H13.9897V20.9982Z" 
                           stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="${color === 'black' ? 'none' : 'rgba(231, 76, 60, 0.2)'}"/>
                 </svg>`;
-            return L.divIcon({ html: svgString, className: 'custom-house-icon', iconSize: [16, 16], iconAnchor: [12, 24], popupAnchor: [0, -24] });
+            return L.divIcon({ html: svgString, className: 'custom-house-icon', iconSize: [24, 24], iconAnchor: [12, 24], popupAnchor: [0, -24] });
         }
 
         const iconNormal = createHouseIcon('black');
@@ -171,17 +176,21 @@
         function updateModalView() {
             const punto = puntosCasas[currentIndex];
             const marker = markers[currentIndex];
-            
-            // Actualizar Imagen Modal
             document.getElementById("imgFull").src = urlBase + punto.archivo;
-            
-            // Sincronizar Mapa
             map.panTo([punto.lat, punto.lng]);
             marker.openPopup(); 
         }
 
-        // Cerrar modal al hacer clic fuera de la imagen
-        window.onclick = function(event) {
+        // Navegación por teclado
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById("imageModal").style.display === "flex") {
+                if (e.key === "ArrowRight") changeImage(1);
+                if (e.key === "ArrowLeft") changeImage(-1);
+                if (e.key === "Escape") closeModal();
+            }
+        });
+
+        window.onclick = (event) => {
             if (event.target == document.getElementById("imageModal")) closeModal();
         }
     </script>
