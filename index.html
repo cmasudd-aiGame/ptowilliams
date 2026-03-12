@@ -132,17 +132,17 @@
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Icono de casa reducido a 24x24
-        const iconoCasa = L.icon({
-            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzM0OThkYiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTIgMkwyIDEyaDN2OGg0djZoNnYtNmg0djhoM3YtMTB6Ii8+PC9zdmc+',
-            iconSize: [12, 12],
-            iconAnchor: [12, 24], // El punto de anclaje es la mitad del ancho y el total del alto
-            popupAnchor: [0, -24] // El popup sale justo arriba del icono
+        // Nuevo icono de casa minimalista (outline) 24x24
+        const iconoCasaSimple = L.icon({
+            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzQ5OGRiIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTMgMTJsOS05IDkgOW0tMTYgNWguOHY5aDEwVjEzaDR2OGguOCIvPjwvc3ZnPg==',
+            iconSize: [24, 24],
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -24]
         });
 
         if (typeof puntosCasas !== 'undefined') {
             puntosCasas.forEach(punto => {
-                const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasa }).addTo(map);
+                const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasaSimple }).addTo(map);
                 const fullUrl = urlBase + punto.archivo;
 
                 const popupHtml = `
