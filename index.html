@@ -3,38 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Casas - Puerto Williams</title>
-
+    <title>Mapa Puerto Williams</title>
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
         body { margin: 0; padding: 0; }
         #map { height: 100vh; width: 100%; }
         
-        /* Estilo del Popup */
+        /* Estilo del cuadro (popup) que se abre al hacer clic */
         .leaflet-popup-content-wrapper {
-            border-radius: 4px;
             padding: 0;
             overflow: hidden;
+            border-radius: 8px;
         }
         .leaflet-popup-content {
-            margin: 0;
-            width: 280px !important;
+            margin: 0 !important;
+            width: 300px !important;
         }
-        .popup-box {
+        .contenedor-foto {
             text-align: center;
+            font-family: sans-serif;
         }
-        .popup-box img {
+        .contenedor-foto img {
             width: 100%;
             display: block;
             height: auto;
-            border-bottom: 1px solid #ccc;
         }
-        .popup-box .info {
-            padding: 8px;
-            font-family: Arial, sans-serif;
-            font-size: 13px;
+        .contenedor-foto p {
+            padding: 10px;
+            margin: 0;
+            font-size: 12px;
             color: #333;
+            background: white;
         }
     </style>
 </head>
@@ -47,37 +48,43 @@
     <script src="puntos.js"></script>
 
     <script>
-        // 1. Inicializar mapa en Puerto Williams
+        // 1. Crear el mapa centrado en Puerto Williams
         const map = L.map('map').setView([-54.9339, -67.6110], 16);
 
-        // 2. Capa base (OpenStreetMap)
+        // 2. Capa base de OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap'
         }).addTo(map);
 
-        // 3. Ruta base de las imágenes
-        const baseRuta = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
+        // 3. Ruta de la carpeta donde están las fotos en tu GitHub
+        const rutaBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
 
-        // 4. Cargar los puntos desde la variable 'puntos' definida en puntos.js
+        // 4. Vincular puntos con imágenes
+        // 'puntos' es la variable que contiene los datos en tu puntos.js
         L.geoJSON(puntos, {
             onEachFeature: function (feature, layer) {
+                // Verificamos que el punto tenga la propiedad 'archivo' (ej: 20260218_150429.jpg)
                 if (feature.properties && feature.properties.archivo) {
-                    const imagenUrl = baseRuta + feature.properties.archivo;
-                    
-                    // Crear estructura del popup con la imagen
-                    const contenido = `
-                        <div class="popup-box">
-                            <img src="${imagenUrl}" alt="Casa">
-                            <div class="info">
-                                <strong>Archivo:</strong> ${feature.properties.archivo}
-                            </div>
+                    const nombreImagen = feature.properties.archivo;
+                    const urlImagen = rutaBase + nombreImagen;
+
+                    // Creamos el HTML que vincula el punto con su imagen específica
+                    const contenidoPopup = `
+                        <div class="contenedor-foto">
+                            <img src="${urlImagen}" alt="Cargando foto...">
+                            <p><strong>Archivo:</strong> ${nombreImagen}</p>
                         </div>
                     `;
-                    
-                    layer.bindPopup(contenido);
+
+                    // Al hacer clic en el punto, se abre el popup con la imagen vinculada
+                    layer.bindPopup(contenidoPopup);
                 }
             }
         }).addTo(map);
+
+        // Ajustar el mapa para que se vean todos los puntos cargados automáticamente
+        const limites = L.geoJSON(puntos).getBounds();
+        map.fitBounds(limites, { padding: [50, 50] });
     </script>
 </body>
 </html>
