@@ -113,10 +113,10 @@
 
     <main class="main-content">
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
         </p>
         <p>
-            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.
+            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.
         </p>
     </main>
 
@@ -132,17 +132,17 @@
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Nuevo icono de casa minimalista (outline) 24x24
-        const iconoCasaSimple = L.icon({
-            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzQ5OGRiIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTMgMTJsOS05IDkgOW0tMTYgNWguOHY5aDEwVjEzaDR2OGguOCIvPjwvc3ZnPg==',
+        // Nuevo icono de casa relleno (basado en tu ejemplo) 24x24
+        const iconoCasaRelleno = L.icon({
+            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzM0OThkYiI+PHBhdGggZD0iTTEwIDIwdjZoNHYtNmgydjZoM3YtMTBMMTIgMkwzIDEydjEwaDN2LTZoNHoiLz48L3N2Zz4=',
             iconSize: [24, 24],
-            iconAnchor: [12, 24],
-            popupAnchor: [0, -24]
+            iconAnchor: [12, 24], // El punto de anclaje es la mitad del ancho y el total del alto
+            popupAnchor: [0, -24] // El popup sale justo arriba del icono
         });
 
         if (typeof puntosCasas !== 'undefined') {
             puntosCasas.forEach(punto => {
-                const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasaSimple }).addTo(map);
+                const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasaRelleno }).addTo(map);
                 const fullUrl = urlBase + punto.archivo;
 
                 const popupHtml = `
