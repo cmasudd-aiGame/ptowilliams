@@ -113,10 +113,10 @@
 
     <main class="main-content">
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
         </p>
         <p>
-            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.
+            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.
         </p>
     </main>
 
@@ -132,17 +132,23 @@
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Nuevo icono de casa relleno (basado en tu ejemplo) 24x24
-        const iconoCasaRelleno = L.icon({
-            iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzM0OThkYiI+PHBhdGggZD0iTTEwIDIwdjZoNHYtNmgydjZoM3YtMTBMMTIgMkwzIDEydjEwaDN2LTZoNHoiLz48L3N2Zz4=',
+        // Icono de casa personalizado basado en tu SVG
+        const svgIcon = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.9897 20.9982H19.0001V12H21.0001L12.0001 3L3.04309 12H5.00006V20.9982H10.0001V15.5H13.9897V20.9982Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>`;
+
+        const iconoCasa = L.divIcon({
+            html: svgIcon,
+            className: 'custom-house-icon',
             iconSize: [24, 24],
-            iconAnchor: [12, 24], // El punto de anclaje es la mitad del ancho y el total del alto
-            popupAnchor: [0, -24] // El popup sale justo arriba del icono
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -24]
         });
 
         if (typeof puntosCasas !== 'undefined') {
             puntosCasas.forEach(punto => {
-                const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasaRelleno }).addTo(map);
+                const marker = L.marker([punto.lat, punto.lng], { icon: iconoCasa }).addTo(map);
                 const fullUrl = urlBase + punto.archivo;
 
                 const popupHtml = `
