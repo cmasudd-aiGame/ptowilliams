@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Observatorio Puerto Williams - Visita de Casas</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map { height: 600px; width: 100%; }
+        body { font-family: sans-serif; }
+    </style>
+</head>
+<body>
+    <h1>Casas Visitadas en Puerto Williams</h1>
+    <div id="map"></div>
+
+    <script>
+        // Centrar el mapa en Puerto Williams
+        var map = L.map('map').setView([-54.9333, -67.6167], 15);
+
+        // Añadir capa de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Ejemplo de cómo añadir una foto (necesitas las coordenadas reales de tus fotos)
+        // Foto: 20260218_151445.jpg
+        var marcador1 = L.marker([-54.934, -67.615]).addTo(map);
+        marcador1.bindPopup("<b>Casa visitada</b><br><img src='TU_LINK_DIRECTO_DRIVE' width='200px'>");
+    </script>
+</body>
+</html>
