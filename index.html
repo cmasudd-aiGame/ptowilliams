@@ -3,66 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Fotográfico Puerto Williams</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <title>Mapa de Casas - Puerto Williams</title>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; }
-        #map { width: 100%; height: 100vh; } /* El mapa ocupa toda la pantalla */
+        body { margin: 0; padding: 0; }
+        #map { height: 100vh; width: 100%; }
         
-        /* Estilo del popup donde sale la foto */
-        .leaflet-popup-content img {
-            width: 100%;
-            height: auto;
-            border-radius: 5px;
-            margin-top: 5px;
+        /* Estilo del Popup */
+        .leaflet-popup-content-wrapper {
+            border-radius: 4px;
+            padding: 0;
+            overflow: hidden;
         }
         .leaflet-popup-content {
-            width: 250px !important;
+            margin: 0;
+            width: 280px !important;
+        }
+        .popup-box {
+            text-align: center;
+        }
+        .popup-box img {
+            width: 100%;
+            display: block;
+            height: auto;
+            border-bottom: 1px solid #ccc;
+        }
+        .popup-box .info {
+            padding: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
         }
     </style>
 </head>
 <body>
 
-<div id="map"></div>
+    <div id="map"></div>
 
-<script>
-    // 1. Inicializar el mapa centrado en Puerto Williams
-    const map = L.map('map').setView([-54.9339, -67.6110], 15);
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script src="puntos.js"></script>
 
-    // 2. Agregar capa de mapa (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
+    <script>
+        // 1. Inicializar mapa en Puerto Williams
+        const map = L.map('map').setView([-54.9339, -67.6110], 16);
 
-    // Ruta base de tus fotos en GitHub
-    const baseRuta = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
+        // 2. Capa base (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
 
-    // 3. LISTA DE FOTOS CON COORDENADAS
-    // Debes editar las coordenadas [lat, lng] para cada foto
-    const datosCasas = [
-        { nombre: "20260218_150429.jpg", lat: -54.9345, lng: -67.6102, titulo: "Casa 1" },
-        { nombre: "20260219_105901.jpg", lat: -54.9350, lng: -67.6120, titulo: "Casa 2" },
-        { nombre: "20260218_154920.jpg", lat: -54.9330, lng: -67.6080, titulo: "Casa 3" },
-        // Agrega aquí el resto de las 51 fotos siguiendo este formato
-    ];
+        // 3. Ruta base de las imágenes
+        const baseRuta = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
 
-    // 4. Función para crear los puntos (marcadores) en el mapa
-    datosCasas.forEach(casa => {
-        const marker = L.marker([casa.lat, casa.lng]).addTo(map);
-        
-        // Contenido del globo al hacer clic
-        const contenido = `
-            <strong>${casa.titulo}</strong><br>
-            <img src="${baseRuta}${casa.nombre}" alt="Foto de la casa">
-            <br><small>${casa.nombre}</small>
-        `;
-        
-        marker.bindPopup(contenido);
-    });
-</script>
-
+        // 4. Cargar los puntos desde la variable 'puntos' definida en puntos.js
+        L.geoJSON(puntos, {
+            onEachFeature: function (feature, layer) {
+                if (feature.properties && feature.properties.archivo) {
+                    const imagenUrl = baseRuta + feature.properties.archivo;
+                    
+                    // Crear estructura del popup con la imagen
+                    const contenido = `
+                        <div class="popup-box">
+                            <img src="${imagenUrl}" alt="Casa">
+                            <div class="info">
+                                <strong>Archivo:</strong> ${feature.properties.archivo}
+                            </div>
+                        </div>
+                    `;
+                    
+                    layer.bindPopup(contenido);
+                }
+            }
+        }).addTo(map);
+    </script>
 </body>
 </html>
