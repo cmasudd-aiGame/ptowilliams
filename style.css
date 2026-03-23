@@ -53,7 +53,7 @@ nav a:hover { color: var(--accent); }
 header { position: relative; width: 100%; overflow: hidden; background-color: #000; }
 
 /* Altura para el Index (Drone) */
-header.header-hero { height: 85vh; }
+header.header-hero { height: 95vh; }
 
 /* Altura para Puerto Williams (Montañas) */
 header.page-header { height: 400px; }
