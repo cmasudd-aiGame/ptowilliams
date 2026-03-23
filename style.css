@@ -56,3 +56,11 @@ header p {
     max-width: 700px;
     margin: 0 auto 30px auto;
 }
+
+.menu ul {
+    display: flex;
+    list-style: none;
+    gap: 15px; /* Espacio entre los botones del menú */
+    margin: 0;
+    padding: 0;
+}
