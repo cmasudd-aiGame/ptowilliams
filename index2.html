@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experimentos | Plataforma Territorial</title>
+    <title>Experimento | Plataforma Territorial</title>
     <link rel="stylesheet" href="https://cmasudd-aigame.github.io/ptowilliams/style.css">
 </head>
 <body>
@@ -12,9 +12,14 @@
     <div class="container">
         <div class="logo"><strong>PLATAFORMA TERRITORIAL</strong></div>
         <div class="menu">
-            <a href="index.html">Inicio</a>
-            <a href="experimento.html">Experimentos</a>
-            <a href="https://cmasudd-aigame.github.io/ptowilliams/index.html">Mapa Interactivo</a>
+            <ul>
+                <li><a href="experimento.html">Experimento</a></li>
+                <li><a href="#">Gemelo Digital</a></li>
+                <li><a href="#">Diseño</a></li>
+                <li><a href="#">Datos</a></li>
+                <li><a href="#">Estaciones Meteorológicas</a></li>
+                <li><a href="index.html">Inicio</a></li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -22,43 +27,41 @@
 <div class="container">
     <header style="margin-top: 30px;">
         <h1>Sistema de Recirculación: Prevención de Congelamiento</h1>
-        <p>Estudio sobre el uso del calor del suelo para la protección de infraestructura hidráulica en zonas de temperaturas extremas[cite: 1, 3, 6].</p>
+        <p>Análisis técnico sobre el uso del calor del subsuelo para la protección de infraestructura hídrica.</p>
     </header>
 
     <main>
         <section class="card">
-            <h2>Metodología y Configuración del Sistema</h2>
-            <p>El experimento consistió en un circuito hidráulico cerrado impulsado por una bomba sumergible de 19 W[cite: 12, 13]. Se utilizaron dos cámaras térmicas independientes para replicar el entorno: una simulando aire exterior a -20 °C y otra el calor del subsuelo entre 0 °C y 3 °C[cite: 9, 10, 11].</p>
+            <h2>Metodología y Configuración</h2>
+            <p>El estudio utilizó un circuito hidráulico cerrado con una bomba de 19 W. Se operó con dos cámaras térmicas independientes: una simulando aire exterior a -20 °C y otra el calor del suelo entre 0 °C y 3 °C.</p>
             
             <div class="grid">
                 <div>
                     <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" alt="Diagrama del Experimento" class="img-fluid">
-                    <p class="caption">Haz clic para ampliar el diagrama del circuito hidráulico.</p>
+                    <p class="caption">Haz clic para ampliar el diagrama del circuito.</p>
                 </div>
                 <div>
-                    <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" alt="Montaje de Laboratorio" class="img-fluid">
-                    <p class="caption">Haz clic para ampliar la imagen del montaje real.</p>
+                    <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" alt="Montaje real" class="img-fluid">
+                    <p class="caption">Haz clic para ampliar la foto del laboratorio.</p>
                 </div>
             </div>
         </section>
 
         <section class="card">
-            <h2>Análisis de Resiliencia y Pruebas de Estrés</h2>
-            <p>Durante los 45 días de operación continua, se evaluó la capacidad del sistema para mantener el flujo activo bajo condiciones críticas[cite: 53, 103]. La fase de estrés incluyó la introducción de agua a aproximadamente 1 °C para observar la respuesta del sistema en el umbral de congelamiento[cite: 60, 107].</p>
-            
-            <p><strong>Factores evaluados durante el estudio:</strong></p>
+            <h2>Pruebas de Estrés Térmico</h2>
+            <p>Tras 45 días de monitoreo, la fase más crítica fue la introducción de agua a 1 °C, evaluando la resiliencia del flujo en el límite de congelamiento.</p>
             <ul>
-                <li>**Simulación de Consumo**: Uso de grifos para generar variaciones de flujo y presión, replicando el uso doméstico real[cite: 15, 57].</li>
-                <li>**Comportamiento de Materiales**: Evaluación comparativa de tuberías de Cobre, HDPE, PPR, PVC y VALCO[cite: 16, 21, 111].</li>
-                <li>**Monitoreo de Variables**: Registro constante de temperatura mediante sensores DS18B20, además de presión y caudal a través de un datalogger[cite: 32, 34, 66].</li>
+                <li><strong>Simulación de Consumo:</strong> Uso de grifos para observar variaciones de presión y flujo real.</li>
+                <li><strong>Materiales:</strong> Comparativa de tuberías HDPE, PPR, PVC, Cobre y VALCO.</li>
+                <li><strong>Monitoreo:</strong> Registro de sensores DS18B20, caudal y presión mediante datalogger.</li>
             </ul>
         </section>
     </main>
 </div>
 
 <div id="imageModal" style="display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); cursor: zoom-out;" onclick="this.style.display='none'">
-    <img id="modalImg" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%); border: 3px solid white; box-shadow: 0 0 25px rgba(0,0,0,0.5);">
-    <p style="color: white; text-align: center; width: 100%; position: absolute; bottom: 20px; font-family: sans-serif;">Haz clic en cualquier lugar para cerrar</p>
+    <img id="modalImg" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%); border: 3px solid white; border-radius: 4px;">
+    <p style="color: white; text-align: center; width: 100%; position: absolute; bottom: 20px;">Haz clic en cualquier lugar para cerrar</p>
 </div>
 
 <script>
