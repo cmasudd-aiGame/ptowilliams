@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experimentos | Plataforma Territorial</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para controlar el tamaño de las imágenes en miniatura */
+        .img-container {
+            width: 100%;
+            height: 200px; /* Altura fija para las miniaturas */
+            overflow: hidden;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background-color: #f0f0f0;
+        }
+
+        .img-fluid {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ajusta la imagen sin deformarla */
+            transition: transform 0.3s ease;
+        }
+
+        .img-fluid:hover {
+            transform: scale(1.05); /* Efecto visual de zoom al pasar el mouse */
+        }
+    </style>
 </head>
 <body>
 
@@ -52,10 +74,14 @@
         <div class="grid">
             <section class="card">
                 <h3>Montaje de Laboratorio</h3>
-                <p>El circuito hidráulico integra dos cámaras térmicas para replicar el intercambio suelo-aire. Se instaló un sistema de adquisición de datos con acceso vía VPN para monitoreo en tiempo real de temperatura, presión y caudal.</p>
+                <p>El circuito hidráulico integra dos cámaras térmicas para replicar el intercambio suelo-aire. Monitoreo en tiempo real de temperatura, presión y caudal.</p>
                 <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" alt="Diagrama" style="border: 1px solid #ddd; border-radius: 4px;">
-                    <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" alt="Cámara" style="border: 1px solid #ddd; border-radius: 4px;">
+                    <div class="img-container">
+                        <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" alt="Diagrama">
+                    </div>
+                    <div class="img-container">
+                        <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" alt="Cámara">
+                    </div>
                 </div>
             </section>
 
@@ -75,25 +101,23 @@
                         <tr><td>Ambiente</td><td>Temp/Hum Cámaras</td></tr>
                     </tbody>
                 </table>
-                <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Todos los registros se centralizaron en un datalogger con almacenamiento en servidor remoto.</p>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Todos los registros se centralizaron en un datalogger remoto.</p>
             </section>
         </div>
 
         <section class="card" style="border-top: 5px solid var(--accent);">
             <h2>Pruebas de Estrés y Simulación de Consumo</h2>
-            <p>Para determinar el límite de resiliencia del sistema, se forzó el ingreso de agua a <strong>1 °C</strong> (umbral de congelamiento inminente). Se evaluó la inercia térmica de cinco materiales distintos bajo flujo constante y pulsante.</p>
-            
             <div class="grid">
                 <div>
+                    <p>Se forzó el ingreso de agua a <strong>1 °C</strong> para determinar el límite de resiliencia ante el punto de congelación inminente.</p>
                     <h4 style="margin-bottom: 10px; color: var(--primary);">Dinámica de Materiales</h4>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;">
                         <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">COBRE</span>
                         <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">HDPE</span>
                         <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">VALCO</span>
                         <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">PPR</span>
                         <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">PVC</span>
                     </div>
-                    <p style="margin-top: 15px;">Se utilizó un grifo de salida para simular patrones de consumo doméstico, registrando caídas de presión y variaciones en el caudal que podrían inducir la formación de cristales de hielo.</p>
                 </div>
                 <div style="background: #1a1a1a; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; border-radius: 4px; font-size: 0.8rem;">
                     [TELEMETRÍA_LOG]<br>
@@ -114,7 +138,6 @@
     </div>
 
     <script>
-        // Lógica para agrandar cualquier imagen con clase img-fluid
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("imgFull");
         const images = document.querySelectorAll('.img-fluid');
