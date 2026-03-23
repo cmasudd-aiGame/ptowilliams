@@ -6,35 +6,75 @@
     <title>Experimentos | Plataforma Territorial</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos específicos para controlar el tamaño de las imágenes en miniatura */
+        /* Estilos para Acordeones */
+        .accordion {
+            background-color: #f1f1f1;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: 0.4s;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .active, .accordion:hover { background-color: #e2e2e2; }
+
+        .accordion:after {
+            content: '\002B';
+            color: var(--accent);
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .active:after { content: "\2212"; }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Control de imágenes miniatura */
         .img-container {
             width: 100%;
-            height: 200px; /* Altura fija para las miniaturas */
+            height: 180px; /* Altura uniforme para la grilla */
             overflow: hidden;
             border-radius: 4px;
+            margin: 10px 0;
+            cursor: zoom-in;
             border: 1px solid #ddd;
-            background-color: #f0f0f0;
         }
-
-        .img-fluid {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ajusta la imagen sin deformarla */
-            transition: transform 0.3s ease;
-        }
-
-        .img-fluid:hover {
-            transform: scale(1.05); /* Efecto visual de zoom al pasar el mouse */
+        .img-fluid { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* Grilla de imágenes ajustada para 5 elementos */
+        .img-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
     <header class="page-header">
-        <img src="https://cmasudd-aigame.github.io/ptowilliams/datoscompu.png" alt="Monitoreo de Datos" class="header-image-full">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/datoscompu.png" alt="Monitoreo" class="header-image-full">
         <div class="title-overlay">
             <h1>Protocolo de Experimentación Térmica</h1>
-            <p>Prevención de congelamiento en condiciones críticas</p>
+            <p>Resultados Detallados: Sistema de Recirculación Anticonchelante</p>
         </div>
     </header>
 
@@ -42,7 +82,7 @@
         <ul>
             <li><a href="experimento.html">Experimento</a></li>
             <li><a href="#">Gemelo Digital</a></li>
-            <li><a href="#">Diseño Inteligente</a></li>
+            <li><a href="#">Diseño</a></li>
             <li><a href="#">Datos</a></li>
             <li><a href="puertowilliams.html">Puerto Williams</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
@@ -51,113 +91,92 @@
     </nav>
 
     <main class="main-content">
-        <section class="card">
-            <h2>Resumen del Estudio</h2>
-            <p>Se evaluó un sistema de recirculación activa diseñado para mitigar el congelamiento de cañerías en zonas extremas, utilizando el calor estable del suelo (0°C a 3°C) como mecanismo de defensa contra temperaturas atmosféricas de -20°C.</p>
+        
+        <button class="accordion">1. Objetivo y Configuración del Sistema</button>
+        <div class="panel">
+            <p><strong>Objetivo:</strong> Reproducir condiciones ambientales extremas para evaluar la mitigación de congelamiento usando calor del suelo.</p>
             
-            <div class="grid" style="margin-top: 20px;">
-                <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid var(--accent); border-radius: 4px;">
-                    <strong style="display:block; font-size: 1.5rem; color: var(--primary);">45 Días</strong>
-                    <small style="text-transform: uppercase; color: #777;">Operación Continua</small>
-                </div>
-                <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid var(--primary); border-radius: 4px;">
-                    <strong style="display:block; font-size: 1.5rem; color: var(--primary);">-20 °C</strong>
-                    <small style="text-transform: uppercase; color: #777;">Simulación Aire</small>
-                </div>
-                <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid var(--primary); border-radius: 4px;">
-                    <strong style="display:block; font-size: 1.5rem; color: var(--primary);">19 W</strong>
-                    <small style="text-transform: uppercase; color: #777;">Potencia Bomba</small>
-                </div>
+            <div class="img-grid">
+                <div class="img-container"><img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" alt="Diagrama de Instrumentación"></div>
+                
+                <div class="img-container"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" alt="Montaje de Cámaras Térmicas"></div>
+                
+                <div class="img-container"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171214.jpg" class="img-fluid" alt="Detalle del Circuito Hidráulico 1"></div>
+                <div class="img-container"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171220.jpg" class="img-fluid" alt="Detalle del Circuito Hidráulico 2"></div>
+                <div class="img-container"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171320.jpg" class="img-fluid" alt="Panel de Control y Datalogger"></div>
             </div>
-        </section>
-
-        <div class="grid">
-            <section class="card">
-                <h3>Montaje de Laboratorio</h3>
-                <p>El circuito hidráulico integra dos cámaras térmicas para replicar el intercambio suelo-aire. Monitoreo en tiempo real de temperatura, presión y caudal.</p>
-                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div class="img-container">
-                        <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" alt="Diagrama">
-                    </div>
-                    <div class="img-container">
-                        <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" alt="Cámara">
-                    </div>
-                </div>
-            </section>
-
-            <section class="card">
-                <h3>Instrumentación</h3>
-                <table class="data-table" style="width: 100%; font-size: 0.9rem;">
-                    <thead>
-                        <tr>
-                            <th>Variable</th>
-                            <th>Sensor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Temperatura H2O</td><td>DS18B20 (Digital)</td></tr>
-                        <tr><td>Caudal</td><td>Turbina (L/min)</td></tr>
-                        <tr><td>Presión</td><td>Manómetro (kPa)</td></tr>
-                        <tr><td>Ambiente</td><td>Temp/Hum Cámaras</td></tr>
-                    </tbody>
-                </table>
-                <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Todos los registros se centralizaron en un datalogger remoto.</p>
-            </section>
+            
+            <p style="margin-top: 15px;"><em>Descripción del Montaje:</em> El sistema integra dos cámaras térmicas para replicar el intercambio suelo-aire y un circuito hidráulico instrumentado operado por una bomba sumergible de 19 W.</p>
         </div>
 
-        <section class="card" style="border-top: 5px solid var(--accent);">
-            <h2>Pruebas de Estrés y Simulación de Consumo</h2>
-            <div class="grid">
-                <div>
-                    <p>Se forzó el ingreso de agua a <strong>1 °C</strong> para determinar el límite de resiliencia ante el punto de congelación inminente.</p>
-                    <h4 style="margin-bottom: 10px; color: var(--primary);">Dinámica de Materiales</h4>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;">
-                        <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">COBRE</span>
-                        <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">HDPE</span>
-                        <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">VALCO</span>
-                        <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">PPR</span>
-                        <span style="background: #2c3e50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">PVC</span>
-                    </div>
-                </div>
-                <div style="background: #1a1a1a; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; border-radius: 4px; font-size: 0.8rem;">
-                    [TELEMETRÍA_LOG]<br>
-                    TEMP_IN: 7.69°C | TEMP_OUT: 8.13°C<br>
-                    FLOW: 1.56 L/min | PRES: 8.31 kPa<br>
-                    STATUS: OPERATIONAL_STRESS_MODE<br>
-                    RELAY_PUMP: ON (1)
-                </div>
+        <button class="accordion">2. Instrumentación y Sensores (Telemetría)</button>
+        <div class="panel">
+            <table class="data-table">
+                <thead>
+                    <tr><th>Variable</th><th>Sensor / Código</th><th>Ubicación</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Temp. Agua</td><td>DS18B20</td><td>Entrada/Salida Cámaras</td></tr>
+                    <tr><td>Temp. Aire</td><td>Sensores Ambiente</td><td>Interior Cámaras Térmicas</td></tr>
+                    <tr><td>Caudal</td><td>Turbina (flujo1)</td><td>Circuito Principal (L/min)</td></tr>
+                    <tr><td>Presión</td><td>Digital (presion1)</td><td>Punto Crítico (kPa)</td></tr>
+                    <tr><td>Estado</td><td>Relay</td><td>Estado Bomba (ON/OFF)</td></tr>
+                </tbody>
+            </table>
+            <p><em>Variables Eléctricas:</em> Monitoreo de Vsupply y Voltaje de Batería (batt) para asegurar respaldo del sistema.</p>
+        </div>
+
+        <button class="accordion">3. Gestión de Datos e Hitos Temporales</button>
+        <div class="panel">
+            <p><strong>Tiempo total de operación:</strong> 45 días continuos de registro sin interrupciones.</p>
+            <ul>
+                <li><strong>Almacenamiento:</strong> Servidor dedicado con base de datos histórica.</li>
+                <li><strong>Acceso:</strong> Implementación de túnel VPN para monitoreo remoto en tiempo real.</li>
+                <li><strong>Trazabilidad:</strong> Timestamp en formato YYYY-MM-DD HH:MM:SS para cada lectura.</li>
+            </ul>
+        </div>
+
+        <button class="accordion">4. Pruebas de Estrés y Comparativa de Materiales</button>
+        <div class="panel">
+            <p>Se evaluó la resistencia térmica y formación de cristales en los siguientes materiales:</p>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <span class="tag">VALCO</span><span class="tag">HDPE</span><span class="tag">PPR</span><span class="tag">PVC</span><span class="tag">COBRE</span>
             </div>
-        </section>
+            <p><strong>Resultados de Estrés:</strong> El sistema mantuvo flujo activo incluso con agua a 1 °C, demostrando que la recirculación rompe la inercia de congelamiento antes de la solidificación del fluido.</p>
+        </div>
+
     </main>
 
     <div id="imageModal" class="modal">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
         <img class="modal-content" id="imgFull">
-        <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
     </div>
 
     <script>
+        // Lógica de Acordeones
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+            });
+        }
+
+        // Lógica de Modal
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("imgFull");
-        const images = document.querySelectorAll('.img-fluid');
-        let currentImgIndex = 0;
-
-        images.forEach((img, index) => {
-            img.style.cursor = "zoom-in";
+        document.querySelectorAll('.img-container img').forEach(img => {
             img.onclick = function() {
                 modal.style.display = "flex";
                 modalImg.src = this.src;
-                currentImgIndex = index;
             }
         });
-
         function closeModal() { modal.style.display = "none"; }
-        function changeImage(step) {
-            currentImgIndex = (currentImgIndex + step + images.length) % images.length;
-            modalImg.src = images[currentImgIndex].src;
-        }
-        window.onclick = function(event) { if (event.target == modal) closeModal(); }
     </script>
 </body>
 </html>
