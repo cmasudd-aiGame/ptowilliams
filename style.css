@@ -1,120 +1,124 @@
-/* --- Añade o reemplaza estas secciones en tu style.css --- */
-
-/* Navegación mejorada */
-nav .menu {
-    display: flex;
-    gap: 20px; /* Espacio uniforme entre enlaces */
-}
-
-nav a {
-    color: var(--white);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background 0.3s, color 0.3s;
-}
-
-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--secondary-color);
-}
-
-/* Botones con más presencia para el Index */
-.btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: var(--secondary-color);
-    color: var(--white) !important; /* Asegura que el texto sea blanco */
-    text-decoration: none;
-    border-radius: var(--border-radius);
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    border: none;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* Ajuste para el encabezado del Index */
-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-header p {
-    font-size: 1.1rem;
-    color: #666;
-    max-width: 700px;
-    margin: 0 auto 30px auto;
-}
-
-.menu ul {
-    display: flex;
-    list-style: none;
-    gap: 15px; /* Espacio entre los botones del menú */
-    margin: 0;
-    padding: 0;
-}
-
+/* 1. VARIABLES Y BASE */
 :root {
     --primary: #2c3e50;
     --accent: #e74c3c;
     --bg: #ffffff;
     --text: #333;
+    --white: #ffffff;
 }
 
-body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
+body { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Segoe UI', sans-serif; 
+    background-color: var(--bg); 
+    color: var(--text); 
+    line-height: 1.6; 
+}
 
-/* NAVEGACIÓN COMPARTIDA */
-nav { background: white; border-bottom: 1px solid #eaeaea; padding: 15px 5%; position: sticky; top: 0; z-index: 1000; }
-nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; justify-content: flex-end; flex-wrap: wrap; }
-nav a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+/* 2. NAVEGACIÓN (STICKY EN TODAS LAS PÁGINAS) */
+nav { 
+    background: var(--white); 
+    border-bottom: 1px solid #eaeaea; 
+    padding: 15px 5%; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+nav ul { 
+    list-style: none; 
+    display: flex; 
+    gap: 20px; 
+    margin: 0; 
+    padding: 0; 
+    justify-content: flex-end; 
+    flex-wrap: wrap; 
+}
+
+nav a { 
+    text-decoration: none; 
+    color: var(--primary); 
+    font-weight: 600; 
+    font-size: 0.85rem; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
 nav a:hover { color: var(--accent); }
 
-/* HEADER & HERO */
-header { position: relative; width: 100%; overflow: hidden; }
-.header-image { width: 100%; height: auto; display: block; max-height: 70vh; object-fit: cover; }
-.title-overlay {
-    position: absolute; bottom: 20px; right: 20px;
-    background: rgba(0, 0, 0, 0.6); color: white;
-    padding: 10px 20px; border-radius: 4px;
-    backdrop-filter: blur(5px); text-align: right;
+/* 3. ESTRUCTURA DE CABECERAS */
+header { position: relative; width: 100%; overflow: hidden; background-color: #000; }
+
+/* Altura para el Index (Drone) */
+header.header-hero { height: 75vh; }
+
+/* Altura para Puerto Williams (Montañas) */
+header.page-header { height: 400px; }
+
+.header-image { 
+    width: 100%; 
+    height: 100%; 
+    display: block; 
+    object-fit: cover; 
 }
-.title-overlay h1 { margin: 0; font-size: 1.8rem; font-weight: 300; }
-.title-overlay p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.8; }
 
-/* CONTENIDO PRINCIPAL */
-.main-content { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-.main-content h2 { color: var(--primary); border-bottom: 2px solid var(--accent); display: inline-block; padding-bottom: 5px; }
-.main-content p { margin-bottom: 25px; text-align: justify; font-size: 1.1rem; color: #555; }
+/* Overlay de título en portada */
+.title-overlay {
+    position: absolute; 
+    bottom: 30px; 
+    right: 5%;
+    background: rgba(0, 0, 0, 0.6); 
+    color: var(--white);
+    padding: 20px 30px; 
+    border-radius: 4px;
+    backdrop-filter: blur(5px); 
+    text-align: right;
+}
 
-/* MAPA */
+.title-overlay h1 { margin: 0; font-size: 2rem; font-weight: 300; }
+.title-overlay p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9; }
+
+/* 4. CONTENIDO PRINCIPAL */
+.main-content { 
+    max-width: 950px; 
+    margin: 50px auto; 
+    padding: 0 20px; 
+}
+
+.main-content h2 { 
+    color: var(--primary); 
+    border-bottom: 2px solid var(--accent); 
+    display: inline-block; 
+    padding-bottom: 8px;
+    margin-bottom: 30px;
+}
+
+.main-content p { 
+    margin-bottom: 25px; 
+    text-align: justify; 
+    font-size: 1.1rem; 
+    color: #444; 
+}
+
+/* 5. MAPA Y MODALES (Para puertowilliams.html) */
 .map-row { width: 100%; height: 600px; border-bottom: 1px solid #ddd; }
 #map { height: 100%; width: 100%; }
 .map-instruction { padding: 10px 5%; text-align: right; font-size: 0.75rem; color: #888; font-weight: bold; }
 
-/* MODAL GALERÍA */
 .modal {
     display: none; position: fixed; z-index: 9999; 
     left: 0; top: 0; width: 100%; height: 100%;
     background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;
 }
-.modal-content { max-width: 85%; max-height: 85%; border: 3px solid white; border-radius: 4px; position: relative; }
+.modal-content { max-width: 85%; max-height: 85%; border: 3px solid var(--white); border-radius: 4px; }
 .nav-btn {
     position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(255,255,255,0.2); color: white; border: none;
+    background: rgba(255,255,255,0.2); color: var(--white); border: none;
     font-size: 40px; padding: 10px 20px; cursor: pointer; border-radius: 5px;
-    z-index: 10000;
 }
-.close-btn { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
+.close-btn { position: absolute; top: 20px; right: 30px; color: var(--white); font-size: 40px; cursor: pointer; }
 .popup-img { width: 220px; border-radius: 4px; cursor: zoom-in; }
 .custom-house-icon { background: none; border: none; }
