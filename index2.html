@@ -3,76 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experimento | Plataforma Territorial</title>
-    <link rel="stylesheet" href="https://cmasudd-aigame.github.io/ptowilliams/style.css">
+    <title>Informe Técnico Experimental | Plataforma Territorial</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos de Dashboard */
+        .dashboard-container {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-bottom: 5px solid var(--accent);
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .metric {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .metric-val { font-family: 'Courier New', monospace; font-size: 1.2rem; color: #00ff00; display: block; }
+        .metric-label { font-size: 0.7rem; color: #aaa; text-transform: uppercase; }
+
+        /* Estilos de Acordeones */
+        .accordion {
+            background-color: #f8f9fa;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: 0.4s;
+            border-radius: 4px;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #eee;
+        }
+        .active, .accordion:hover { background-color: #f1f1f1; }
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 2px solid var(--accent);
+        }
+
+        /* Imágenes y Grillas */
+        .img-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .img-item { height: 150px; border-radius: 4px; overflow: hidden; cursor: zoom-in; border: 1px solid #ddd; }
+        .img-item img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .tag-material {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
 
-<nav>
-    <div class="container">
-        <div class="logo"><strong>PLATAFORMA TERRITORIAL</strong></div>
-        <div class="menu">
-            <ul>
-                <li><a href="experimento.html">Experimento</a></li>
-                <li><a href="#">Gemelo Digital</a></li>
-                <li><a href="#">Diseño</a></li>
-                <li><a href="#">Datos</a></li>
-                <li><a href="#">Estaciones Meteorológicas</a></li>
-                <li><a href="index.html">Inicio</a></li>
-            </ul>
+    <header class="page-header">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/datoscompu.png" alt="Monitor" class="header-image-full">
+        <div class="title-overlay">
+            <h1>Informe Técnico: Experimento RP25110005</h1>
+            <p>Prevención de Congelamiento en Cañerías mediante Recirculación Geotérmica</p>
         </div>
-    </div>
-</nav>
-
-<div class="container">
-    <header style="margin-top: 30px;">
-        <h1>Sistema de Recirculación: Prevención de Congelamiento</h1>
-        <p>Análisis técnico sobre el uso del calor del subsuelo para la protección de infraestructura hídrica.</p>
     </header>
 
-    <main>
-        <section class="card">
-            <h2>Metodología y Configuración</h2>
-            <p>El estudio utilizó un circuito hidráulico cerrado con una bomba de 19 W. Se operó con dos cámaras térmicas independientes: una simulando aire exterior a -20 °C y otra el calor del suelo entre 0 °C y 3 °C.</p>
-            
-            <div class="grid">
-                <div>
-                    <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" alt="Diagrama del Experimento" class="img-fluid">
-                    <p class="caption">Haz clic para ampliar el diagrama del circuito.</p>
-                </div>
-                <div>
-                    <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" alt="Montaje real" class="img-fluid">
-                    <p class="caption">Haz clic para ampliar la foto del laboratorio.</p>
-                </div>
+    <nav>
+        <ul>
+            <li><a href="experimento.html">Experimento</a></li>
+            <li><a href="meteorologia.html">Meteorología</a></li>
+            <li><a href="puertowilliams.html">Puerto Williams</a></li>
+            <li><a href="index.html">Inicio</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+
+        <section class="dashboard-container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3><span style="color:red">●</span> Telemetría en Tiempo Real (VPN Link)</h3>
+                <small id="current-time">Cargando fecha...</small>
+            </div>
+            <div class="dashboard-grid">
+                <div class="metric"><span class="metric-val">1.25</span><span class="metric-label">flujo1 (L/min)</span></div>
+                <div class="metric"><span class="metric-val">8.42</span><span class="metric-label">presion1 (kPa)</span></div>
+                <div class="metric"><span class="metric-val">4.2°C</span><span class="metric-label">temp1 (In Cold)</span></div>
+                <div class="metric"><span class="metric-val">1.8°C</span><span class="metric-label">temp2 (Out Cold)</span></div>
+                <div class="metric"><span class="metric-val">12.6V</span><span class="metric-label">Vsupply</span></div>
+                <div class="metric"><span class="metric-val" style="color: #00ff00;">ON</span><span class="metric-label">Relay (Pump)</span></div>
             </div>
         </section>
 
-        <section class="card">
-            <h2>Pruebas de Estrés Térmico</h2>
-            <p>Tras 45 días de monitoreo, la fase más crítica fue la introducción de agua a 1 °C, evaluando la resiliencia del flujo en el límite de congelamiento.</p>
+        <button class="accordion">1. Introducción y Objetivos del Experimento</button>
+        <div class="panel">
+            <p>Este estudio detalla el desarrollo de un sistema diseñado para evitar el congelamiento de cañerías en zonas extremas. El experimento se realizó en condiciones de laboratorio, replicando escenarios térmicos críticos.</p>
+            <p><strong>Objetivo Principal:</strong> Evaluar la recirculación de agua utilizando el calor latente del suelo (0-3°C) como mecanismo de mitigación ante temperaturas de aire de -20°C.</p>
+        </div>
+
+        <button class="accordion">2. Descripción General del Sistema y Materiales</button>
+        <div class="panel">
+            <p>El montaje cuenta con dos cámaras térmicas independientes:</p>
             <ul>
-                <li><strong>Simulación de Consumo:</strong> Uso de grifos para observar variaciones de presión y flujo real.</li>
-                <li><strong>Materiales:</strong> Comparativa de tuberías HDPE, PPR, PVC, Cobre y VALCO.</li>
-                <li><strong>Monitoreo:</strong> Registro de sensores DS18B20, caudal y presión mediante datalogger.</li>
+                <li><strong>Cámara Aire:</strong> Configurada a -20 °C.</li>
+                <li><strong>Cámara Suelo:</strong> Configurada entre 0 °C y 3 °C.</li>
+                <li><strong>Bomba:</strong> Sumergible de 19 W para impulsión continua.</li>
             </ul>
-        </section>
+            <p><strong>Materiales de tubería evaluados:</strong></p>
+            <div>
+                <span class="tag-material">VALCO</span><span class="tag-material">HDPE</span><span class="tag-material">PPR</span><span class="tag-material">PVC</span><span class="tag-material">COBRE</span>
+            </div>
+            <div class="img-grid">
+                <div class="img-item"><img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg"></div>
+                <div class="img-item"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png"></div>
+                <div class="img-item"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171214.jpg"></div>
+                <div class="img-item"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171220.jpg"></div>
+                <div class="img-item"><img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171320.jpg"></div>
+            </div>
+        </div>
+
+        <button class="accordion">3. Instrumentación, Sensores y Diccionario de Datos</button>
+        <div class="panel">
+            <p>Se implementó un sistema de adquisición de datos mediante Datalogger y conexión VPN para monitoreo 24/7.</p>
+            <table class="data-table" style="font-size: 0.85rem;">
+                <thead><tr><th>Código</th><th>Variable</th><th>Sensor / Detalles</th></tr></thead>
+                <tbody>
+                    <tr><td><code>temp1-2</code></td><td>Temp. Agua Cámara Fría</td><td>DS18B20 Digital</td></tr>
+                    <tr><td><code>temp3-5</code></td><td>Temp. Agua Cámara Suelo</td><td>DS18B20 Digital</td></tr>
+                    <tr><td><code>flujo1</code></td><td>Caudal Instantáneo</td><td>Sensor de Turbina (L/min)</td></tr>
+                    <tr><td><code>presion1</code></td><td>Presión Hidráulica</td><td>Manómetro Digital (kPa)</td></tr>
+                    <tr><td><code>relay</code></td><td>Estado Bomba</td><td>1 = ON / 0 = OFF</td></tr>
+                    <tr><td><code>Vsupply / batt</code></td><td>Voltajes Eléctricos</td><td>Alimentación y Respaldo</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="accordion">4. Configuración y Procedimiento Experimental</button>
+        <div class="panel">
+            <ol>
+                <li><strong>Puesta en Marcha:</strong> Verificación de estanqueidad y calibración de sensores.</li>
+                <li><strong>Operación Continua:</strong> Ejecución de 45 días de registro ininterrumpido.</li>
+                <li><strong>Simulación de Consumo:</strong> Uso de grifo para simular variaciones domésticas de presión y caudal.</li>
+                <li><strong>Pruebas de Estrés:</strong> Introducción de agua a 1 °C para forzar condiciones de congelamiento.</li>
+            </ol>
+        </div>
+
+        <button class="accordion">5. Gestión de Datos y Consideraciones Finales</button>
+        <div class="panel">
+            <p><strong>Resultados de Operación:</strong> 45 días continuos de datos almacenados en servidor remoto sin pérdida de registros.</p>
+            <p><strong>Conclusiones Técnicas:</strong></p>
+            <ul>
+                <li>El sistema permitió replicar condiciones térmicas extremas de manera controlada.</li>
+                <li>Se validó que la recirculación rompe la inercia de congelamiento antes de la solidificación.</li>
+                <li>Se observaron diferencias críticas de transferencia térmica según el material de la tubería.</li>
+            </ul>
+        </div>
+
     </main>
-</div>
 
-<div id="imageModal" style="display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); cursor: zoom-out;" onclick="this.style.display='none'">
-    <img id="modalImg" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%); border: 3px solid white; border-radius: 4px;">
-    <p style="color: white; text-align: center; width: 100%; position: absolute; bottom: 20px;">Haz clic en cualquier lugar para cerrar</p>
-</div>
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgFull">
+    </div>
 
-<script>
-    document.querySelectorAll('.img-fluid').forEach(img => {
-        img.style.cursor = 'zoom-in';
-        img.onclick = function() {
-            document.getElementById('imageModal').style.display = 'block';
-            document.getElementById('modalImg').src = this.src;
+    <script>
+        // Lógica de Acordeones
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
+            });
         }
-    });
-</script>
 
+        // Lógica de Modal
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("imgFull");
+        document.querySelectorAll('.img-item img').forEach(img => {
+            img.onclick = function() {
+                modal.style.display = "flex";
+                modalImg.src = this.src;
+            }
+        });
+        function closeModal() { modal.style.display = "none"; }
+
+        // Hora del Sistema para el Dashboard
+        document.getElementById('current-time').innerText = new Date().toLocaleString();
+    </script>
 </body>
 </html>
