@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño Inteligente | Plataforma Territorial</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .prototype-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .prototype-img-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            cursor: zoom-in;
+            background: #f9f9f9;
+        }
+
+        .prototype-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        .prototype-info {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .spec-tag {
+            display: inline-block;
+            background: #f0f4f8;
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/headerdisenointe.png" alt="Diseño Inteligente" class="header-image-full">
+        <div class="title-overlay">
+            <h1>Diseño de Solución Geotérmica</h1>
+            <p>Arquitectura Modular y Adaptativa - TRL 3</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="experimento.html">Experimento</a></li>
+            <li><a href="#">Gemelo Digital</a></li>
+            <li><a href="diseno.html">Diseño</a></li>
+            <li><a href="#">Datos</a></li>
+            <li><a href="puertowilliams.html">Puerto Williams</a></li>
+            <li><a href="meteorologia.html">Meteorología</a></li>
+            <li><a href="index.html">Inicio</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section class="card">
+            <h2>Arquitectura del Prototipo</h2>
+            <p>
+                El diseño del sistema se fundamenta en una configuración modular de fácil instalación, compatible con interfaces de cañerías de PVC, cobre, HDPE, PEAD y Valco[cite: 133, 144]. La propuesta integra tecnología geotérmica pasiva con un sistema de recirculación forzada comandado por un control automático inteligente para prevenir el congelamiento[cite: 152].
+            </p>
+            <p>
+                El objetivo es mantener la temperatura del agua recirculada por sobre 1 °C aprovechando la inercia térmica del suelo (4-8 °C a 1.8m) y el calor residual de la bomba (8-12 W)[cite: 138, 139].
+            </p>
+        </section>
+
+        <div class="prototype-grid">
+            <div class="prototype-card">
+                <div class="prototype-img-container">
+                    <img src="https://cmasudd-aigame.github.io/ptowilliams/3dmaletadisenointe.jpeg" alt="Render 3D Prototipo" class="img-zoom">
+                </div>
+                <div class="prototype-info">
+                    <span class="spec-tag">Modelado Digital</span>
+                    <h4>Diseño Prototipo Modular</h4>
+                    <p style="font-size: 0.9rem; color: #666;">Esquema del reservorio térmico geotérmico de 30L diseñado para instalación bajo la línea de congelamiento[cite: 154, 199].</p>
+                </div>
+            </div>
+
+            <div class="prototype-card">
+                <div class="prototype-img-container">
+                    <img src="https://cmasudd-aigame.github.io/ptowilliams/prototipodisenointe.jpeg" alt="Prototipo Físico" class="img-zoom">
+                </div>
+                <div class="prototype-info">
+                    <span class="spec-tag">Validación TRL 3</span>
+                    <h4>Unidad de Control e Intercambio</h4>
+                    <p style="font-size: 0.9rem; color: #666;">Sistema validado con microcontrolador STM32 y red de intercambio tipo serpentín con eficiencia del 90.5%[cite: 143, 220, 224].</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="card">
+            <h3>Especificaciones de Costo y Sustentabilidad</h3>
+            <p>
+                El sistema busca mantener costos de operación anuales inferiores a $60.000 CLP (aprox. $5.000 CLP mensuales)[cite: 135]. Los costos de adquisición e instalación se proyectan en torno a los $100.000 CLP por vivienda[cite: 135, 144].
+            </p>
+            <p>
+                La implementación permite una reducción del 70% en el consumo energético preventivo comparado con calefacciones continuas tradicionales, eliminando interrupciones de servicio y roturas de ductos[cite: 134, 270, 309].
+            </p>
+        </section>
+    </main>
+
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgFull">
+    </div>
+
+    <script>
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("imgFull");
+        document.querySelectorAll('.img-zoom').forEach(img => {
+            img.onclick = function() {
+                modal.style.display = "flex";
+                modalImg.src = this.src;
+            }
+        });
+        function closeModal() { modal.style.display = "none"; }
+        window.onclick = function(event) { if (event.target == modal) closeModal(); }
+    </script>
+</body>
+</html>
