@@ -3,196 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoreo Puerto Williams</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #e74c3c;
-            --bg: #ffffff;
-            --text: #333;
-        }
-
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
-
-        /* HEADER & HERO IMAGE */
-        header { position: relative; width: 100%; overflow: hidden; }
-        .header-image { width: 100%; height: auto; display: block; }
-        .title-overlay {
-            position: absolute; bottom: 20px; right: 20px;
-            background: rgba(0, 0, 0, 0.6); color: white;
-            padding: 10px 20px; border-radius: 4px;
-            backdrop-filter: blur(5px); text-align: right;
-        }
-        .title-overlay h1 { margin: 0; font-size: 1.8rem; font-weight: 300; }
-        .title-overlay p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.8; }
-
-        /* NAVEGACIÓN */
-        nav { background: white; border-bottom: 1px solid #eaeaea; padding: 15px 5%; }
-        nav ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; justify-content: flex-end; }
-        nav a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover { color: var(--accent); }
-
-        /* MAPA */
-        .map-row { width: 100%; height: 450px; border-bottom: 1px solid #ddd; }
-        #map { height: 100%; width: 100%; }
-        .map-instruction { padding: 5px 5%; text-align: right; font-size: 0.75rem; color: #888; font-style: italic; }
-
-        /* MODAL GALERÍA */
-        .modal {
-            display: none; position: fixed; z-index: 9999; 
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;
-        }
-        .modal-content { max-width: 85%; max-height: 85%; border: 3px solid white; border-radius: 4px; position: relative; }
-        
-        .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.2); color: white; border: none;
-            font-size: 40px; padding: 10px 20px; cursor: pointer; border-radius: 5px;
-            transition: 0.3s; z-index: 10000;
-        }
-        .nav-btn:hover { background: rgba(255,255,255,0.4); }
-        .prev-btn { left: 20px; }
-        .next-btn { right: 20px; }
-        .close-btn { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
-
-        /* IMAGEN POPUP */
-        .popup-img { width: 220px; border-radius: 4px; cursor: zoom-in; }
-        .custom-house-icon { background: none; border: none; }
-        
-        /* CONTENIDO PRINCIPAL */
-        .main-content { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .main-content p { margin-bottom: 25px; text-align: justify; font-size: 1.1rem; color: #555; }
-    </style>
+    <title>Protocolo de Experimentación | Observatorio Williams</title>
+    <link rel="stylesheet" href="https://cmasudd-aigame.github.io/ptowilliams/style.css">
 </head>
-<body>
+<body style="background-color: #f0f2f5;">
 
-    <header>
-        <img src="https://cmasudd-aigame.github.io/ptowilliams/puertowilliamsdrone2.jpg" alt="Puerto Williams Drone" class="header-image">
-        <div class="title-overlay">
-            <h1>Plataforma Territorial Puerto Williams</h1>
-            <p>⬇ hacer scroll hacia abajo ⬇</p>
+<nav>
+    <div class="container">
+        <div class="logo" style="letter-spacing: 1px;"><strong>WILLIAMS SCIENTIFIC OBSERVATORY</strong></div>
+        <div class="menu">
+            <a href="index.html">Resumen</a>
+            <a href="https://cmasudd-aigame.github.io/ptowilliams/index.html" target="_blank">Geolocalización</a>
         </div>
+    </div>
+</nav>
+
+<div class="container">
+    <header style="margin-top: 40px; padding: 20px 0; border-bottom: 2px solid var(--primary-color);">
+        <h1 style="margin: 0; font-size: 1.8rem; color: var(--primary-color);">SISTEMA DE MITIGACIÓN TÉRMICA POR RECIRCULACIÓN</h1>
+        <p style="color: #555; margin: 5px 0 0 0;">Análisis de comportamiento hidráulico bajo escenarios de congelamiento extremo[cite: 1, 3].</p>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="#">Experimentos</a></li>
-            <li><a href="#">Datos</a></li>
-            <li><a href="#">Estaciones Meteorológicas</a></li>
-        </ul>
-    </nav>
-
-    <div class="map-row">
-        <div id="map"></div>
+    <div class="grid" style="margin: 30px 0;">
+        <div class="card" style="border-left: 6px solid #3498db; padding: 20px;">
+            <small style="color: #888; text-transform: uppercase; font-weight: bold;">Fase Experimental</small>
+            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">45 DÍAS CONTINUOS</div>
+            <p style="font-size: 0.85rem; margin: 5px 0 0 0;">Registro de datos sin interrupciones[cite: 53, 103].</p>
+        </div>
+        <div class="card" style="border-left: 6px solid #e74c3c; padding: 20px;">
+            <small style="color: #888; text-transform: uppercase; font-weight: bold;">Umbral Crítico</small>
+            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">-20 °C (AIRE)</div>
+            <p style="font-size: 0.85rem; margin: 5px 0 0 0;">Simulación de atmósfera exterior[cite: 10, 76].</p>
+        </div>
+        <div class="card" style="border-left: 6px solid #2ecc71; padding: 20px;">
+            <small style="color: #888; text-transform: uppercase; font-weight: bold;">Intercambio Suelo</small>
+            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">0 °C a 3 °C</div>
+            <p style="font-size: 0.85rem; margin: 5px 0 0 0;">Fuente térmica de mitigación[cite: 11, 79].</p>
+        </div>
     </div>
-    <div class="map-instruction">* Zoom bloqueado con scroll. Usa los botones + y - del mapa.</div>
 
-    <main class="main-content">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        <p>
-            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum.
-        </p>
+    <main class="grid" style="align-items: start;">
+        <div class="card">
+            <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">CONFIGURACIÓN TÉCNICA</h3>
+            <p style="font-size: 0.95rem;">Se implementó un circuito cerrado utilizando una bomba sumergible de 19 W [cite: 12, 13] para movilizar el fluido entre dos ambientes térmicamente aislados[cite: 9].</p>
+            
+            <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" style="margin: 20px 0; border: 1px solid #ddd; filter: saturate(0.8);">
+            
+            <h4 style="font-size: 0.9rem; color: #444;">MATERIALES MONITOREADOS[cite: 16]:</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; color: #34495e;">
+                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• VALCO [cite: 17]</div>
+                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• HDPE [cite: 18]</div>
+                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• PPR [cite: 19]</div>
+                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• PVC [cite: 20]</div>
+                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• COBRE [cite: 21]</div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card" style="background: #2c3e50; color: #fff;">
+                <h3 style="color: #3498db; margin-top: 0;">TELEMETRÍA EN TIEMPO REAL</h3>
+                <p style="font-size: 0.8rem; opacity: 0.8;">Muestreo vía datalogger con almacenamiento remoto.</p>
+                
+                <table style="width: 100%; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; border-spacing: 0 10px;">
+                    <tr>
+                        <td style="color: #95a5a6;">TEMP_ENTRADA_FRIO</td>
+                        <td style="text-align: right; color: #2ecc71; font-weight: bold;">7.69 °C</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #95a5a6;">TEMP_SALIDA_FRIO</td>
+                        <td style="text-align: right; color: #2ecc71; font-weight: bold;">8.13 °C</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #95a5a6;">CAUDAL_SISTEMA</td>
+                        <td style="text-align: right; color: #3498db; font-weight: bold;">1.56 L/min</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #95a5a6;">PRESION_HIDRAULICA</td>
+                        <td style="text-align: right; color: #3498db; font-weight: bold;">8.31 kPa</td>
+                    </tr>
+                </table>
+                <div style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px; font-size: 0.75rem; color: #bdc3c7;">
+                    STATUS: TRANSMITIENDO DATOS [cite: 36]
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>PRUEBAS DE ESTRÉS [cite: 59]</h3>
+                <p style="font-size: 0.9rem;">El sistema fue sometido a una carga hídrica a 1 °C para verificar el punto crítico de congelamiento[cite: 60].</p>
+                <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" style="margin-top: 10px; border-radius: 4px;">
+            </div>
+        </div>
     </main>
 
-    <div id="imageModal" class="modal">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
-        <img class="modal-content" id="imgFull">
-        <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
-    </div>
+    <footer style="margin: 50px 0; text-align: center; border-top: 1px solid #ddd; padding-top: 20px;">
+        <p style="font-size: 0.8rem; color: #777; text-transform: uppercase; letter-spacing: 1px;">
+            © 2026 Observatorio Puerto Williams | Protocolo de Investigación de Campo
+        </p>
+    </footer>
+</div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cmasudd-aigame.github.io/ptowilliams/puntos.js"></script>
-
-    <script>
-        const urlBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
-        
-        // Bloqueo de zoom con rueda de mouse (scrollWheelZoom: false)
-        const map = L.map('map', {
-            scrollWheelZoom: false
-        }).setView([-54.9355, -67.6010], 16);
-
-        let currentIndex = 0;
-        const markers = [];
-
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
-
-        function createHouseIcon(color) {
-            const svgString = `
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.9897 20.9982H19.0001V12H21.0001L12.0001 3L3.04309 12H5.00006V20.9982H10.0001V15.5H13.9897V20.9982Z" 
-                          stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="${color === 'black' ? 'none' : 'rgba(231, 76, 60, 0.2)'}"/>
-                </svg>`;
-            return L.divIcon({ html: svgString, className: 'custom-house-icon', iconSize: [16, 16], iconAnchor: [12, 24], popupAnchor: [0, -24] });
-        }
-
-        const iconNormal = createHouseIcon('black');
-        const iconSelected = createHouseIcon('#e74c3c');
-
-        if (typeof puntosCasas !== 'undefined') {
-            puntosCasas.forEach((punto, index) => {
-                const marker = L.marker([punto.lat, punto.lng], { icon: iconNormal }).addTo(map);
-                const fullUrl = urlBase + punto.archivo;
-
-                marker.bindPopup(`
-                    <div style="text-align:center">
-                        <small style="color:#888">${punto.archivo}</small><br>
-                        <img src="${fullUrl}" class="popup-img" onclick="openModal(${index})">
-                    </div>
-                `);
-
-                marker.on('popupopen', () => marker.setIcon(iconSelected));
-                marker.on('popupclose', () => marker.setIcon(iconNormal));
-                
-                markers.push(marker);
-            });
-        }
-
-        function openModal(index) {
-            currentIndex = index;
-            updateModalView();
-            document.getElementById("imageModal").style.display = "flex";
-        }
-
-        function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
-        }
-
-        function changeImage(step) {
-            currentIndex += step;
-            if (currentIndex >= puntosCasas.length) currentIndex = 0;
-            if (currentIndex < 0) currentIndex = puntosCasas.length - 1;
-            updateModalView();
-        }
-
-        function updateModalView() {
-            const punto = puntosCasas[currentIndex];
-            const marker = markers[currentIndex];
-            document.getElementById("imgFull").src = urlBase + punto.archivo;
-            map.panTo([punto.lat, punto.lng]);
-            marker.openPopup(); 
-        }
-
-        // Navegación por teclado
-        document.addEventListener('keydown', (e) => {
-            if (document.getElementById("imageModal").style.display === "flex") {
-                if (e.key === "ArrowRight") changeImage(1);
-                if (e.key === "ArrowLeft") changeImage(-1);
-                if (e.key === "Escape") closeModal();
-            }
-        });
-
-        window.onclick = (event) => {
-            if (event.target == document.getElementById("imageModal")) closeModal();
-        }
-    </script>
 </body>
 </html>
