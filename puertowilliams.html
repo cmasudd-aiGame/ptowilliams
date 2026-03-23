@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puerto Williams | Salida a Terreno</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="page-header">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/20260220_111508.jpg" alt="Montañas Dientes de Navarino" class="header-image-full">
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="experimento.html">Experimento</a></li>
+            <li><a href="#">Gemelo Digital</a></li>
+            <li><a href="#">Diseño</a></li>
+            <li><a href="#">Datos</a></li>
+            <li><a href="puertowilliams.html">Puerto Williams</a></li>
+            <li><a href="index.html">Inicio</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content" style="margin-bottom: 10px;">
+        <h2>Explicación salida a terreno Puerto Williams</h2>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+        <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+    </main>
+
+    <div class="map-row">
+        <div id="map"></div>
+    </div>
+    <div class="map-instruction">* Para navegar el mapa usa los controles + y -</div>
+
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
+        <img class="modal-content" id="imgFull">
+        <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cmasudd-aigame.github.io/ptowilliams/puntos.js"></script>
+
+    <script>
+        const urlBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
+        const map = L.map('map', { scrollWheelZoom: false }).setView([-54.9355, -67.6010], 16);
+        let currentIndex = 0;
+        const markers = [];
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        function createHouseIcon(color) {
+            const svgString = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.9897 20.9982H19.0001V12H21.0001L12.0001 3L3.04309 12H5.00006V20.9982H10.0001V15.5H13.9897V20.9982Z" stroke="${color}" stroke-width="2" fill="${color === 'black' ? 'none' : 'rgba(231, 76, 60, 0.2)'}"/></svg>`;
+            return L.divIcon({ html: svgString, className: 'custom-house-icon', iconSize: [14, 14], iconAnchor: [12, 24], popupAnchor: [0, -24] });
+        }
+
+        const iconNormal = createHouseIcon('black');
+        const iconSelected = createHouseIcon('#e74c3c');
+
+        if (typeof puntosCasas !== 'undefined') {
+            puntosCasas.forEach((punto, index) => {
+                const marker = L.marker([punto.lat, punto.lng], { icon: iconNormal }).addTo(map);
+                marker.bindPopup(`<div style="text-align:center"><small style="color:#888">${punto.archivo}</small><br><img src="${urlBase + punto.archivo}" class="popup-img" onclick="openModal(${index})"></div>`);
+                marker.on('popupopen', () => marker.setIcon(iconSelected));
+                marker.on('popupclose', () => marker.setIcon(iconNormal));
+                markers.push(marker);
+            });
+        }
+
+        function openModal(index) { currentIndex = index; updateModalView(); document.getElementById("imageModal").style.display = "flex"; }
+        function closeModal() { document.getElementById("imageModal").style.display = "none"; }
+        function changeImage(step) { currentIndex = (currentIndex + step + puntosCasas.length) % puntosCasas.length; updateModalView(); }
+        function updateModalView() { const punto = puntosCasas[currentIndex]; document.getElementById("imgFull").src = urlBase + punto.archivo; map.panTo([punto.lat, punto.lng]); markers[currentIndex].openPopup(); }
+        window.onclick = (e) => { if (e.target.id == "imageModal") closeModal(); }
+    </script>
+</body>
+</html>
