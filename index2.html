@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis de Recirculación | Observatorio Puerto Williams</title>
+    <title>Experimentos | Plataforma Territorial</title>
     <link rel="stylesheet" href="https://cmasudd-aigame.github.io/ptowilliams/style.css">
 </head>
-<body style="background-color: #f0f2f5;">
+<body>
 
 <nav>
     <div class="container">
-        <div class="logo"><strong>OBSERVATORIO PUERTO WILLIAMS</strong></div>
+        <div class="logo"><strong>PLATAFORMA TERRITORIAL</strong></div>
         <div class="menu">
             <a href="index.html">Inicio</a>
             <a href="experimento.html">Experimentos</a>
@@ -20,87 +20,51 @@
 </nav>
 
 <div class="container">
-    <header style="margin-top: 40px; padding: 20px 0; border-bottom: 2px solid var(--primary-color);">
-        <h1>SISTEMA DE MITIGACIÓN TÉRMICA POR RECIRCULACIÓN</h1>
-        <p>Estudio de transferencia de calor y resiliencia hidráulica en condiciones de congelamiento extremo.</p>
+    <header style="margin-top: 30px;">
+        <h1>Sistema de Recirculación: Prevención de Congelamiento</h1>
+        <p>Estudio sobre el uso del calor del suelo para la protección de infraestructura hidráulica en zonas de temperaturas extremas[cite: 1, 3, 6].</p>
     </header>
 
     <main>
         <section class="card">
-            <h2>Metodología de Transferencia Térmica</h2>
-            <p>Este estudio se basa en el aprovechamiento de la estabilidad térmica del subsuelo. Mientras la temperatura atmosférica en zonas como Puerto Williams puede descender drásticamente, el suelo actúa como un reservorio de calor constante (0 °C a 3 °C). El sistema diseñado utiliza una bomba de 19 W para movilizar agua a través de un circuito cerrado, transportando esa energía térmica hacia los tramos de cañería más expuestos.</p>
+            <h2>Metodología y Configuración del Sistema</h2>
+            <p>El experimento consistió en un circuito hidráulico cerrado impulsado por una bomba sumergible de 19 W[cite: 12, 13]. Se utilizaron dos cámaras térmicas independientes para replicar el entorno: una simulando aire exterior a -20 °C y otra el calor del subsuelo entre 0 °C y 3 °C[cite: 9, 10, 11].</p>
             
-            <p>Para validar esta hipótesis, se recreó un escenario de laboratorio con dos cámaras aisladas: una simulando el aire exterior a <strong>-20 °C</strong> y otra el calor del suelo. El monitoreo constante permite cuantificar cuántos grados de temperatura gana o pierde el fluido en cada etapa del ciclo.</p>
-        </section>
-
-        <div class="grid">
-            <section class="card">
-                <h3>Configuración y Sensores</h3>
-                <p>La precisión del registro se logra mediante sensores digitales DS18B20 y un sistema de adquisición de datos que mide temperatura, presión (kPa) y caudal (L/min) en tiempo real. Esto permite observar el comportamiento dinámico del fluido ante cambios en el entorno.</p>
-                <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" alt="Diagrama del Circuito">
-                <p class="caption">Esquema técnico: Registro de variables hidráulicas y térmicas.</p>
-            </section>
-
-            <section class="card" style="background: #2c3e50; color: #fff;">
-                <h3 style="color: #3498db; margin-top: 0;">TELEMETRÍA DE MONITOREO</h3>
-                <table style="width: 100%; font-family: 'Courier New', monospace; font-size: 0.9rem; border-spacing: 0 12px;">
-                    <tr>
-                        <td style="color: #95a5a6;">TEMP_ENTRADA_FRIO</td>
-                        <td style="text-align: right; color: #2ecc71; font-weight: bold;">7.69 °C</td>
-                    </tr>
-                    <tr>
-                        <td style="color: #95a5a6;">TEMP_SALIDA_FRIO</td>
-                        <td style="text-align: right; color: #2ecc71; font-weight: bold;">8.13 °C</td>
-                    </tr>
-                    <tr>
-                        <td style="color: #95a5a6;">CAUDAL_NOMINAL</td>
-                        <td style="text-align: right; color: #3498db; font-weight: bold;">1.56 L/min</td>
-                    </tr>
-                    <tr>
-                        <td style="color: #95a5a6;">PRESIÓN_RED</td>
-                        <td style="text-align: right; color: #3498db; font-weight: bold;">8.31 kPa</td>
-                    </tr>
-                </table>
-                <p style="font-size: 0.75rem; margin-top: 15px; border-top: 1px solid #444; padding-top: 10px; color: #bdc3c7;">
-                    ESTADO: 45 DÍAS DE OPERACIÓN CONTINUA SIN INTERRUPCIONES.
-                </p>
-            </section>
-        </div>
-
-        <section class="card" style="border-left: 10px solid #e74c3c;">
-            <h2>Análisis de Resiliencia: Pruebas de Estrés</h2>
-            <p>La fase determinante del estudio fue la **Prueba de Estrés Térmico**. En este escenario, se forzó el ingreso de agua al sistema a una temperatura de <strong>1 °C</strong>, dejando un margen de maniobra térmica mínimo antes del cambio de fase (congelamiento).</p>
-            
-            <div class="grid" style="grid-template-columns: 1.5fr 1fr; gap: 30px; align-items: start;">
+            <div class="grid">
                 <div>
-                    <p>Durante los 45 días, se evaluaron tres factores críticos en el umbral de congelamiento:</p>
-                    <ul style="line-height: 1.8;">
-                        <li><strong>Simulación de Consumo Humano:</strong> Se utilizaron grifos para generar aperturas intermitentes. Esto permitió observar cómo las variaciones bruscas de presión y el cese temporal del flujo afectan la formación de cristales de hielo en las paredes internas de la cañería.</li>
-                        <li><strong>Comparativa de Materiales:</strong> Se analizó la inercia térmica de tuberías de <strong>HDPE, PPR, PVC, Cobre y VALCO</strong>. El objetivo fue identificar qué material ofrece una mejor barrera térmica cuando la bomba se detiene o el frío exterior aumenta.</li>
-                        <li><strong>Recuperación Térmica:</strong> Se comprobó la capacidad de la bomba de 19 W para estabilizar el sistema una vez que el agua fría entraba en contacto con la cámara de intercambio de calor (suelo).</li>
-                    </ul>
+                    <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" alt="Diagrama del Experimento" class="img-fluid">
+                    <p class="caption">Haz clic para ampliar el diagrama del circuito hidráulico.</p>
                 </div>
                 <div>
-                    <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" alt="Laboratorio">
-                    <p class="caption">Registro visual del montaje de cámaras térmicas y control central.</p>
+                    <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" alt="Montaje de Laboratorio" class="img-fluid">
+                    <p class="caption">Haz clic para ampliar la imagen del montaje real.</p>
                 </div>
             </div>
         </section>
-    </main>
 
-    <footer style="margin: 50px 0; text-align: center; border-top: 1px solid #ddd; padding-top: 20px; font-size: 0.8rem; color: #777;">
-        OBSERVATORIO PUERTO WILLIAMS | REGISTRO DE INVESTIGACIÓN TÉCNICA 2026
-    </footer>
+        <section class="card">
+            <h2>Análisis de Resiliencia y Pruebas de Estrés</h2>
+            <p>Durante los 45 días de operación continua, se evaluó la capacidad del sistema para mantener el flujo activo bajo condiciones críticas[cite: 53, 103]. La fase de estrés incluyó la introducción de agua a aproximadamente 1 °C para observar la respuesta del sistema en el umbral de congelamiento[cite: 60, 107].</p>
+            
+            <p><strong>Factores evaluados durante el estudio:</strong></p>
+            <ul>
+                <li>**Simulación de Consumo**: Uso de grifos para generar variaciones de flujo y presión, replicando el uso doméstico real[cite: 15, 57].</li>
+                <li>**Comportamiento de Materiales**: Evaluación comparativa de tuberías de Cobre, HDPE, PPR, PVC y VALCO[cite: 16, 21, 111].</li>
+                <li>**Monitoreo de Variables**: Registro constante de temperatura mediante sensores DS18B20, además de presión y caudal a través de un datalogger[cite: 32, 34, 66].</li>
+            </ul>
+        </section>
+    </main>
 </div>
 
 <div id="imageModal" style="display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); cursor: zoom-out;" onclick="this.style.display='none'">
-    <img id="modalImg" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%); border: 2px solid #fff;">
+    <img id="modalImg" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%); border: 3px solid white; box-shadow: 0 0 25px rgba(0,0,0,0.5);">
+    <p style="color: white; text-align: center; width: 100%; position: absolute; bottom: 20px; font-family: sans-serif;">Haz clic en cualquier lugar para cerrar</p>
 </div>
 
 <script>
-    document.querySelectorAll('.img-fluid').forEach(image => {
-        image.style.cursor = 'zoom-in';
-        image.onclick = function() {
+    document.querySelectorAll('.img-fluid').forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.onclick = function() {
             document.getElementById('imageModal').style.display = 'block';
             document.getElementById('modalImg').src = this.src;
         }
