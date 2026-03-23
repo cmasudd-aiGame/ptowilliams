@@ -3,68 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocolo de Experimentación | Observatorio Williams</title>
+    <title>Análisis de Recirculación | Observatorio Puerto Williams</title>
     <link rel="stylesheet" href="https://cmasudd-aigame.github.io/ptowilliams/style.css">
 </head>
 <body style="background-color: #f0f2f5;">
 
 <nav>
     <div class="container">
-        <div class="logo" style="letter-spacing: 1px;"><strong>WILLIAMS SCIENTIFIC OBSERVATORY</strong></div>
+        <div class="logo"><strong>OBSERVATORIO PUERTO WILLIAMS</strong></div>
         <div class="menu">
-            <a href="index.html">Resumen</a>
-            <a href="https://cmasudd-aigame.github.io/ptowilliams/index.html" target="_blank">Geolocalización</a>
+            <a href="index.html">Inicio</a>
+            <a href="experimento.html">Experimentos</a>
+            <a href="https://cmasudd-aigame.github.io/ptowilliams/index.html">Mapa Interactivo</a>
         </div>
     </div>
 </nav>
 
 <div class="container">
     <header style="margin-top: 40px; padding: 20px 0; border-bottom: 2px solid var(--primary-color);">
-        <h1 style="margin: 0; font-size: 1.8rem; color: var(--primary-color);">SISTEMA DE MITIGACIÓN TÉRMICA POR RECIRCULACIÓN</h1>
-        <p style="color: #555; margin: 5px 0 0 0;">Análisis de comportamiento hidráulico bajo escenarios de congelamiento extremo[cite: 1, 3].</p>
+        <h1>SISTEMA DE MITIGACIÓN TÉRMICA POR RECIRCULACIÓN</h1>
+        <p>Estudio de transferencia de calor y resiliencia hidráulica en condiciones de congelamiento extremo.</p>
     </header>
 
-    <div class="grid" style="margin: 30px 0;">
-        <div class="card" style="border-left: 6px solid #3498db; padding: 20px;">
-            <small style="color: #888; text-transform: uppercase; font-weight: bold;">Fase Experimental</small>
-            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">45 DÍAS CONTINUOS</div>
-            <p style="font-size: 0.85rem; margin: 5px 0 0 0;">Registro de datos sin interrupciones[cite: 53, 103].</p>
-        </div>
-        <div class="card" style="border-left: 6px solid #e74c3c; padding: 20px;">
-            <small style="color: #888; text-transform: uppercase; font-weight: bold;">Umbral Crítico</small>
-            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">-20 °C (AIRE)</div>
-            <p style="font-size: 0.85rem; margin: 5px 0 0 0;">Simulación de atmósfera exterior[cite: 10, 76].</p>
-        </div>
-        <div class="card" style="border-left: 6px solid #2ecc71; padding: 20px;">
-            <small style="color: #888; text-transform: uppercase; font-weight: bold;">Intercambio Suelo</small>
-            <div style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">0 °C a 3 °C</div>
-            <p style="font-size: 0.85rem; margin: 5px 0 0 0;">Fuente térmica de mitigación[cite: 11, 79].</p>
-        </div>
-    </div>
-
-    <main class="grid" style="align-items: start;">
-        <div class="card">
-            <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">CONFIGURACIÓN TÉCNICA</h3>
-            <p style="font-size: 0.95rem;">Se implementó un circuito cerrado utilizando una bomba sumergible de 19 W [cite: 12, 13] para movilizar el fluido entre dos ambientes térmicamente aislados[cite: 9].</p>
+    <main>
+        <section class="card">
+            <h2>Metodología de Transferencia Térmica</h2>
+            <p>Este estudio se basa en el aprovechamiento de la estabilidad térmica del subsuelo. Mientras la temperatura atmosférica en zonas como Puerto Williams puede descender drásticamente, el suelo actúa como un reservorio de calor constante (0 °C a 3 °C). El sistema diseñado utiliza una bomba de 19 W para movilizar agua a través de un circuito cerrado, transportando esa energía térmica hacia los tramos de cañería más expuestos.</p>
             
-            <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" style="margin: 20px 0; border: 1px solid #ddd; filter: saturate(0.8);">
-            
-            <h4 style="font-size: 0.9rem; color: #444;">MATERIALES MONITOREADOS[cite: 16]:</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; color: #34495e;">
-                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• VALCO [cite: 17]</div>
-                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• HDPE [cite: 18]</div>
-                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• PPR [cite: 19]</div>
-                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• PVC [cite: 20]</div>
-                <div style="background: #eef2f3; padding: 8px; border-radius: 4px;">• COBRE [cite: 21]</div>
-            </div>
-        </div>
+            <p>Para validar esta hipótesis, se recreó un escenario de laboratorio con dos cámaras aisladas: una simulando el aire exterior a <strong>-20 °C</strong> y otra el calor del suelo. El monitoreo constante permite cuantificar cuántos grados de temperatura gana o pierde el fluido en cada etapa del ciclo.</p>
+        </section>
 
-        <div>
-            <div class="card" style="background: #2c3e50; color: #fff;">
-                <h3 style="color: #3498db; margin-top: 0;">TELEMETRÍA EN TIEMPO REAL</h3>
-                <p style="font-size: 0.8rem; opacity: 0.8;">Muestreo vía datalogger con almacenamiento remoto.</p>
-                
-                <table style="width: 100%; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; border-spacing: 0 10px;">
+        <div class="grid">
+            <section class="card">
+                <h3>Configuración y Sensores</h3>
+                <p>La precisión del registro se logra mediante sensores digitales DS18B20 y un sistema de adquisición de datos que mide temperatura, presión (kPa) y caudal (L/min) en tiempo real. Esto permite observar el comportamiento dinámico del fluido ante cambios en el entorno.</p>
+                <img src="https://cmasudd-aigame.github.io/ptowilliams/diagrma.jpg" class="img-fluid" alt="Diagrama del Circuito">
+                <p class="caption">Esquema técnico: Registro de variables hidráulicas y térmicas.</p>
+            </section>
+
+            <section class="card" style="background: #2c3e50; color: #fff;">
+                <h3 style="color: #3498db; margin-top: 0;">TELEMETRÍA DE MONITOREO</h3>
+                <table style="width: 100%; font-family: 'Courier New', monospace; font-size: 0.9rem; border-spacing: 0 12px;">
                     <tr>
                         <td style="color: #95a5a6;">TEMP_ENTRADA_FRIO</td>
                         <td style="text-align: right; color: #2ecc71; font-weight: bold;">7.69 °C</td>
@@ -74,33 +53,59 @@
                         <td style="text-align: right; color: #2ecc71; font-weight: bold;">8.13 °C</td>
                     </tr>
                     <tr>
-                        <td style="color: #95a5a6;">CAUDAL_SISTEMA</td>
+                        <td style="color: #95a5a6;">CAUDAL_NOMINAL</td>
                         <td style="text-align: right; color: #3498db; font-weight: bold;">1.56 L/min</td>
                     </tr>
                     <tr>
-                        <td style="color: #95a5a6;">PRESION_HIDRAULICA</td>
+                        <td style="color: #95a5a6;">PRESIÓN_RED</td>
                         <td style="text-align: right; color: #3498db; font-weight: bold;">8.31 kPa</td>
                     </tr>
                 </table>
-                <div style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px; font-size: 0.75rem; color: #bdc3c7;">
-                    STATUS: TRANSMITIENDO DATOS [cite: 36]
+                <p style="font-size: 0.75rem; margin-top: 15px; border-top: 1px solid #444; padding-top: 10px; color: #bdc3c7;">
+                    ESTADO: 45 DÍAS DE OPERACIÓN CONTINUA SIN INTERRUPCIONES.
+                </p>
+            </section>
+        </div>
+
+        <section class="card" style="border-left: 10px solid #e74c3c;">
+            <h2>Análisis de Resiliencia: Pruebas de Estrés</h2>
+            <p>La fase determinante del estudio fue la **Prueba de Estrés Térmico**. En este escenario, se forzó el ingreso de agua al sistema a una temperatura de <strong>1 °C</strong>, dejando un margen de maniobra térmica mínimo antes del cambio de fase (congelamiento).</p>
+            
+            <div class="grid" style="grid-template-columns: 1.5fr 1fr; gap: 30px; align-items: start;">
+                <div>
+                    <p>Durante los 45 días, se evaluaron tres factores críticos en el umbral de congelamiento:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Simulación de Consumo Humano:</strong> Se utilizaron grifos para generar aperturas intermitentes. Esto permitió observar cómo las variaciones bruscas de presión y el cese temporal del flujo afectan la formación de cristales de hielo en las paredes internas de la cañería.</li>
+                        <li><strong>Comparativa de Materiales:</strong> Se analizó la inercia térmica de tuberías de <strong>HDPE, PPR, PVC, Cobre y VALCO</strong>. El objetivo fue identificar qué material ofrece una mejor barrera térmica cuando la bomba se detiene o el frío exterior aumenta.</li>
+                        <li><strong>Recuperación Térmica:</strong> Se comprobó la capacidad de la bomba de 19 W para estabilizar el sistema una vez que el agua fría entraba en contacto con la cámara de intercambio de calor (suelo).</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" alt="Laboratorio">
+                    <p class="caption">Registro visual del montaje de cámaras térmicas y control central.</p>
                 </div>
             </div>
-
-            <div class="card">
-                <h3>PRUEBAS DE ESTRÉS [cite: 59]</h3>
-                <p style="font-size: 0.9rem;">El sistema fue sometido a una carga hídrica a 1 °C para verificar el punto crítico de congelamiento[cite: 60].</p>
-                <img src="https://cmasudd-aigame.github.io/ptowilliams/20260310_171153.png" class="img-fluid" style="margin-top: 10px; border-radius: 4px;">
-            </div>
-        </div>
+        </section>
     </main>
 
-    <footer style="margin: 50px 0; text-align: center; border-top: 1px solid #ddd; padding-top: 20px;">
-        <p style="font-size: 0.8rem; color: #777; text-transform: uppercase; letter-spacing: 1px;">
-            © 2026 Observatorio Puerto Williams | Protocolo de Investigación de Campo
-        </p>
+    <footer style="margin: 50px 0; text-align: center; border-top: 1px solid #ddd; padding-top: 20px; font-size: 0.8rem; color: #777;">
+        OBSERVATORIO PUERTO WILLIAMS | REGISTRO DE INVESTIGACIÓN TÉCNICA 2026
     </footer>
 </div>
+
+<div id="imageModal" style="display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); cursor: zoom-out;" onclick="this.style.display='none'">
+    <img id="modalImg" style="margin: auto; display: block; max-width: 90%; max-height: 90%; position: relative; top: 50%; transform: translateY(-50%); border: 2px solid #fff;">
+</div>
+
+<script>
+    document.querySelectorAll('.img-fluid').forEach(image => {
+        image.style.cursor = 'zoom-in';
+        image.onclick = function() {
+            document.getElementById('imageModal').style.display = 'block';
+            document.getElementById('modalImg').src = this.src;
+        }
+    });
+</script>
 
 </body>
 </html>
