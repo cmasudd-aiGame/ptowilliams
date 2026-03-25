@@ -31,7 +31,7 @@
         /* 2. MAPA A ANCHO COMPLETO */
         #map { 
             height: 600px; 
-            width: 100vw; /* Ocupa todo el ancho de la ventana */
+            width: 100vw; 
             position: relative;
             left: 50%;
             right: 50%;
@@ -70,7 +70,7 @@
         <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Puerto Williams" class="header-image-full">
         <div class="title-overlay">
             <h1>Puerto Williams</h1>
-            <p>Salida a Terreno: Vulnerabilidad Hídrica</p>
+            <p>Observatorio de Metabolismo Urbano y Riesgo Hídrico</p>
         </div>
     </header>
 
@@ -86,30 +86,26 @@
     </nav>
 
     <main class="main-content">
-        <h2>Metodología de Levantamiento Territorial</h2>
-        <p>En la salida a terreno realizada en febrero de 2026, se ejecutó un levantamiento fotogramétrico y geolocalizado de 60 puntos estratégicos dentro del radio urbano de Puerto Williams. El objetivo central fue diagnosticar la relación sistémica entre la tipología constructiva basal (la interfaz vivienda-suelo) y la vulnerabilidad de la infraestructura hídrica domiciliaria frente a eventos de congelamiento extremo durante el invierno austral.</p>
+        <h2>Metodología de Levantamiento Territorial: Campaña Williams 2026</h2>
+        <p>En la salida a terreno realizada en febrero de 2026, se ejecutó un levantamiento fotogramétrico y geolocalizado de 60 puntos estratégicos dentro del radio urbano de Puerto Williams. El objetivo central fue diagnosticar la relación sistémica entre la <strong>tipología constructiva basal</strong> (la interfaz vivienda-suelo) y la vulnerabilidad de la infraestructura hídrica domiciliaria frente a eventos de congelamiento extremo durante el invierno austral.</p>
 
-<p>Este estudio cruza datos de la red de agua potable concesionada con el análisis de la envolvente térmica, permitiendo identificar patrones de riesgo que van más allá de lo puramente climático.</p>
+        <p>Este estudio cruza datos de la red de agua potable concesionada con el análisis de la envolvente térmica, permitiendo identificar patrones de riesgo que van más allá de lo puramente climático.</p>
 
         <div id="map"></div>
 
-        <h3>Análisis de Vulnerabilidad Urbana</h3>
+        <h3>Análisis de Vulnerabilidad Urbana y Hallazgos</h3>
         <p>
             El análisis geoespacial revela una <strong>fragmentación térmica urbana</strong> basada en la cimentación. Mientras el casco histórico consolidado presenta mayor resiliencia, las nuevas zonas de expansión muestran vulnerabilidad crítica.
         </p>
 
         <h3>Hallazgos y Patrones Constructivos</h3>
         <ul>
-          
-        
-<li>El Vórtice de Frío Basal: Los puntos marcados en Rojo (Crítico) —específicamente las casas de la zona alta como la 4, 10, 11, 14 y 21— corresponden a viviendas elevadas sobre pilotes altos con perímetros abiertos. Esta configuración genera una cámara de aire en constante circulación gélida, eliminando la inercia térmica natural del suelo y exponiendo las matrices de agua a un enfriamiento acelerado por convección.</li>
-
-<li>Zonas de Resiliencia Pasiva: El casco histórico y las áreas consolidadas presentan mayor inercia térmica. Las viviendas con fundaciones corridas o sellos perimetrales térmicos actúan como un buffer natural contra el viento predominante, protegiendo el punto de empalme y evitando la cristalización del flujo hídrico.</li>
-
-<li>Vulnerabilidad de Final de Red: Se observa una correlación entre las zonas de expansión reciente y la tipología de pilotes expuestos. Territorialmente, estos puntos combinan una baja inercia térmica con una baja velocidad de flujo del agua, duplicando el riesgo de rotura por escarcha.</li>
-       </ul>
+            <li><strong>El Vórtice de Frío Basal:</strong> Los puntos marcados en Rojo (Crítico) —específicamente las casas de la zona alta como la 4, 10, 11, 14 y 21— corresponden a viviendas elevadas sobre pilotes altos con perímetros abiertos. Esta configuración genera una cámara de aire en constante circulación gélida, eliminando la inercia térmica natural del suelo y exponiendo las matrices de agua a un enfriamiento acelerado por convección.</li>
+            <li><strong>Zonas de Resiliencia Pasiva:</strong> El casco histórico y las áreas consolidadas presentan mayor inercia térmica. Las viviendas con fundaciones corridas o sellos perimetrales térmicos actúan como un buffer natural contra el viento predominante, protegiendo el punto de empalme y evitando la cristalización del flujo hídrico.</li>
+            <li><strong>Vulnerabilidad de Final de Red:</strong> Se observa una correlación entre las zonas de expansión reciente y la tipología de pilotes expuestos. Territorialmente, estos puntos combinan una baja inercia térmica con una baja velocidad de flujo del agua, duplicando el riesgo de rotura por escarcha.</li>
+        </ul>
             
-            <h4>Matriz de Desempeño por Materialidad</h4>
+        <h4>Matriz de Desempeño por Materialidad</h4>
         <table class="material-table">
             <thead>
                 <tr><th>Materialidad Dominante</th><th>Inercia Térmica</th><th>Riesgo Escarcha</th></tr>
@@ -180,10 +176,13 @@
                 interactive: false
             }).addTo(map);
 
+            // BUBBLE DE INFO: Nombre de imagen eliminado
             circle.bindPopup(`
-                <b>Casa #${info.id}</b><br>
-                <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
-                ${info.desc}<hr><small>${p.archivo}</small>
+                <div style="font-family: Arial, sans-serif;">
+                    <b style="font-size: 1.1em;">Casa #${info.id}</b><br>
+                    <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
+                    <strong>Análisis:</strong> ${info.desc}
+                </div>
             `);
         });
 
