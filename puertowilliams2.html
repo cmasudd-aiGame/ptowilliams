@@ -9,24 +9,47 @@
     <style>
         /* Estilos específicos para el mapa y leyenda del observatorio */
         #map { height: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        /* LEYENDA MEJORADA */
         .legend {
-            padding: 10px;
-            background: white;
-            line-height: 1.5em;
-            border-radius: 5px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            font-family: Arial, sans-serif;
-            font-size: 0.9em;
-            color: #555;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            min-width: 170px;
+            line-height: 1.2em;
+        }
+        .legend strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .legend-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
         }
         .legend i {
-            width: 18px;
-            height: 18px;
-            float: left;
-            margin-right: 8px;
-            opacity: 0.8;
-            border-radius: 50%; /* Círculos para los riesgos */
+            width: 14px;
+            height: 14px;
+            margin-right: 10px;
+            display: inline-block;
+            border-radius: 50%;
+            flex-shrink: 0;
+            opacity: 0.9;
         }
+        .legend hr {
+            margin: 10px 0;
+            border: 0;
+            border-top: 1px solid #ddd;
+        }
+
         .risk-badge {
             padding: 2px 6px;
             border-radius: 4px;
@@ -38,7 +61,6 @@
         }
         .popup-content hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
         
-        /* Ajuste para el encabezado con imagen full */
         .page-header { position: relative; }
         .header-image-full { width: 100%; height: auto; display: block; }
         .title-overlay {
@@ -69,7 +91,6 @@
         </ul>
     </nav>
 
-
     <main class="main-content">
         <h2>Metodología de Levantamiento Territorial</h2>
         <p>
@@ -92,17 +113,14 @@
             <li><strong>Zonas de Resiliencia:</strong> El casco histórico y las zonas consolidadas muestran una mayor inercia térmica gracias al uso de fundaciones corridas o sellos perimetrales efectivos, minimizando la pérdida de calor basal.</li>
             <li><strong>Vulnerabilidad de Final de Red:</strong> Se observa una correlación entre las zonas de expansión reciente (donde la red presenta trazados lineales sin anillos de circulación) y la tipología de pilotes expuestos. Territorialmente, estos puntos combinan una baja inercia térmica con una baja velocidad de flujo del agua, duplicando el riesgo de rotura por escarcha.</li>
         </ul>
-
-      
     </main>
 
     <script src="puntos.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        // 1. Configuración del mapa: Sin zoom manual inicial, fitBounds hará el trabajo
         const map = L.map('map', {
-            scrollWheelZoom: false, // Desactiva zoom con rueda para mejorar navegación de página
+            scrollWheelZoom: false,
             touchZoom: false
         });
 
@@ -110,7 +128,6 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // 2. Diccionario de Clasificación basado en el análisis de tus fotos
         function clasificarPunto(archivo) {
             const num = parseInt(archivo.split('_')[1]); 
             if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
@@ -124,11 +141,9 @@
             }
         }
 
-        // 3. Cargar y clasificar Puntos de Vivienda (Anonimizados)
-        const markers = []; // Para el fitBounds automático
+        const markers = [];
         puntosCasas.forEach(punto => {
             const info = clasificarPunto(punto.archivo);
-            
             const marker = L.circleMarker([punto.lat, punto.lng], {
                 radius: 8,
                 fillColor: info.color,
@@ -138,7 +153,7 @@
                 fillOpacity: 0.8
             }).addTo(map);
 
-            const popupContent = `
+            marker.bindPopup(`
                 <div class="popup-content">
                     <b>Análisis Territorial:</b><br>
                     <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
@@ -147,26 +162,22 @@
                     <hr>
                     <small>Datos anonimizados para el metabolismos urbano.</small>
                 </div>
-            `;
-            
-            marker.bindPopup(popupContent);
+            `);
             markers.push(marker);
         });
 
-        // 4. Centrado Automático: Ajusta el mapa para ver todos los puntos cargados
         const group = new L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.1)); // padding del 10% para no pegar los puntos al borde
+        map.fitBounds(group.getBounds().pad(0.1));
 
-        // 5. Cargar Capa de Red de Agua Potable (GeoJSON)
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
             .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
                     style: {
-                        color: "#3498db", // Cian para el agua
+                        color: "#3498db",
                         weight: 3,
                         opacity: 0.6,
-                        dashArray: '5, 10' // Línea punteada para red subterránea
+                        dashArray: '5, 10'
                     },
                     onEachFeature: function(feature, layer) {
                         layer.bindPopup("<b>Red Pública de Agua Potable</b><br>Estado: Concesionada 2024");
@@ -174,19 +185,29 @@
                 }).addTo(map);
             });
 
-        // 6. Leyenda Dinámica
+        // 6. LEYENDA DINÁMICA ACTUALIZADA
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'legend');
             const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
             const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
 
-            div.innerHTML = "<strong>Riesgo Térmico Basal</strong><br>";
+            div.innerHTML = "<strong>Riesgo Térmico Basal</strong>";
+
             for (let i = 0; i < grades.length; i++) {
-                div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + grades[i] + '<br>';
+                div.innerHTML += `
+                    <div class="legend-row">
+                        <i style="background: ${colors[i]}"></i>
+                        <span>${grades[i]}</span>
+                    </div>`;
             }
-            // Añadimos la red de agua a la leyenda
-            div.innerHTML += '<hr><i style="background: #3498db; height: 3px; width: 18px; margin-top: 8px; border-radius: 0;"></i> Red Agua Potable';
+            
+            div.innerHTML += `
+                <hr>
+                <div class="legend-row">
+                    <i style="background: #3498db; border-radius: 0; height: 3px; width: 18px;"></i>
+                    <span>Red Agua Potable</span>
+                </div>`;
             
             return div;
         };
