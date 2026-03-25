@@ -10,7 +10,7 @@
         /* Estilos específicos para el mapa y leyenda del observatorio */
         #map { height: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
-        /* LEYENDA MEJORADA */
+        /* LEYENDA ROBUSTA */
         .legend {
             padding: 12px;
             background: rgba(255, 255, 255, 0.95);
@@ -61,13 +61,27 @@
         }
         .popup-content hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
         
-        .page-header { position: relative; }
+        /* AJUSTE DEL HEADER Y OVERLAY DINÁMICO */
+        .page-header { position: relative; width: 100%; }
         .header-image-full { width: 100%; height: auto; display: block; }
         .title-overlay {
-            position: absolute; bottom: 20px; left: 20px;
-            background: rgba(0,0,0,0.6); color: white;
-            padding: 15px; border-radius: 8px;
+            position: absolute; 
+            bottom: 20px; 
+            left: 20px;
+            background: rgba(0,0,0,0.6); 
+            color: white;
+            padding: 15px 25px; 
+            border-radius: 8px;
+            /* El truco para que no ocupe todo el largo: */
+            display: inline-block; 
+            max-width: 80%;
         }
+        .title-overlay h1, .title-overlay p { margin: 0; }
+
+        /* Estilos Tabla Materialidad */
+        .material-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+        .material-table th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 10px; text-align: left; }
+        .material-table td { padding: 10px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -94,7 +108,7 @@
     <main class="main-content">
         <h2>Metodología de Levantamiento Territorial</h2>
         <p>
-            En la salida a terreno realizada en febrero de 2026, se ejecutó un levantamiento fotogramétrico y geolocalizado de <strong>60 puntos estratégicos</strong> dentro del radio urbano de Puerto Williams. El objetivo principal fue diagnosticar la relación sistémica entre la tipología constructiva basal (la interfaz vivienda-suelo) y el riesgo de congelamiento de la infraestructura hídrica domiciliaria durante el invierno austral.
+            En la salida a terreno realizada en febrero de 2026, se ejecutó un levantamiento fotogramétrico y geolocalizado de <strong>60 puntos estratégicos</strong> dentro del radio urbano de Puerto Williams. El objetivo principal fue diagnosticar la relación sistémica entre la tipología constructiva basal y el riesgo de congelamiento de la infraestructura hídrica domiciliaria durante el invierno austral.
         </p>
     </main>
 
@@ -105,24 +119,37 @@
     <main class="main-content" style="margin-top: 20px; margin-bottom: 40px;">
         <h3>Hallazgos del Análisis Geoespacial</h3>
         <p>
-            Al cruzar los datos de la red de agua potable concesionada (capa GeoJSON 2024) con el levantamiento de terreno, el observatorio identifica una <strong>fragmentación térmica urbana</strong>. La vulnerabilidad no es homogénea en la ciudad, sino que responde a patrones de diseño y ubicación:
+            Al cruzar los datos de la red de agua potable concesionada con el levantamiento de terreno, el observatorio identifica una <strong>fragmentación térmica urbana</strong>:
         </p>
         
         <ul>
-            <li><strong>El Vórtice de Frío Basal:</strong> Los puntos marcados como <strong>CRÍTICO</strong> (rojo) y <strong>ALTO</strong> (naranja) corresponden mayoritariamente a viviendas elevadas sobre pilotes altos sin faldones perimetrales. Esta condición crea una cámara de aire en constante circulación que enfría la base de la casa y expone directamente las cañerías de empalme a temperaturas de congelación.</li>
-            <li><strong>Zonas de Resiliencia:</strong> El casco histórico y las zonas consolidadas muestran una mayor inercia térmica gracias al uso de fundaciones corridas o sellos perimetrales efectivos, minimizando la pérdida de calor basal.</li>
-            <li><strong>Vulnerabilidad de Final de Red:</strong> Se observa una correlación entre las zonas de expansión reciente (donde la red presenta trazados lineales sin anillos de circulación) y la tipología de pilotes expuestos. Territorialmente, estos puntos combinan una baja inercia térmica con una baja velocidad de flujo del agua, duplicando el riesgo de rotura por escarcha.</li>
+            <li><strong>El Vórtice de Frío Basal:</strong> Los puntos <strong>CRÍTICO</strong> (rojo) corresponden a viviendas elevadas sobre pilotes sin faldones perimetrales. Esta condición enfría la base de la casa y expone directamente las cañerías.</li>
+            <li><strong>Zonas de Resiliencia:</strong> El casco histórico muestra mayor inercia térmica gracias al uso de fundaciones corridas.</li>
+            <li><strong>Vulnerabilidad de Final de Red:</strong> Se observa correlación entre zonas de expansión reciente y baja velocidad de flujo del agua, duplicando el riesgo de rotura.</li>
         </ul>
+
+        <h4>Análisis de Materialidad y Envolvente</h4>
+        <table class="material-table">
+            <thead>
+                <tr>
+                    <th>Materialidad Dominante</th>
+                    <th>Inercia Térmica</th>
+                    <th>Riesgo de Condensación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Zinc / Plancha Metálica</td><td>Baja (Enfriamiento rápido)</td><td>Alta</td></tr>
+                <tr><td>Madera con Siding PVC</td><td>Media</td><td>Moderada</td></tr>
+                <tr><td>Revestimiento Térmico/Piedra</td><td>Alta (Retiene calor)</td><td>Baja</td></tr>
+            </tbody>
+        </table>
     </main>
 
     <script src="puntos.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        const map = L.map('map', {
-            scrollWheelZoom: false,
-            touchZoom: false
-        });
+        const map = L.map('map', { scrollWheelZoom: false, touchZoom: false });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
@@ -131,13 +158,13 @@
         function clasificarPunto(archivo) {
             const num = parseInt(archivo.split('_')[1]); 
             if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
-                return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal detectado." };
+                return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal." };
             } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
-                return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica/Patchwork. Discontinuidad térmica basal." };
+                return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica. Discontinuidad térmica." };
             } else if ([49, 43, 40, 4, 12].includes(num)) {
-                return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral efectivo. Alta resiliencia." };
+                return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral efectivo." };
             } else {
-                return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en sellos perimetrales." };
+                return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en sellos." };
             }
         }
 
@@ -145,12 +172,7 @@
         puntosCasas.forEach(punto => {
             const info = clasificarPunto(punto.archivo);
             const marker = L.circleMarker([punto.lat, punto.lng], {
-                radius: 8,
-                fillColor: info.color,
-                color: "#fff",
-                weight: 2,
-                opacity: 1,
-                fillOpacity: 0.8
+                radius: 8, fillColor: info.color, color: "#fff", weight: 2, opacity: 1, fillOpacity: 0.8
             }).addTo(map);
 
             marker.bindPopup(`
@@ -158,61 +180,38 @@
                     <b>Análisis Territorial:</b><br>
                     <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
                     <strong>Tipo:</strong> ${info.desc}<br>
-                    <strong>ID Muestreo:</strong> ${punto.archivo}<br>
-                    <hr>
-                    <small>Datos anonimizados para el metabolismos urbano.</small>
+                    <hr><small>${punto.archivo}</small>
                 </div>
             `);
             markers.push(marker);
         });
 
-        const group = new L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.1));
+        if (markers.length > 0) {
+            const group = new L.featureGroup(markers);
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
 
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
             .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
-                    style: {
-                        color: "#3498db",
-                        weight: 3,
-                        opacity: 0.6,
-                        dashArray: '5, 10'
-                    },
-                    onEachFeature: function(feature, layer) {
-                        layer.bindPopup("<b>Red Pública de Agua Potable</b><br>Estado: Concesionada 2024");
-                    }
+                    style: { color: "#3498db", weight: 3, opacity: 0.6, dashArray: '5, 10' }
                 }).addTo(map);
             });
 
-        // 6. LEYENDA DINÁMICA ACTUALIZADA
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'legend');
             const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
             const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
-
             div.innerHTML = "<strong>Riesgo Térmico Basal</strong>";
-
             for (let i = 0; i < grades.length; i++) {
-                div.innerHTML += `
-                    <div class="legend-row">
-                        <i style="background: ${colors[i]}"></i>
-                        <span>${grades[i]}</span>
-                    </div>`;
+                div.innerHTML += `<div class="legend-row"><i style="background: ${colors[i]}"></i><span>${grades[i]}</span></div>`;
             }
-            
-            div.innerHTML += `
-                <hr>
-                <div class="legend-row">
-                    <i style="background: #3498db; border-radius: 0; height: 3px; width: 18px;"></i>
-                    <span>Red Agua Potable</span>
-                </div>`;
-            
+            div.innerHTML += `<hr><div class="legend-row"><i style="background: #3498db; border-radius: 0; height: 3px; width: 18px;"></i><span>Red Agua Potable</span></div>`;
             return div;
         };
         legend.addTo(map);
-
     </script>
 </body>
 </html>
