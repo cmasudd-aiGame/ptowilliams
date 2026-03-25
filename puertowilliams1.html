@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatorio Territorial - Puerto Williams</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; height: 100vh; }
+        #header { background: #2c3e50; color: white; padding: 15px 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000; }
+        #header h1 { margin: 0; font-size: 1.5rem; }
+        #header p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.8; }
+        #map { flex-grow: 1; }
+        .legend { background: white; padding: 10px; line-height: 18px; color: #555; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; border-radius: 50%; }
+        .popup-content b { color: #2c3e50; }
+        .risk-badge { padding: 2px 6px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <h1>Observatorio Territorial Puerto Williams</h1>
+    <p>Análisis de Vulnerabilidad Térmica en Vivienda Austral (Camasudd Project)</p>
+</div>
+
+<div id="map"></div>
+
+<script src="puntos.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Configuración inicial del mapa centrada en Puerto Williams
+    const map = L.map('map').setView([-54.935, -67.610], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Diccionario de Clasificación basado en el análisis de tus fotos
+    function clasificarPunto(archivo) {
+        // Lógica simplificada basada en los patrones de pilotes que vimos
+        const num = parseInt(archivo.split('_')[1]); 
+        
+        if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
+            return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal detectado." };
+        } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
+            return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica/Patchwork. Discontinuidad térmica." };
+        } else if ([49, 43, 40, 4, 12].includes(num)) {
+            return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral. Alta resiliencia." };
+        } else {
+            return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en sello de nichos." };
+        }
+    }
+
+    // Dibujar los puntos en el mapa
+    puntosCasas.forEach(punto => {
+        const info = clasificarPunto(punto.archivo);
+        
+        const marker = L.circleMarker([punto.lat, punto.lng], {
+            radius: 8,
+            fillColor: info.color,
+            color: "#fff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+        }).addTo(map);
+
+        const popupContent = `
+            <div class="popup-content">
+                <b>Observación Territorial:</b><br>
+                <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br><br>
+                <b>Análisis:</b> ${info.desc}<br>
+                <b>Coordenadas:</b> ${punto.lat.toFixed(4)}, ${punto.lng.toFixed(4)}<br>
+                <hr>
+                <small>ID Archivo: ${punto.archivo}</small>
+            </div>
+        `;
+        
+        marker.bindPopup(popupContent);
+    });
+
+    // Leyenda
+    const legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'legend');
+        const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
+        const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
+
+        div.innerHTML = "<strong>Riesgo Térmico Basal</strong><br>";
+        for (let i = 0; i < grades.length; i++) {
+            div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + grades[i] + '<br>';
+        }
+        return div;
+    };
+    legend.addTo(map);
+
+</script>
+
+</body>
+</html>
