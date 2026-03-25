@@ -6,17 +6,42 @@
     <title>Puerto Williams | Salida a Terreno</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos básicos para asegurar que el mapa y la leyenda se vean bien */
+        #map { height: 600px; width: 100%; border-radius: 8px; }
+        .legend {
+            padding: 10px;
+            background: white;
+            line-height: 1.5em;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.8;
+        }
+        .risk-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+    </style>
 </head>
 <body>
 
-   
-<header class="page-header">
+    <header class="page-header">
         <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Monitoreo de Datos" class="header-image-full">
         <div class="title-overlay">
             <h1>Puerto Williams</h1>
             <p>Salida a terreno </p>
         </div>
     </header>
+
     <nav>
         <ul>
             <li><a href="experimento.html">Experimento</a></li>
@@ -30,7 +55,6 @@
     </nav>
 
     <main class="main-content" style="margin-bottom: 10px;">
-      
         <p>
            En la salida a terreno de febrero de 2026, se realizó un levantamiento fotogramétrico de 60 puntos estratégicos en el radio urbano de Puerto Williams. El objetivo fue identificar la relación entre la tipología constructiva basal y el riesgo de congelamiento de infraestructura hídrica domiciliaria.
         </p>
@@ -39,89 +63,99 @@
     <div class="map-row">
         <div id="map"></div>
     </div>
-   <div id="map"></div>
 
-<script src="puntos.js"></script>
+    <script src="puntos.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    // Configuración inicial del mapa centrada en Puerto Williams
-    const map = L.map('map').setView([-54.935, -67.610], 15);
+    <script>
+        // 1. Configuración inicial del mapa
+        const map = L.map('map').setView([-54.935, -67.610], 15);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Diccionario de Clasificación basado en el análisis de tus fotos
-    function clasificarPunto(archivo) {
-        // Lógica simplificada basada en los patrones de pilotes que vimos
-        const num = parseInt(archivo.split('_')[1]); 
-        
-        if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
-            return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal detectado." };
-        } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
-            return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica/Patchwork. Discontinuidad térmica." };
-        } else if ([49, 43, 40, 4, 12].includes(num)) {
-            return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral. Alta resiliencia." };
-        } else {
-            return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en sello de nichos." };
-        }
-    }
-
-    // Dibujar los puntos en el mapa
-    puntosCasas.forEach(punto => {
-        const info = clasificarPunto(punto.archivo);
-        
-        const marker = L.circleMarker([punto.lat, punto.lng], {
-            radius: 8,
-            fillColor: info.color,
-            color: "#fff",
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.8
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        const popupContent = `
-            <div class="popup-content">
-                <b>Observación Territorial:</b><br>
-                <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br><br>
-                <b>Análisis:</b> ${info.desc}<br>
-                <b>Coordenadas:</b> ${punto.lat.toFixed(4)}, ${punto.lng.toFixed(4)}<br>
-                <hr>
-                <small>ID Archivo: ${punto.archivo}</small>
-            </div>
-        `;
-        
-        marker.bindPopup(popupContent);
-    });
-
-    // Leyenda
-    const legend = L.control({position: 'bottomright'});
-    legend.onAdd = function (map) {
-        const div = L.DomUtil.create('div', 'legend');
-        const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
-        const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
-
-        div.innerHTML = "<strong>Riesgo Térmico Basal</strong><br>";
-        for (let i = 0; i < grades.length; i++) {
-            div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + grades[i] + '<br>';
+        // 2. Diccionario de Clasificación de Riesgo
+        function clasificarPunto(archivo) {
+            const num = parseInt(archivo.split('_')[1]); 
+            
+            if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
+                return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal." };
+            } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
+                return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica. Discontinuidad térmica." };
+            } else if ([49, 43, 40, 4, 12].includes(num)) {
+                return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral." };
+            } else {
+                return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en nichos." };
+            }
         }
-        return div;
-    };
-    legend.addTo(map);
 
-</script>
+        // 3. Dibujar los puntos (Casas)
+        puntosCasas.forEach(punto => {
+            const info = clasificarPunto(punto.archivo);
+            
+            const marker = L.circleMarker([punto.lat, punto.lng], {
+                radius: 8,
+                fillColor: info.color,
+                color: "#fff",
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map);
 
-     <div class="main-content" style="margin-bottom: 10px;">
-<h4>Hallazgos del Análisis Territorial </h4>
-<p>El análisis de los datos geolocalizados revela una fragmentación térmica de la ciudad. Mientras que el casco histórico presenta una mayor resiliencia gracias a cimentaciones corridas y sellos perimetrales, las nuevas zonas de expansión en ladera muestran una vulnerabilidad crítica.
-</p>
-<p>Efecto de Convección Basal: Se identificó que las viviendas elevadas sobre pilotes (comunes en terrenos con pendiente) carecen de faldones térmicos. Esto genera un flujo de aire constante que enfría la losa inferior y expone las matrices de agua a temperaturas de congelación.
-</p>
-<p>Heterogeneidad Constructiva: La presencia de "autoconstrucción por módulos" genera puentes térmicos en las uniones de las estructuras, lo que dificulta la eficiencia de la calefacción centralizada.
-</p>
-<p>Correlación Biomasa-Estructura: Existe una dependencia directa entre la altura de los pilotes y el volumen de acopio de leña observado, sugiriendo que la pérdida de calor por el suelo aumenta drásticamente la demanda energética del hogar.
-    </p>
-     </div>
+            const popupContent = `
+                <div class="popup-content">
+                    <b>Observación Territorial:</b><br>
+                    <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br><br>
+                    <b>Análisis:</b> ${info.desc}<br>
+                    <hr>
+                    <small>ID Archivo: ${punto.archivo}</small>
+                </div>
+            `;
+            marker.bindPopup(popupContent);
+        });
+
+        // 4. Cargar Capa GeoJSON (Red de Agua Potable)
+        const urlGeoJSON = 'https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json';
+
+        fetch(urlGeoJSON)
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: {
+                        color: "#3498db",
+                        weight: 4,
+                        opacity: 0.6,
+                        dashArray: '5, 10'
+                    },
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup("<b>Infraestructura Hídrica</b><br>Red Concesionada 2024");
+                    }
+                }).addTo(map);
+            })
+            .catch(err => console.error("Error cargando red de agua:", err));
+
+        // 5. Leyenda
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'legend');
+            const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
+            const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
+
+            div.innerHTML = "<strong>Riesgo Térmico Basal</strong><br>";
+            for (let i = 0; i < grades.length; i++) {
+                div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + grades[i] + '<br>';
+            }
+            div.innerHTML += '<hr><i style="background: #3498db; height: 3px; width: 18px; margin-top: 8px;"></i> Red Agua Potable';
+            return div;
+        };
+        legend.addTo(map);
+
+    </script>
+
+    <div class="main-content" style="margin-top: 20px;">
+        <h4>Hallazgos del Análisis Territorial</h4>
+        <p>El análisis revela una fragmentación térmica: el casco histórico presenta resiliencia, mientras que las expansiones en ladera muestran vulnerabilidad crítica debido al efecto de convección basal en viviendas sobre pilotes sin faldones térmicos.</p>
+    </div>
 </body>
 </html>
