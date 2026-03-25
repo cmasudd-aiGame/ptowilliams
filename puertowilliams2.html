@@ -18,7 +18,7 @@
             color: white;
             padding: 15px 25px; 
             border-radius: 12px;
-            display: inline-block; /* Ajuste dinámico al ancho del texto */
+            display: inline-block; 
             width: fit-content;
             max-width: 80%;
             text-align: right;
@@ -28,18 +28,29 @@
         .title-overlay h1 { margin: 0; font-size: 2.2rem; font-weight: 600; }
         .title-overlay p { margin: 5px 0 0; font-size: 1.1rem; opacity: 0.9; }
 
-        /* 2. ETIQUETAS NUMÉRICAS EN EL MAPA */
-        .house-number-label {
-            font-family: 'Arial Black', sans-serif;
-            font-size: 11px;
-            color: white;
-            text-align: center;
-            text-shadow: 1px 1px 2px black;
-            pointer-events: none; /* Permite hacer clic en el punto debajo */
+        /* 2. MAPA A ANCHO COMPLETO */
+        #map { 
+            height: 600px; 
+            width: 100vw; /* Ocupa todo el ancho de la ventana */
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
         }
 
-        /* 3. MAPA Y DISEÑO */
-        #map { height: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        /* 3. NÚMEROS SOBRE LOS PUNTOS */
+        .number-label {
+            font-family: 'Arial', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+            pointer-events: none;
+        }
+
+        /* 4. LEYENDA Y TABLAS */
         .legend {
             padding: 12px; background: rgba(255, 255, 255, 0.95); border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-size: 13px; min-width: 170px;
@@ -47,7 +58,6 @@
         .legend-row { display: flex; align-items: center; margin-bottom: 6px; }
         .legend i { width: 14px; height: 14px; margin-right: 10px; border-radius: 50%; flex-shrink: 0; }
         
-        /* 4. POPUPS Y TABLAS */
         .risk-badge { padding: 2px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.75em; display: inline-block; margin-bottom: 5px; }
         .material-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em; }
         .material-table th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 12px; text-align: left; }
@@ -66,36 +76,41 @@
 
     <nav>
         <ul>
-            <li><a href="experimento.html">Experimento</a></li>
+            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/experimento.html">Experimento</a></li>
             <li><a href="#">Gemelo Digital</a></li>
-            <li><a href="diseno.html">Diseño Inteligente</a></li>
+            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/diseno.html">Diseño Inteligente</a></li>
             <li><a href="#">Datos</a></li>
-            <li><a href="puertowilliams.html" class="active">Puerto Williams</a></li>
+            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/puertowilliams2.html" class="active">Puerto Williams</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
         </ul>
     </nav>
 
     <main class="main-content">
         <h2>Metodología de Levantamiento Territorial</h2>
-        <p>Análisis de <strong>60 puntos estratégicos</strong> geolocalizados para identificar fallas críticas en la envolvente térmica basal de las viviendas.</p>
+        <p>Análisis de <strong>60 puntos estratégicos</strong> geolocalizados para diagnosticar el riesgo de congelamiento de infraestructura domiciliaria.</p>
 
-        <div id="map" style="margin: 20px 0;"></div>
+        <div id="map"></div>
 
-        <h3>Hallazgos del Análisis Geoespacial</h3>
+        <h3>Análisis de Vulnerabilidad Urbana</h3>
+        <p>
+            El análisis geoespacial revela una <strong>fragmentación térmica urbana</strong> basada en la cimentación. Mientras el casco histórico consolidado presenta mayor resiliencia, las nuevas zonas de expansión muestran vulnerabilidad crítica.
+        </p>
+
+        <h3>Hallazgos y Patrones Constructivos</h3>
         <ul>
-            <li><strong>Riesgo Crítico (Rojo):</strong> Casas con pilotes altos sin sellado (especialmente <strong>4, 10, 11, 14, 21</strong>). El aire fluye por debajo, congelando las tuberías.</li>
-            <li><strong>Materialidad:</strong> Se observa que el revestimiento de Zinc (común en Williams) presenta la menor inercia térmica, acelerando la escarcha.</li>
+            <li><strong>El Vórtice de Frío Basal:</strong> Los puntos marcados en <strong>ROJO</strong> (4, 5, 6, 7, 8, 10, 11, 13, 14, 21) corresponden a viviendas sobre pilotes altos sin faldones perimetrales. Esta condición crea una cámara de aire en constante circulación que enfría la base de la casa.</li>
+            <li><strong>Resiliencia:</strong> Las zonas en verde presentan fundaciones corridas o sellos térmicos efectivos que protegen el empalme de agua del viento predominante.</li>
         </ul>
 
-        <h4>Matriz de Desempeño</h4>
+        <h4>Matriz de Desempeño por Materialidad</h4>
         <table class="material-table">
             <thead>
-                <tr><th>Materialidad</th><th>Inercia Térmica</th><th>Riesgo Escarcha</th></tr>
+                <tr><th>Materialidad Dominante</th><th>Inercia Térmica</th><th>Riesgo Escarcha</th></tr>
             </thead>
             <tbody>
-                <tr><td>Zinc / Plancha Metálica</td><td>Baja</td><td>Muy Alto</td></tr>
+                <tr><td>Zinc / Plancha Metálica</td><td>Baja (Enfriamiento rápido)</td><td>Muy Alto</td></tr>
                 <tr><td>Siding PVC / Madera</td><td>Media</td><td>Moderado</td></tr>
-                <tr><td>Piedra / Revestimiento</td><td>Alta</td><td>Bajo</td></tr>
+                <tr><td>Revestimiento Térmico/Piedra</td><td>Alta (Retiene calor)</td><td>Bajo</td></tr>
             </tbody>
         </table>
     </main>
@@ -104,10 +119,14 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        const map = L.map('map', { scrollWheelZoom: false });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        // Configuración del mapa con Zoom 16 centrado en la zona de estudio
+        const map = L.map('map', { scrollWheelZoom: false }).setView([-54.936, -67.603], 16);
 
-        // MAPEO EXACTO: Correlación entre archivo y número amarillo pintado
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // MAPEO DE IDs (Tu lista de fotos)
         const surveyID = {
             "20260218_150429.jpg": 1,  "20260218_150613.jpg": 2,  "20260218_151259.jpg": 3,
             "20260218_151359.jpg": 4,  "20260218_151445.jpg": 5,  "20260218_151534.jpg": 6,
@@ -129,19 +148,17 @@
             const num = surveyID[archivo] || "?";
             let d = { id: num, riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar." };
 
-            // Clasificación por los números reales
             const rojos = [4, 5, 6, 7, 8, 10, 11, 13, 14, 21, 42];
             const verdes = [12, 40, 43, 49];
 
             if (rojos.includes(num)) {
-                d.riesgo = "CRÍTICO"; d.color = "#d63031"; d.desc = "Pilotes altos. Vórtice de frío basal.";
+                d.riesgo = "CRÍTICO"; d.color = "#d63031"; d.desc = "Pilotes altos expuestos.";
             } else if (verdes.includes(num)) {
-                d.riesgo = "BAJO"; d.color = "#00b894"; d.desc = "Cimentación protegida.";
+                d.riesgo = "BAJO"; d.color = "#00b894"; d.desc = "Fundación protegida.";
             }
             return d;
         }
 
-        const markers = [];
         puntosCasas.forEach(p => {
             const info = analizarPunto(p.archivo);
             
@@ -150,9 +167,9 @@
                 radius: 11, fillColor: info.color, color: "#fff", weight: 2, fillOpacity: 0.9
             }).addTo(map);
 
-            // Número sobre el círculo
+            // Número sobre el punto
             L.marker([p.lat, p.lng], {
-                icon: L.divIcon({ className: 'house-number-label', html: info.id, iconAnchor: [6, 7] }),
+                icon: L.divIcon({ className: 'number-label', html: info.id, iconAnchor: [5, 6] }),
                 interactive: false
             }).addTo(map);
 
@@ -161,11 +178,7 @@
                 <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
                 ${info.desc}<hr><small>${p.archivo}</small>
             `);
-            markers.push(circle);
         });
-
-        const group = new L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.1));
 
         // Red de Agua
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
@@ -175,7 +188,7 @@
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function() {
             const div = L.DomUtil.create('div', 'legend');
-            div.innerHTML = "<strong>Riesgo Térmico Williams</strong><br>" +
+            div.innerHTML = "<strong>Riesgo Térmico</strong><br>" +
                 '<div class="legend-row"><i style="background:#d63031"></i>Crítico (Pilotes)</div>' +
                 '<div class="legend-row"><i style="background:#fdcb6e"></i>Medio</div>' +
                 '<div class="legend-row"><i style="background:#00b894"></i>Bajo (Sellado)</div>';
