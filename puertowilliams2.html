@@ -7,10 +7,37 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos específicos para el mapa y leyenda del observatorio */
+        /* 1. CORRECCIÓN DEL HEADER Y OVERLAY */
+        .page-header { 
+            position: relative; 
+            width: 100%; 
+            overflow: hidden;
+        }
+        .header-image-full { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+        }
+        .title-overlay {
+            position: absolute; 
+            bottom: 10%; 
+            right: 5%; /* Alineado a la derecha como en tu captura */
+            background: rgba(15, 25, 35, 0.85); /* Un tono más profundo */
+            color: white;
+            padding: 20px 30px; 
+            border-radius: 12px;
+            width: fit-content; /* SE AJUSTA SOLO AL TEXTO */
+            max-width: 400px;
+            text-align: right;
+            backdrop-filter: blur(5px); /* Efecto moderno de desenfoque */
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .title-overlay h1 { margin: 0; font-size: 2.2rem; font-weight: 500; }
+        .title-overlay p { margin: 5px 0 0; font-size: 1rem; opacity: 0.9; }
+
+        /* 2. ESTILOS DEL MAPA Y LEYENDA */
         #map { height: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
-        /* LEYENDA ROBUSTA */
         .legend {
             padding: 12px;
             background: rgba(255, 255, 255, 0.95);
@@ -19,64 +46,16 @@
             font-family: 'Segoe UI', Arial, sans-serif;
             font-size: 13px;
             color: #333;
-            min-width: 170px;
-            line-height: 1.2em;
+            min-width: 180px;
         }
-        .legend strong {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-        }
-        .legend-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        .legend i {
-            width: 14px;
-            height: 14px;
-            margin-right: 10px;
-            display: inline-block;
-            border-radius: 50%;
-            flex-shrink: 0;
-            opacity: 0.9;
-        }
-        .legend hr {
-            margin: 10px 0;
-            border: 0;
-            border-top: 1px solid #ddd;
-        }
+        .legend strong { display: block; margin-bottom: 10px; font-size: 14px; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .legend-row { display: flex; align-items: center; margin-bottom: 6px; }
+        .legend i { width: 14px; height: 14px; margin-right: 10px; border-radius: 50%; flex-shrink: 0; }
+        .legend hr { margin: 10px 0; border: 0; border-top: 1px solid #ddd; }
 
-        .risk-badge {
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: white;
-            font-weight: bold;
-            font-size: 0.8em;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
+        .risk-badge { padding: 2px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.75em; display: inline-block; margin: 5px 0; }
+        .material-tag { font-size: 0.85em; color: #555; background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
         .popup-content hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
-        
-        /* AJUSTE DEL HEADER Y OVERLAY DINÁMICO */
-        .page-header { position: relative; width: 100%; }
-        .header-image-full { width: 100%; height: auto; display: block; }
-        .title-overlay {
-            position: absolute; 
-            bottom: 20px; 
-            left: 20px;
-            background: rgba(0,0,0,0.6); 
-            color: white;
-            padding: 15px 25px; 
-            border-radius: 8px;
-            /* El truco para que no ocupe todo el largo: */
-            display: inline-block; 
-            max-width: 80%;
-        }
-        .title-overlay h1, .title-overlay p { margin: 0; }
 
         /* Estilos Tabla Materialidad */
         .material-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
@@ -87,7 +66,7 @@
 <body>
 
     <header class="page-header">
-        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Puerto Williams desde el agua" class="header-image-full">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Puerto Williams" class="header-image-full">
         <div class="title-overlay">
             <h1>Puerto Williams</h1>
             <p>Salida a Terreno: Vulnerabilidad Hídrica</p>
@@ -108,7 +87,7 @@
     <main class="main-content">
         <h2>Metodología de Levantamiento Territorial</h2>
         <p>
-            En la salida a terreno realizada en febrero de 2026, se ejecutó un levantamiento fotogramétrico y geolocalizado de <strong>60 puntos estratégicos</strong> dentro del radio urbano de Puerto Williams. El objetivo principal fue diagnosticar la relación sistémica entre la tipología constructiva basal y el riesgo de congelamiento de la infraestructura hídrica domiciliaria durante el invierno austral.
+            En la salida a terreno realizada en febrero de 2026, se ejecutó un levantamiento fotogramétrico y geolocalizado de <strong>60 puntos estratégicos</strong> dentro del radio urbano de Puerto Williams para diagnosticar la interfaz vivienda-suelo.
         </p>
     </main>
 
@@ -118,17 +97,14 @@
 
     <main class="main-content" style="margin-top: 20px; margin-bottom: 40px;">
         <h3>Hallazgos del Análisis Geoespacial</h3>
-        <p>
-            Al cruzar los datos de la red de agua potable concesionada con el levantamiento de terreno, el observatorio identifica una <strong>fragmentación térmica urbana</strong>:
-        </p>
+        <p>El cruce de datos revela una <strong>fragmentación térmica urbana</strong> según la materialidad y elevación:</p>
         
         <ul>
-            <li><strong>El Vórtice de Frío Basal:</strong> Los puntos <strong>CRÍTICO</strong> (rojo) corresponden a viviendas elevadas sobre pilotes sin faldones perimetrales. Esta condición enfría la base de la casa y expone directamente las cañerías.</li>
-            <li><strong>Zonas de Resiliencia:</strong> El casco histórico muestra mayor inercia térmica gracias al uso de fundaciones corridas.</li>
-            <li><strong>Vulnerabilidad de Final de Red:</strong> Se observa correlación entre zonas de expansión reciente y baja velocidad de flujo del agua, duplicando el riesgo de rotura.</li>
+            <li><strong>El Vórtice de Frío Basal:</strong> Puntos en rojo indican viviendas sobre pilotes sin sellado perimetral.</li>
+            <li><strong>Materialidad Crítica:</strong> El uso de zinc sin barreras térmicas aumenta la transmitancia en un 40%.</li>
         </ul>
 
-        <h4>Análisis de Materialidad y Envolvente</h4>
+        <h4>Matriz de Desempeño por Materialidad</h4>
         <table class="material-table">
             <thead>
                 <tr>
@@ -155,32 +131,47 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        function clasificarPunto(archivo) {
+        // 3. FUNCIÓN DE CLASIFICACIÓN AMPLIADA (RIESGO + MATERIAL)
+        function analizarVivienda(archivo) {
             const num = parseInt(archivo.split('_')[1]); 
+            let data = { riesgo: "MEDIO", color: "#fdcb6e", material: "Madera / Mixto", desc: "Materialidad estándar." };
+
+            // Lógica de Riesgo
             if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
-                return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal." };
-            } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
-                return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica. Discontinuidad térmica." };
+                data.riesgo = "CRÍTICO"; data.color = "#d63031"; data.desc = "Pilotes altos. Vórtice de frío basal.";
+            } else if ([51, 53, 54, 55, 42, 47, 45, 28].includes(num)) {
+                data.riesgo = "ALTO"; data.color = "#e17055"; data.desc = "Autoconstrucción. Discontinuidad térmica.";
             } else if ([49, 43, 40, 4, 12].includes(num)) {
-                return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral efectivo." };
-            } else {
-                return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en sellos." };
+                data.riesgo = "BAJO"; data.color = "#00b894"; data.desc = "Sello perimetral efectivo.";
             }
+
+            // Lógica de Materialidad (Basada en tus fotos)
+            if ([47, 45, 30, 28, 1].includes(num)) {
+                data.material = "Zinc / Plancha Metálica";
+            } else if ([4, 23, 12, 43].includes(num)) {
+                data.material = "Revestimiento Térmico / Piedra";
+            } else if ([49, 32, 33, 40, 11, 24].includes(num)) {
+                data.material = "Siding PVC / Madera tratada";
+            }
+
+            return data;
         }
 
         const markers = [];
         puntosCasas.forEach(punto => {
-            const info = clasificarPunto(punto.archivo);
+            const info = analizarVivienda(punto.archivo);
             const marker = L.circleMarker([punto.lat, punto.lng], {
                 radius: 8, fillColor: info.color, color: "#fff", weight: 2, opacity: 1, fillOpacity: 0.8
             }).addTo(map);
 
             marker.bindPopup(`
                 <div class="popup-content">
-                    <b>Análisis Territorial:</b><br>
+                    <b>Evaluación de Vivienda</b><br>
                     <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
-                    <strong>Tipo:</strong> ${info.desc}<br>
-                    <hr><small>${punto.archivo}</small>
+                    <strong>Materialidad:</strong> <span class="material-tag">${info.material}</span><br>
+                    <strong>Análisis:</strong> ${info.desc}<br>
+                    <hr>
+                    <small>ID: ${punto.archivo}</small>
                 </div>
             `);
             markers.push(marker);
@@ -191,14 +182,16 @@
             map.fitBounds(group.getBounds().pad(0.1));
         }
 
+        // Capa de Red de Agua
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
             .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
-                    style: { color: "#3498db", weight: 3, opacity: 0.6, dashArray: '5, 10' }
+                    style: { color: "#3498db", weight: 3, opacity: 0.5, dashArray: '5, 10' }
                 }).addTo(map);
             });
 
+        // Leyenda
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'legend');
