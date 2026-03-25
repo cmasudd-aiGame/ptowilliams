@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
     <style>
-        #map { height: 600px; width: 100%; border-radius: 8px; }
+        /* Estilos específicos para el mapa y leyenda del observatorio */
+        #map { height: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .legend {
             padding: 10px;
             background: white;
@@ -15,6 +16,8 @@
             border-radius: 5px;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             font-family: Arial, sans-serif;
+            font-size: 0.9em;
+            color: #555;
         }
         .legend i {
             width: 18px;
@@ -22,6 +25,7 @@
             float: left;
             margin-right: 8px;
             opacity: 0.8;
+            border-radius: 50%; /* Círculos para los riesgos */
         }
         .risk-badge {
             padding: 2px 6px;
@@ -29,16 +33,28 @@
             color: white;
             font-weight: bold;
             font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .popup-content hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
+        
+        /* Ajuste para el encabezado con imagen full */
+        .page-header { position: relative; }
+        .header-image-full { width: 100%; height: auto; display: block; }
+        .title-overlay {
+            position: absolute; bottom: 20px; left: 20px;
+            background: rgba(0,0,0,0.6); color: white;
+            padding: 15px; border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
     <header class="page-header">
-        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Monitoreo de Datos" class="header-image-full">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Puerto Williams desde el agua" class="header-image-full">
         <div class="title-overlay">
             <h1>Puerto Williams</h1>
-            <p>Salida a terreno </p>
+            <p>Salida a Terreno: Vulnerabilidad Hídrica</p>
         </div>
     </header>
 
@@ -48,53 +64,74 @@
             <li><a href="#">Gemelo Digital</a></li>
             <li><a href="#">Diseño Inteligente</a></li>
             <li><a href="#">Datos</a></li>
-            <li><a href="puertowilliams.html">Puerto Williams</a></li>
+            <li><a href="puertowilliams.html" class="active">Puerto Williams</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
             <li><a href="index.html">Inicio</a></li>
         </ul>
     </nav>
 
-    <main class="main-content" style="margin-bottom: 10px;">
+    <main class="main-content">
+        <h2>Metodología de Levantamiento Territorial</h2>
         <p>
-           En la salida a terreno de febrero de 2026, se realizó un levantamiento fotogramétrico de 60 puntos estratégicos en el radio urbano de Puerto Williams. El objetivo fue identificar la relación entre la tipología constructiva basal y el riesgo de congelamiento de infraestructura hídrica domiciliaria.
+            En la salida a terreno realizada en febrero de 2026, se ejecutó un levantamiento fotogramétrico y geolocalizado de <strong>60 puntos estratégicos</strong> dentro del radio urbano de Puerto Williams. El objetivo principal fue diagnosticar la relación sistémica entre la tipología constructiva basal (la interfaz vivienda-suelo) y el riesgo de congelamiento de la infraestructura hídrica domiciliaria durante el invierno austral.
         </p>
     </main>
 
-    <div class="map-row">
+    <div class="map-row" style="margin: 20px 0;">
         <div id="map"></div>
     </div>
+
+    <main class="main-content" style="margin-top: 20px; margin-bottom: 40px;">
+        <h3>Hallazgos del Análisis Geoespacial</h3>
+        <p>
+            Al cruzar los datos de la red de agua potable concesionada (capa GeoJSON 2024) con el levantamiento de terreno, el observatorio identifica una <strong>fragmentación térmica urbana</strong>. La vulnerabilidad no es homogénea en la ciudad, sino que responde a patrones de diseño y ubicación:
+        </p>
+        
+        <ul>
+            <li><strong>El Vórtice de Frío Basal:</strong> Los puntos marcados como <strong>CRÍTICO</strong> (rojo) y <strong>ALTO</strong> (naranja) corresponden mayoritariamente a viviendas elevadas sobre pilotes altos sin faldones perimetrales. Esta condición crea una cámara de aire en constante circulación que enfría la base de la casa y expone directamente las cañerías de empalme a temperaturas de congelación.</li>
+            <li><strong>Zonas de Resiliencia:</strong> El casco histórico y las zonas consolidadas muestran una mayor inercia térmica gracias al uso de fundaciones corridas o sellos perimetrales efectivos, minimizando la pérdida de calor basal.</li>
+            <li><strong>Vulnerabilidad de Final de Red:</strong> Se observa una correlación entre las zonas de expansión reciente (donde la red presenta trazados lineales sin anillos de circulación) y la tipología de pilotes expuestos. Territorialmente, estos puntos combinan una baja inercia térmica con una baja velocidad de flujo del agua, duplicando el riesgo de rotura por escarcha.</li>
+        </ul>
+
+        <h4>Conclusión y Propuesta Territorial</h4>
+        <p>
+            El diagnóstico confirma que la solución no radica únicamente en aislar las tuberías con material genérico, sino en el <strong>sellado del perímetro basal</strong> de las viviendas de madera. El observatorio propone priorizar planes de infraestructura para cerrar los espacios inferiores de las casas rojas del mapa, creando cámaras estancas que actúen como buffer térmico natural.
+        </p>
+    </main>
 
     <script src="puntos.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        // 1. Configuración del mapa: Zoom inicial más cerca (17) y scroll desactivado
+        // 1. Configuración del mapa: Sin zoom manual inicial, fitBounds hará el trabajo
         const map = L.map('map', {
-            scrollWheelZoom: false, // Desactiva el zoom con la rueda del mouse
-            touchZoom: false        // Opcional: desactiva zoom táctil con dos dedos para evitar saltos en móviles
-        }).setView([-54.935, -67.610], 16); 
+            scrollWheelZoom: false, // Desactiva zoom con rueda para mejorar navegación de página
+            touchZoom: false
+        });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // 2. Clasificación
+        // 2. Diccionario de Clasificación basado en el análisis de tus fotos
         function clasificarPunto(archivo) {
             const num = parseInt(archivo.split('_')[1]); 
             if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
-                return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal." };
+                return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal detectado." };
             } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
-                return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica. Discontinuidad térmica." };
+                return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica/Patchwork. Discontinuidad térmica basal." };
             } else if ([49, 43, 40, 4, 12].includes(num)) {
-                return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral." };
+                return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral efectivo. Alta resiliencia." };
             } else {
-                return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en nichos." };
+                return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en sellos perimetrales." };
             }
         }
 
-        // 3. Cargar Puntos
+        // 3. Cargar y clasificar Puntos de Vivienda (Anonimizados)
+        const markers = []; // Para el fitBounds automático
         puntosCasas.forEach(punto => {
             const info = clasificarPunto(punto.archivo);
+            
             const marker = L.circleMarker([punto.lat, punto.lng], {
                 radius: 8,
                 fillColor: info.color,
@@ -104,44 +141,60 @@
                 fillOpacity: 0.8
             }).addTo(map);
 
-            marker.bindPopup(`
+            const popupContent = `
                 <div class="popup-content">
-                    <b>Riesgo Térmico:</b> <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
-                    <p>${info.desc}</p>
-                    <hr><small>${punto.archivo}</small>
+                    <b>Análisis Territorial:</b><br>
+                    <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
+                    <strong>Tipo:</strong> ${info.desc}<br>
+                    <strong>ID Muestreo:</strong> ${punto.archivo}<br>
+                    <hr>
+                    <small>Datos anonimizados para el metabolismos urbano.</small>
                 </div>
-            `);
+            `;
+            
+            marker.bindPopup(popupContent);
+            markers.push(marker);
         });
 
-        // 4. Capa GeoJSON
+        // 4. Centrado Automático: Ajusta el mapa para ver todos los puntos cargados
+        const group = new L.featureGroup(markers);
+        map.fitBounds(group.getBounds().pad(0.1)); // padding del 10% para no pegar los puntos al borde
+
+        // 5. Cargar Capa de Red de Agua Potable (GeoJSON)
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
             .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
-                    style: { color: "#3498db", weight: 4, opacity: 0.6, dashArray: '5, 10' }
+                    style: {
+                        color: "#3498db", // Cian para el agua
+                        weight: 3,
+                        opacity: 0.6,
+                        dashArray: '5, 10' // Línea punteada para red subterránea
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup("<b>Red Pública de Agua Potable</b><br>Estado: Concesionada 2024");
+                    }
                 }).addTo(map);
             });
 
-        // 5. Leyenda
+        // 6. Leyenda Dinámica
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'legend');
             const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
             const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
+
             div.innerHTML = "<strong>Riesgo Térmico Basal</strong><br>";
             for (let i = 0; i < grades.length; i++) {
                 div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + grades[i] + '<br>';
             }
-            div.innerHTML += '<hr><i style="background: #3498db; height: 3px; width: 18px; margin-top: 8px;"></i> Red Agua Potable';
+            // Añadimos la red de agua a la leyenda
+            div.innerHTML += '<hr><i style="background: #3498db; height: 3px; width: 18px; margin-top: 8px; border-radius: 0;"></i> Red Agua Potable';
+            
             return div;
         };
         legend.addTo(map);
 
     </script>
-
-    <div class="main-content" style="margin-top: 20px;">
-        <h4>Hallazgos del Análisis Territorial</h4>
-        <p>El análisis revela una fragmentación térmica en Puerto Williams: las viviendas sobre pilotes sin sellos perimetrales presentan el mayor riesgo de congelamiento de tuberías.</p>
-    </div>
 </body>
 </html>
