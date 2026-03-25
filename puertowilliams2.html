@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
     <style>
-        /* 1. HEADER: Overlay ajustado al texto y alineado a la derecha */
+        /* 1. CORRECCIÓN DEL HEADER: Overlay ajustado al texto */
         .page-header { position: relative; width: 100%; overflow: hidden; }
         .header-image-full { width: 100%; height: auto; display: block; }
         .title-overlay {
@@ -18,8 +18,7 @@
             color: white;
             padding: 15px 25px; 
             border-radius: 12px;
-            /* FIT-CONTENT hace que el cuadro negro solo ocupe lo que mide el texto */
-            display: inline-block; 
+            display: inline-block; /* El cuadro se ajusta al texto */
             width: fit-content;
             max-width: 80%;
             text-align: right;
@@ -29,29 +28,38 @@
         .title-overlay h1 { margin: 0; font-size: 2rem; font-weight: 600; }
         .title-overlay p { margin: 5px 0 0; font-size: 1rem; opacity: 0.9; }
 
-        /* 2. NÚMEROS SOBRE LOS PUNTOS */
+        /* 2. ESTILO PARA LOS NÚMEROS SOBRE LOS PUNTOS */
         .number-label {
             font-family: 'Arial', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             color: white;
             text-align: center;
-            text-shadow: 1px 1px 2px black;
             pointer-events: none;
+            text-shadow: 1px 1px 2px black;
         }
 
         /* 3. MAPA Y LEYENDA */
-        #map { height: 600px; width: 100%; border-radius: 8px; margin: 20px 0; }
+        #map { height: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .legend {
-            padding: 12px; background: white; border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-size: 13px; min-width: 170px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            min-width: 170px;
         }
         .legend-row { display: flex; align-items: center; margin-bottom: 6px; }
         .legend i { width: 14px; height: 14px; margin-right: 10px; border-radius: 50%; flex-shrink: 0; }
-        
-        .risk-badge { padding: 2px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.75em; }
-        .material-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .material-table th, .material-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        .legend hr { margin: 8px 0; border: 0; border-top: 1px solid #ddd; }
+
+        /* 4. TABLAS Y BADGES */
+        .risk-badge { padding: 2px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.75em; display: inline-block; margin-bottom: 5px; }
+        .material-tag { font-size: 0.85em; color: #555; background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+        .material-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em; }
+        .material-table th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 12px; text-align: left; }
+        .material-table td { padding: 12px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -66,37 +74,47 @@
 
     <nav>
         <ul>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/experimento.html">Experimento</a></li>
+            <li><a href="experimento.html">Experimento</a></li>
             <li><a href="#">Gemelo Digital</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/diseno.html">Diseño Inteligente</a></li>
+            <li><a href="diseno.html">Diseño Inteligente</a></li>
             <li><a href="#">Datos</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/puertowilliams2.html">Puerto Williams</a></li>
+            <li><a href="puertowilliams.html" class="active">Puerto Williams</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
         </ul>
     </nav>
 
     <main class="main-content">
         <h2>Metodología de Levantamiento Territorial</h2>
-        <p>Levantamiento de <strong>60 puntos estratégicos</strong> para identificar la relación entre la tipología constructiva basal y el riesgo de congelamiento domiciliario.</p>
-        
-        <div id="map"></div>
+        <p>
+            En la salida a terreno de febrero de 2026, se ejecutó un levantamiento de <strong>60 puntos estratégicos</strong> para identificar la relación entre la tipología constructiva basal y el riesgo de congelamiento de infraestructura hídrica domiciliaria.
+        </p>
+
+        <div class="map-row" style="margin: 20px 0;">
+            <div id="map"></div>
+        </div>
 
         <h3>Hallazgos del Análisis Geoespacial</h3>
-        <p>El cruce de datos revela una fragmentación térmica basada en el diseño de cimentación:</p>
+        <p>
+            El análisis revela una <strong>fragmentación térmica urbana</strong>. La vulnerabilidad no es homogénea, sino que responde a patrones de diseño y ubicación:
+        </p>
         <ul>
-            <li><strong>Vórtice de Frío Basal:</strong> Los puntos en <strong>ROJO</strong> corresponden a viviendas con pilotes altos y base abierta (Fotos 4, 5, 6, 7, 8, 10, 11, 13, 14 y 21).</li>
-            <li><strong>Resiliencia:</strong> Las zonas en verde presentan fundaciones protegidas del viento predominante.</li>
+            <li><strong>Vórtice de Frío Basal:</strong> Los puntos marcados en <strong>ROJO</strong> corresponden a viviendas con pilotes altos y base abierta (especialmente fotos 4, 10, 11, 14, 21). Esta configuración permite un flujo constante de aire gélido que congela las matrices de agua expuestas.</li>
+            <li><strong>Zonas de Resiliencia:</strong> El casco histórico muestra mayor inercia térmica gracias al uso de fundaciones corridas o sellos perimetrales.</li>
         </ul>
 
-        <h4>Matriz de Materialidad</h4>
+        <h4>Matriz de Desempeño por Materialidad</h4>
         <table class="material-table">
             <thead>
-                <tr><th>Material</th><th>Inercia Térmica</th><th>Riesgo Escarcha</th></tr>
+                <tr>
+                    <th>Materialidad Dominante</th>
+                    <th>Inercia Térmica</th>
+                    <th>Riesgo de Escarcha</th>
+                </tr>
             </thead>
             <tbody>
-                <tr><td>Zinc / Planchas</td><td>Baja</td><td>Muy Alto</td></tr>
-                <tr><td>Siding / Madera</td><td>Media</td><td>Moderado</td></tr>
-                <tr><td>Piedra / Térmico</td><td>Alta</td><td>Bajo</td></tr>
+                <tr><td>Zinc / Plancha Metálica</td><td>Baja (Alta transmitancia)</td><td>Muy Alto</td></tr>
+                <tr><td>Madera con Siding PVC</td><td>Media</td><td>Moderado</td></tr>
+                <tr><td>Revestimiento Térmico/Piedra</td><td>Alta (Retiene calor)</td><td>Bajo</td></tr>
             </tbody>
         </table>
     </main>
@@ -105,74 +123,101 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        const map = L.map('map', { scrollWheelZoom: false });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        const map = L.map('map', { scrollWheelZoom: false, touchZoom: false });
 
-        // MAPEO DE FOTOS: Relacionamos el nombre del archivo con tu número de terreno
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // MAPEO DE FOTOS: Correlación entre archivo y número pintado por Javi
         const surveyMapping = {
-            "20260218_154332.jpg": 14, "20260218_154300.jpg": 13,
-            "20260218_154142.jpg": 12, "20260218_152401.jpg": 11,
-            "20260218_152050.jpg": 10, "20260218_151933.jpg": 9,
-            "20260218_151739.jpg": 8,  "20260218_151616.jpg": 7,
-            "20260218_151534.jpg": 6,  "20260218_151359.jpg": 4,
-            "20260218_151259.jpg": 3,  "20260218_150613.jpg": 2,
-            "20260218_150429.jpg": 1
-            // Agrega aquí el resto cuando los tengas
+            "20260218_154332.jpg": 14, "20260218_154300.jpg": 13, "20260218_154142.jpg": 12,
+            "20260218_152401.jpg": 11, "20260218_152050.jpg": 10, "20260218_151933.jpg": 9,
+            "20260218_151739.jpg": 8,  "20260218_151616.jpg": 7,  "20260218_151534.jpg": 6,
+            "20260218_151445.jpg": 5,  "20260218_151359.jpg": 4,  "20260218_151259.jpg": 3,
+            "20260218_150613.jpg": 2,  "20260218_150429.jpg": 1,  "20260218_155833.jpg": 21,
+            "20260218_162950.jpg": 28, "20260219_105405.jpg": 40, "20260219_110809.jpg": 43,
+            "20260219_105901.jpg": 42
         };
 
-        function analizarPunto(archivo) {
-            const idReal = surveyMapping[archivo] || "?";
-            let res = { id: idReal, riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar." };
-
-            // TU LISTA DE PILOTES ABIERTOS -> ROJO
-            const rojos = [4, 5, 6, 7, 8, 10, 11, 13, 14, 21];
+        function analizarCasa(archivo) {
+            // Buscamos el ID en el mapa, si no está usamos el número del nombre de archivo
+            const id = surveyMapping[archivo] || parseInt(archivo.split('_')[1]) || "?";
             
-            if (rojos.includes(idReal)) {
-                res.riesgo = "CRÍTICO"; res.color = "#d63031"; res.desc = "Pilotes altos expuestos.";
-            } else if ([49, 43, 40, 12].includes(idReal)) {
-                res.riesgo = "BAJO"; res.color = "#00b894"; res.desc = "Cimentación sellada.";
+            let data = { id: id, riesgo: "MEDIO", color: "#fdcb6e", material: "Madera / Mixto", desc: "Materialidad estándar." };
+
+            // LISTA CRÍTICA DE JAVI (Pintar de Rojo)
+            const rojos = [4, 5, 6, 7, 8, 10, 11, 13, 14, 21];
+            const verdes = [12, 40, 43, 49];
+
+            if (rojos.includes(id)) {
+                data.riesgo = "CRÍTICO"; data.color = "#d63031"; data.desc = "Pilotes altos expuestos. Vórtice de frío basal.";
+            } else if (verdes.includes(id)) {
+                data.riesgo = "BAJO"; data.color = "#00b894"; data.desc = "Cimentación sellada o perimetral.";
+            } else if ([15, 16, 45, 47, 51].includes(id)) {
+                data.riesgo = "ALTO"; data.color = "#e17055"; data.desc = "Autoconstrucción con discontinuidad térmica.";
             }
-            return res;
+
+            // Asignación de materialidad según ID
+            if ([1, 7, 8, 45, 47].includes(id)) data.material = "Zinc / Lata";
+            if ([4, 12, 23, 43].includes(id)) data.material = "Piedra / Revestimiento Térmico";
+            if ([49, 32, 33, 40].includes(id)) data.material = "Siding PVC / Madera";
+
+            return data;
         }
 
         const markers = [];
-        puntosCasas.forEach(p => {
-            const info = analizarPunto(p.archivo);
+        puntosCasas.forEach(punto => {
+            const info = analizarCasa(punto.archivo);
             
-            // Punto de color
-            const m = L.circleMarker([p.lat, p.lng], {
-                radius: 10, fillColor: info.color, color: "#fff", weight: 2, fillOpacity: 0.9
+            // 1. Círculo de Riesgo
+            const marker = L.circleMarker([punto.lat, punto.lng], {
+                radius: 10, fillColor: info.color, color: "#fff", weight: 2, opacity: 1, fillOpacity: 0.9
             }).addTo(map);
 
-            // Número sobre el punto
-            L.marker([p.lat, p.lng], {
-                icon: L.divIcon({ className: 'number-label', html: info.id, iconAnchor: [5, 6] }),
-                interactive: false
-            }).addTo(map);
+            // 2. Número sobre el Círculo
+            const numLabel = L.divIcon({
+                className: 'number-label',
+                html: info.id,
+                iconSize: [20, 20],
+                iconAnchor: [10, 7]
+            });
+            L.marker([punto.lat, punto.lng], { icon: numLabel, interactive: false }).addTo(map);
 
-            m.bindPopup(`
-                <b>Punto de Observación #${info.id}</b><br>
-                <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
-                ${info.desc}<hr><small>${p.archivo}</small>
+            // 3. Pop-up corregido con Número y Análisis
+            marker.bindPopup(`
+                <div class="popup-content">
+                    <b style="font-size:1.1em;">Punto de Observación #${info.id}</b><br>
+                    <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
+                    <strong>Material:</strong> <span class="material-tag">${info.material}</span><br>
+                    <strong>Análisis:</strong> ${info.desc}<br>
+                    <hr><small>Archivo: ${punto.archivo}</small>
+                </div>
             `);
-            markers.push(m);
+            markers.push(marker);
         });
 
         const group = new L.featureGroup(markers);
         map.fitBounds(group.getBounds().pad(0.1));
 
-        // Capa Red de Agua
+        // Capa Red de Agua Potable
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
-            .then(r => r.json()).then(d => L.geoJSON(d, {style: {color: "#3498db", weight: 2, dashArray: '5,5'}}).addTo(map));
+            .then(res => res.json())
+            .then(data => {
+                L.geoJSON(data, { style: { color: "#3498db", weight: 3, opacity: 0.5, dashArray: '5, 10' } }).addTo(map);
+            });
 
         // Leyenda
         const legend = L.control({position: 'bottomright'});
-        legend.onAdd = function() {
+        legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'legend');
-            div.innerHTML = "<strong>Riesgo Térmico</strong><br>" +
-                '<div class="legend-row"><i style="background:#d63031"></i>Crítico (Pilotes)</div>' +
-                '<div class="legend-row"><i style="background:#fdcb6e"></i>Medio</div>' +
-                '<div class="legend-row"><i style="background:#00b894"></i>Bajo (Sellado)</div>';
+            const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
+            const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
+            div.innerHTML = "<strong>Riesgo Térmico Basal</strong>";
+            for (let i = 0; i < grades.length; i++) {
+                div.innerHTML += `<div class="legend-row"><i style="background:${colors[i]}"></i><span>${grades[i]}</span></div>`;
+            }
+            div.innerHTML += `<hr><div class="legend-row"><i style="background:#3498db;height:3px;border-radius:0;"></i><span>Red de Agua</span></div>`;
             return div;
         };
         legend.addTo(map);
