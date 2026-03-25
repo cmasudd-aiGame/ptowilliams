@@ -7,17 +7,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
     <style>
-        /* 1. CORRECCIÓN DEFINITIVA DEL HEADER */
-        .page-header { 
-            position: relative; 
-            width: 100%; 
-            overflow: hidden;
-        }
-        .header-image-full { 
-            width: 100%; 
-            height: auto; 
-            display: block; 
-        }
+        /* 1. CORRECCIÓN DEL HEADER: Overlay Dinámico */
+        .page-header { position: relative; width: 100%; overflow: hidden; }
+        .header-image-full { width: 100%; height: auto; display: block; }
         .title-overlay {
             position: absolute; 
             bottom: 30px; 
@@ -26,7 +18,7 @@
             color: white;
             padding: 20px 30px; 
             border-radius: 12px;
-            /* AJUSTE DINÁMICO AL TEXTO */
+            /* AJUSTE DINÁMICO AL TEXTO: El recuadro negro es fit-content */
             width: fit-content; 
             max-width: 500px;
             text-align: right;
@@ -47,6 +39,7 @@
             font-family: 'Segoe UI', Arial, sans-serif;
             font-size: 13px;
             min-width: 180px;
+            color: #333;
         }
         .legend strong { display: block; margin-bottom: 10px; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .legend-row { display: flex; align-items: center; margin-bottom: 6px; }
@@ -55,19 +48,19 @@
 
         /* 3. POPUPS Y BADGES */
         .risk-badge { padding: 2px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.75em; display: inline-block; margin: 5px 0; }
-        .material-tag { font-size: 0.85em; color: #444; background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+        .material-tag { font-size: 0.85em; color: #444; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
         .popup-content hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
 
         /* 4. TABLA DE MATERIALIDAD */
         .material-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em; }
-        .material-table th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 12px; text-align: left; }
-        .material-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .material-table th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 12px; text-align: left; color: #555; }
+        .material-table td { padding: 12px; border-bottom: 1px solid #eee; color: #333; }
     </style>
 </head>
 <body>
 
     <header class="page-header">
-        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Puerto Williams" class="header-image-full">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Puerto Williams desde el agua" class="header-image-full">
         <div class="title-overlay">
             <h1>Puerto Williams</h1>
             <p>Salida a Terreno: Vulnerabilidad Hídrica</p>
@@ -88,7 +81,7 @@
     <main class="main-content">
         <h2>Metodología y Análisis Territorial</h2>
         <p>
-            Levantamiento de <strong>60 puntos estratégicos</strong> para diagnosticar la interfaz vivienda-suelo. El análisis se centra en cómo la elevación basal afecta la red hídrica domiciliaria.
+            Levantamiento de <strong>60 puntos estratégicos</strong> para diagnosticar la interfaz vivienda-suelo. El análisis geoespacial se centra en cómo la elevación basal afecta la red hídrica domiciliaria austral.
         </p>
     </main>
 
@@ -97,7 +90,7 @@
     </div>
 
     <main class="main-content" style="margin-bottom: 50px;">
-        <h3>Análisis de Envolvente y Desempeño</h3>
+        <h3>Análisis de Envolvente y Desempeño Material</h3>
         <p>La materialidad observada define la inercia térmica de cada sector:</p>
         
         <table class="material-table">
@@ -126,23 +119,28 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // FUNCIÓN DE ANÁLISIS POR CASA (Actualizada con tu lista de pilotes)
+        // FUNCIÓN DE ANÁLISIS: Clasificación por Riesgo y Material
         function analizarVivienda(archivo) {
             const num = parseInt(archivo.split('_')[1]); 
             let data = { riesgo: "MEDIO", color: "#fdcb6e", material: "Madera / Mixto", desc: "Materialidad estándar." };
 
-            // LISTA CORREGIDA: Casas en pilotes sin cobertura (Riesgo Crítico)
-            const pilotesExpuestos = [4, 5, 6, 7, 8, 10, 11, 13, 14, 21, 15, 16];
+            // 1. LISTA ESTRICTA DE RIESGO CRÍTICO (Pintar de Rojo)
+            const criticoList = [4, 5, 6, 7, 8, 10, 11, 13, 14, 21];
             
-            if (pilotesExpuestos.includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
+            // 2. LISTAS DE APOYO PARA OTROS RIESGOS (Rojo Naranja / Verde)
+            const altoList = [51, 53, 54, 55, 42, 47, 45, 28, 15, 16];
+            const bajoList = [49, 43, 40, 12];
+
+            // 3. APLICAR LÓGICA DE CLASIFICACIÓN
+            if (criticoList.includes(num)) {
                 data.riesgo = "CRÍTICO"; data.color = "#d63031"; data.desc = "Pilotes altos expuestos. Vórtice de frío basal.";
-            } else if ([51, 53, 54, 55, 42, 47, 45, 28].includes(num)) {
-                data.riesgo = "ALTO"; data.color = "#e17055"; data.desc = "Autoconstrucción. Discontinuidad térmica.";
-            } else if ([49, 43, 40, 12].includes(num)) {
-                data.riesgo = "BAJO"; data.color = "#00b894"; data.desc = "Fundación corrida o sello efectivo.";
+            } else if (altoList.includes(num)) {
+                data.riesgo = "ALTO"; data.color = "#e17055"; data.desc = "Autoconstrucción/Patchwork. Discontinuidad térmica.";
+            } else if (bajoList.includes(num)) {
+                data.riesgo = "BAJO"; data.color = "#00b894"; data.desc = "Fundación corrida o buen sello perimetral efectivo.";
             }
 
-            // Materialidad específica detectada
+            // 4. CLASIFICACIÓN DE MATERIALIDAD (Integrada del análisis Turn 21/22)
             if ([47, 45, 30, 28, 1, 7, 8].includes(num)) {
                 data.material = "Zinc / Plancha Metálica";
             } else if ([4, 23, 12, 43, 25].includes(num)) {
@@ -167,7 +165,7 @@
                     <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
                     <strong>Material:</strong> <span class="material-tag">${info.material}</span><br>
                     <strong>Nota:</strong> ${info.desc}<br>
-                    <hr><small>Archivo: ${punto.archivo}</small>
+                    <hr><small>Archivo Muestreo: ${punto.archivo}</small>
                 </div>
             `);
             markers.push(marker);
@@ -178,7 +176,7 @@
             map.fitBounds(group.getBounds().pad(0.1));
         }
 
-        // Capa Red de Agua
+        // Capa Red de Agua (GeoJSON)
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
             .then(res => res.json())
             .then(data => {
