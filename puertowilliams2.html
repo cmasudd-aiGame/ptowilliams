@@ -7,198 +7,141 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
     <style>
-        /* 1. CORRECCIÓN DEL HEADER: Overlay Dinámico */
-        .page-header { position: relative; width: 100%; overflow: hidden; }
-        .header-image-full { width: 100%; height: auto; display: block; }
-        .title-overlay {
-            position: absolute; 
-            bottom: 30px; 
-            right: 40px; /* Alineado a la derecha */
-            background: rgba(15, 25, 35, 0.85); 
-            color: white;
-            padding: 20px 30px; 
-            border-radius: 12px;
-            /* AJUSTE DINÁMICO AL TEXTO: El recuadro negro es fit-content */
-            width: fit-content; 
-            max-width: 500px;
-            text-align: right;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-        .title-overlay h1 { margin: 0; font-size: 2.2rem; font-weight: 600; }
-        .title-overlay p { margin: 5px 0 0; font-size: 1.1rem; opacity: 0.9; }
-
-        /* 2. MAPA Y LEYENDA */
-        #map { height: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        
+        #map { height: 600px; width: 100%; border-radius: 8px; }
         .legend {
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 13px;
-            min-width: 180px;
-            color: #333;
+            padding: 10px;
+            background: white;
+            line-height: 1.5em;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            font-family: Arial, sans-serif;
         }
-        .legend strong { display: block; margin-bottom: 10px; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .legend-row { display: flex; align-items: center; margin-bottom: 6px; }
-        .legend i { width: 14px; height: 14px; margin-right: 10px; border-radius: 50%; flex-shrink: 0; }
-        .legend hr { margin: 10px 0; border: 0; border-top: 1px solid #ddd; }
-
-        /* 3. POPUPS Y BADGES */
-        .risk-badge { padding: 2px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 0.75em; display: inline-block; margin: 5px 0; }
-        .material-tag { font-size: 0.85em; color: #444; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
-        .popup-content hr { border: 0; border-top: 1px solid #eee; margin: 10px 0; }
-
-        /* 4. TABLA DE MATERIALIDAD */
-        .material-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em; }
-        .material-table th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 12px; text-align: left; color: #555; }
-        .material-table td { padding: 12px; border-bottom: 1px solid #eee; color: #333; }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.8;
+        }
+        .risk-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
     </style>
 </head>
 <body>
 
     <header class="page-header">
-        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Puerto Williams desde el agua" class="header-image-full">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/williamsdesdeagua.png" alt="Monitoreo de Datos" class="header-image-full">
         <div class="title-overlay">
             <h1>Puerto Williams</h1>
-            <p>Salida a Terreno: Vulnerabilidad Hídrica</p>
+            <p>Salida a terreno </p>
         </div>
     </header>
 
     <nav>
         <ul>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/experimento.html">Experimento</a></li>
+            <li><a href="experimento.html">Experimento</a></li>
             <li><a href="#">Gemelo Digital</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/diseno.html">Diseño Inteligente</a></li>
+            <li><a href="#">Diseño Inteligente</a></li>
             <li><a href="#">Datos</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/puertowilliams2.html">Puerto Williams</a></li>
+            <li><a href="puertowilliams.html">Puerto Williams</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
+            <li><a href="index.html">Inicio</a></li>
         </ul>
     </nav>
 
-    <main class="main-content">
-        <h2>Metodología y Análisis Territorial</h2>
+    <main class="main-content" style="margin-bottom: 10px;">
         <p>
-            Levantamiento de <strong>60 puntos estratégicos</strong> para diagnosticar la interfaz vivienda-suelo. El análisis geoespacial se centra en cómo la elevación basal afecta la red hídrica domiciliaria austral.
+           En la salida a terreno de febrero de 2026, se realizó un levantamiento fotogramétrico de 60 puntos estratégicos en el radio urbano de Puerto Williams. El objetivo fue identificar la relación entre la tipología constructiva basal y el riesgo de congelamiento de infraestructura hídrica domiciliaria.
         </p>
     </main>
 
-    <div class="map-row" style="margin: 20px 0;">
+    <div class="map-row">
         <div id="map"></div>
     </div>
-
-    <main class="main-content" style="margin-bottom: 50px;">
-        <h3>Análisis de Envolvente y Desempeño Material</h3>
-        <p>La materialidad observada define la inercia térmica de cada sector:</p>
-        
-        <table class="material-table">
-            <thead>
-                <tr>
-                    <th>Tipología Material</th>
-                    <th>Desempeño Térmico</th>
-                    <th>Riesgo de Escarcha</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Zinc / Planchas Metálicas</td><td>Bajo (Alta transmitancia)</td><td>Muy Alto</td></tr>
-                <tr><td>Siding PVC / Madera</td><td>Medio (Aislación estándar)</td><td>Moderado</td></tr>
-                <tr><td>Revestimiento Térmico/Piedra</td><td>Alto (Gran inercia)</td><td>Bajo</td></tr>
-            </tbody>
-        </table>
-    </main>
 
     <script src="puntos.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        const map = L.map('map', { scrollWheelZoom: false, touchZoom: false });
+        // 1. Configuración del mapa: Zoom inicial más cerca (17) y scroll desactivado
+        const map = L.map('map', {
+            scrollWheelZoom: false, // Desactiva el zoom con la rueda del mouse
+            touchZoom: false        // Opcional: desactiva zoom táctil con dos dedos para evitar saltos en móviles
+        }).setView([-54.935, -67.610], 17); 
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // FUNCIÓN DE ANÁLISIS: Clasificación por Riesgo y Material
-        function analizarVivienda(archivo) {
+        // 2. Clasificación
+        function clasificarPunto(archivo) {
             const num = parseInt(archivo.split('_')[1]); 
-            let data = { riesgo: "MEDIO", color: "#fdcb6e", material: "Madera / Mixto", desc: "Materialidad estándar." };
-
-            // 1. LISTA ESTRICTA DE RIESGO CRÍTICO (Pintar de Rojo)
-            const criticoList = [4, 5, 6, 7, 8, 10, 11, 13, 14, 21];
-            
-            // 2. LISTAS DE APOYO PARA OTROS RIESGOS (Rojo Naranja / Verde)
-            const altoList = [51, 53, 54, 55, 42, 47, 45, 28, 15, 16];
-            const bajoList = [49, 43, 40, 12];
-
-            // 3. APLICAR LÓGICA DE CLASIFICACIÓN
-            if (criticoList.includes(num)) {
-                data.riesgo = "CRÍTICO"; data.color = "#d63031"; data.desc = "Pilotes altos expuestos. Vórtice de frío basal.";
-            } else if (altoList.includes(num)) {
-                data.riesgo = "ALTO"; data.color = "#e17055"; data.desc = "Autoconstrucción/Patchwork. Discontinuidad térmica.";
-            } else if (bajoList.includes(num)) {
-                data.riesgo = "BAJO"; data.color = "#00b894"; data.desc = "Fundación corrida o buen sello perimetral efectivo.";
+            if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
+                return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal." };
+            } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
+                return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica. Discontinuidad térmica." };
+            } else if ([49, 43, 40, 4, 12].includes(num)) {
+                return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral." };
+            } else {
+                return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en nichos." };
             }
-
-            // 4. CLASIFICACIÓN DE MATERIALIDAD (Integrada del análisis anterior)
-            if ([47, 45, 30, 28, 1, 7, 8].includes(num)) {
-                data.material = "Zinc / Plancha Metálica";
-            } else if ([4, 23, 12, 43, 25].includes(num)) {
-                data.material = "Revestimiento Térmico / Piedra";
-            } else if ([49, 32, 33, 40, 11, 24, 6].includes(num)) {
-                data.material = "Siding PVC / Madera tratada";
-            }
-
-            return data;
         }
 
-        const markers = [];
+        // 3. Cargar Puntos
         puntosCasas.forEach(punto => {
-            const info = analizarVivienda(punto.archivo);
+            const info = clasificarPunto(punto.archivo);
             const marker = L.circleMarker([punto.lat, punto.lng], {
-                radius: 8, fillColor: info.color, color: "#fff", weight: 2, opacity: 1, fillOpacity: 0.8
+                radius: 8,
+                fillColor: info.color,
+                color: "#fff",
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.8
             }).addTo(map);
 
             marker.bindPopup(`
                 <div class="popup-content">
-                    <b>Evaluación Territorial</b><br>
-                    <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
-                    <strong>Material:</strong> <span class="material-tag">${info.material}</span><br>
-                    <strong>Nota:</strong> ${info.desc}<br>
-                    <hr><small>Archivo Muestreo: ${punto.archivo}</small>
+                    <b>Riesgo Térmico:</b> <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br>
+                    <p>${info.desc}</p>
+                    <hr><small>${punto.archivo}</small>
                 </div>
             `);
-            markers.push(marker);
         });
 
-        if (markers.length > 0) {
-            const group = new L.featureGroup(markers);
-            map.fitBounds(group.getBounds().pad(0.1));
-        }
-
-        // Capa Red de Agua (GeoJSON)
+        // 4. Capa GeoJSON
         fetch('https://cmasudd-aigame.github.io/ptowilliams/layer_red_agua_potable_concesionada_20241029050306.json')
             .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
-                    style: { color: "#3498db", weight: 3, opacity: 0.5, dashArray: '5, 10' }
+                    style: { color: "#3498db", weight: 4, opacity: 0.6, dashArray: '5, 10' }
                 }).addTo(map);
             });
 
-        // Leyenda
+        // 5. Leyenda
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'legend');
             const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
             const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
-            div.innerHTML = "<strong>Riesgo Térmico Basal</strong>";
+            div.innerHTML = "<strong>Riesgo Térmico Basal</strong><br>";
             for (let i = 0; i < grades.length; i++) {
-                div.innerHTML += `<div class="legend-row"><i style="background: ${colors[i]}"></i><span>${grades[i]}</span></div>`;
+                div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + grades[i] + '<br>';
             }
-            div.innerHTML += `<hr><div class="legend-row"><i style="background: #3498db; border-radius: 0; height: 3px; width: 18px;"></i><span>Red Agua Potable</span></div>`;
+            div.innerHTML += '<hr><i style="background: #3498db; height: 3px; width: 18px; margin-top: 8px;"></i> Red Agua Potable';
             return div;
         };
         legend.addTo(map);
+
     </script>
+
+    <div class="main-content" style="margin-top: 20px;">
+        <h4>Hallazgos del Análisis Territorial</h4>
+        <p>El análisis revela una fragmentación térmica en Puerto Williams: las viviendas sobre pilotes sin sellos perimetrales presentan el mayor riesgo de congelamiento de tuberías.</p>
+    </div>
 </body>
 </html>
