@@ -42,51 +42,78 @@
     <div class="map-row">
         <div id="map"></div>
     </div>
-    <div class="map-instruction">* Para navegar el mapa usa los controles + y -</div>
+   <div id="map"></div>
 
-    <div id="imageModal" class="modal">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
-        <img class="modal-content" id="imgFull">
-        <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
-    </div>
+<script src="puntos.js"></script>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cmasudd-aigame.github.io/ptowilliams/puntos.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Configuración inicial del mapa centrada en Puerto Williams
+    const map = L.map('map').setView([-54.935, -67.610], 15);
 
-    <script>
-        const urlBase = "https://cmasudd-aigame.github.io/ptowilliams/foto_casas_ptoWilliams/";
-        const map = L.map('map', { scrollWheelZoom: false }).setView([-54.9355, -67.6010], 16);
-        let currentIndex = 0;
-        const markers = [];
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap'
+    // Diccionario de Clasificación basado en el análisis de tus fotos
+    function clasificarPunto(archivo) {
+        // Lógica simplificada basada en los patrones de pilotes que vimos
+        const num = parseInt(archivo.split('_')[1]); 
+        
+        if ([14, 15, 16, 21, 7, 10].includes(num) || archivo.includes("151534") || archivo.includes("154332")) {
+            return { riesgo: "CRÍTICO", color: "#d63031", desc: "Pilotes altos expuestos. Vórtice de frío basal detectado." };
+        } else if ([51, 53, 54, 55, 42, 47, 45].includes(num)) {
+            return { riesgo: "ALTO", color: "#e17055", desc: "Autoconstrucción orgánica/Patchwork. Discontinuidad térmica." };
+        } else if ([49, 43, 40, 4, 12].includes(num)) {
+            return { riesgo: "BAJO", color: "#00b894", desc: "Fundación corrida o sello perimetral. Alta resiliencia." };
+        } else {
+            return { riesgo: "MEDIO", color: "#fdcb6e", desc: "Materialidad estándar. Requiere mejora en sello de nichos." };
+        }
+    }
+
+    // Dibujar los puntos en el mapa
+    puntosCasas.forEach(punto => {
+        const info = clasificarPunto(punto.archivo);
+        
+        const marker = L.circleMarker([punto.lat, punto.lng], {
+            radius: 8,
+            fillColor: info.color,
+            color: "#fff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
         }).addTo(map);
 
-        function createHouseIcon(color) {
-            const svgString = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.9897 20.9982H19.0001V12H21.0001L12.0001 3L3.04309 12H5.00006V20.9982H10.0001V15.5H13.9897V20.9982Z" stroke="${color}" stroke-width="2" fill="${color === 'black' ? 'none' : 'rgba(231, 76, 60, 0.2)'}"/></svg>`;
-            return L.divIcon({ html: svgString, className: 'custom-house-icon', iconSize: [14, 14], iconAnchor: [12, 24], popupAnchor: [0, -24] });
+        const popupContent = `
+            <div class="popup-content">
+                <b>Observación Territorial:</b><br>
+                <span class="risk-badge" style="background:${info.color}">${info.riesgo}</span><br><br>
+                <b>Análisis:</b> ${info.desc}<br>
+                <b>Coordenadas:</b> ${punto.lat.toFixed(4)}, ${punto.lng.toFixed(4)}<br>
+                <hr>
+                <small>ID Archivo: ${punto.archivo}</small>
+            </div>
+        `;
+        
+        marker.bindPopup(popupContent);
+    });
+
+    // Leyenda
+    const legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'legend');
+        const grades = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"];
+        const colors = ["#d63031", "#e17055", "#fdcb6e", "#00b894"];
+
+        div.innerHTML = "<strong>Riesgo Térmico Basal</strong><br>";
+        for (let i = 0; i < grades.length; i++) {
+            div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + grades[i] + '<br>';
         }
+        return div;
+    };
+    legend.addTo(map);
 
-        const iconNormal = createHouseIcon('black');
-        const iconSelected = createHouseIcon('#e74c3c');
+</script>
 
-        if (typeof puntosCasas !== 'undefined') {
-            puntosCasas.forEach((punto, index) => {
-                const marker = L.marker([punto.lat, punto.lng], { icon: iconNormal }).addTo(map);
-                marker.bindPopup(`<div style="text-align:center"><small style="color:#888">${punto.archivo}</small><br><img src="${urlBase + punto.archivo}" class="popup-img" onclick="openModal(${index})"></div>`);
-                marker.on('popupopen', () => marker.setIcon(iconSelected));
-                marker.on('popupclose', () => marker.setIcon(iconNormal));
-                markers.push(marker);
-            });
-        }
-
-        function openModal(index) { currentIndex = index; updateModalView(); document.getElementById("imageModal").style.display = "flex"; }
-        function closeModal() { document.getElementById("imageModal").style.display = "none"; }
-        function changeImage(step) { currentIndex = (currentIndex + step + puntosCasas.length) % puntosCasas.length; updateModalView(); }
-        function updateModalView() { const punto = puntosCasas[currentIndex]; document.getElementById("imgFull").src = urlBase + punto.archivo; map.panTo([punto.lat, punto.lng]); markers[currentIndex].openPopup(); }
-        window.onclick = (e) => { if (e.target.id == "imageModal") closeModal(); }
-    </script>
 </body>
 </html>
