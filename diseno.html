@@ -3,93 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma Territorial | Gemelo Digital</title>
+    <title>Diseño Inteligente | Plataforma Territorial</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Diseño de 2 filas para maximizar el modelo 3D */
-        .main-content {
-            padding: 20px;
+        /* Cambio de Grid a Rows para maximizar visibilidad */
+        .prototype-container {
             display: flex;
             flex-direction: column;
-            min-height: 80vh; /* Asegura que el contenido tenga altura */
+            gap: 40px;
+            margin: 30px 0;
         }
 
-        .descripcion-dispositivo {
-            margin-bottom: 25px;
-            flex: 0 0 auto; /* Fila 1: Altura automática según el texto */
-            line-height: 1.6;
-        }
-
-        .iframe-container {
-            flex: 1 1 700px; /* Fila 2: Crece para dar espacio al modelo 3D */
-            width: 100%;
-            min-height: 600px; /* Altura mínima para que no se vea chico */
+        .prototype-card {
+            background: #fff;
             border-radius: 8px;
+            border: 1px solid #eee;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            width: 100%; /* Ancho completo */
         }
 
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .prototype-img-container {
+            width: 100%;
+            height: 500px; /* Aumentamos el alto para el modelo 3D */
+            overflow: hidden;
+            background: #f9f9f9;
+        }
+
+        .prototype-img-container iframe, 
+        .prototype-img-container img {
             width: 100%;
             height: 100%;
             border: none;
+            object-fit: contain;
         }
 
-        /* Estilo para destacar las specs técnicas */
-        .specs-tag {
+        .prototype-info {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .spec-tag {
             display: inline-block;
-            background: #f0f0f0;
-            padding: 2px 8px;
+            background: #f0f4f8;
+            color: #2c3e50;
+            padding: 3px 10px;
             border-radius: 4px;
-            font-size: 0.9em;
+            font-size: 0.75rem;
             font-weight: bold;
-            color: #333;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
+
     <header class="page-header">
-        <img src="https://cmasudd-aigame.github.io/ptowilliams/puertowilliamsdrone2.jpg" alt="Drone Puerto Williams" class="header-image">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/headerdisenointe.png" alt="Diseño Inteligente" class="header-image-full">
         <div class="title-overlay">
-            <h1>Plataforma Territorial Isla Navarino</h1>
-            <p>Gemelo Digital: Monitoreo y Simulación en Tiempo Real</p>
+            <h1>Diseño de Solución Geotérmica</h1>
+            <p>Arquitectura Modular y Adaptativa - TRL 3</p>
         </div>
     </header>
 
     <nav>
         <ul>
-           <li><a href="index.html">Inicio</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/experimento.html">Experimento</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/gemelodigital.html">Gemelo Digital</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/diseno.html">Diseño Inteligente</a></li>
-          <li><a href="#">Datos</a></li>
-            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/puertowilliams2.html">Puerto Williams</a></li>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="experimento.html">Experimento</a></li>
+            <li><a href="https://gemelodigital-puertowilliams.streamlit.app/">Gemelo Digital</a></li>
+            <li><a href="diseno.html">Diseño</a></li>
+            <li><a href="puertowilliams.html">Puerto Williams</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
         </ul>
     </nav>
 
     <main class="main-content">
-        <section class="descripcion-dispositivo">
-            <h2>Sistema de Control y Recirculación</h2>
+        <section class="card">
+            <h2>Arquitectura del Prototipo</h2>
             <p>
-                Este dispositivo inteligente y programable está diseñado para monitorear de forma continua los datos de temperatura ambiental y del agua mediante sensores especializados. Al detectar umbrales críticos de baja temperatura, el sistema activa o desactiva automáticamente una bomba que recircula el agua desde el estanque geotérmico hacia las tuberías, previniendo así el congelamiento de la red.
-            </p>
-            <p>
-                La unidad es portátil, apta para instalación en exteriores y se conecta a la red eléctrica domiciliaria <span class="specs-tag">220Vac</span>. Además, garantiza la continuidad operativa mediante un banco de respaldo de baterías <span class="specs-tag">UPS - AGM</span>, asegurando la protección del sistema incluso ante cortes de suministro eléctrico.
+                Este dispositivo inteligente y programable está diseñado para monitorear de forma continua la temperatura ambiental y del agua mediante sensores especializados. Al detectar umbrales críticos, el sistema activa automáticamente una bomba que recircula el agua desde el estanque geotérmico hacia las tuberías, aprovechando la inercia térmica del suelo (4-8°C a 1.8m de profundidad) para prevenir el congelamiento.
             </p>
         </section>
 
-        <div class="iframe-container">
-            <iframe 
-                src="https://gemelodigital-puertowilliams.streamlit.app/?embed=true" 
-                allow="camera;microphone;geolocation"
-                title="Simulación Gemelo Digital">
-            </iframe>
+        <div class="prototype-container">
+            <div class="prototype-card">
+                <div class="prototype-img-container">
+                    <iframe src="https://myudd1138.autodesk360.com/shares/public/SH90d2dQT28d5b6028114efda414bc273ba8?mode=embed" allowfullscreen="true"></iframe>
+                </div>
+                <div class="prototype-info">
+                    <span class="spec-tag">Modelado Digital</span>
+                    <h4>Diseño Prototipo Modular</h4>
+                    <p>Esquema del reservorio térmico de 30L optimizado para instalación bajo la línea de congelamiento.</p>
+                </div>
+            </div>
+
+            <div class="prototype-card">
+                <div class="prototype-img-container">
+                    <img src="https://cmasudd-aigame.github.io/ptowilliams/prototipodisenointe.jpeg" alt="Prototipo Físico" class="img-zoom" style="cursor: pointer;">
+                </div>
+                <div class="prototype-info">
+                    <span class="spec-tag">Especificaciones Técnicas</span>
+                    <h4>Unidad de Control e Intercambio</h4>
+                    <p>
+                        El sistema es portátil e instalable en exteriores, diseñado para conectarse a la red eléctrica domiciliaria (220Vac). Para garantizar la continuidad operativa ante cortes de suministro, cuenta con un banco de respaldo de baterías (UPS - AGM).
+                    </p>
+                </div>
+            </div>
         </div>
+
+        <section class="card">
+            <h3>Sustentabilidad y Eficiencia</h3>
+            <p>
+                La implementación permite una reducción del <strong>70% en el consumo energético</strong> comparado con calefacciones continuas, con costos operativos proyectados inferiores a $5.000 CLP mensuales por vivienda.
+            </p>
+        </section>
     </main>
+
+    <div id="imageModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+        <span style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;" onclick="closeModal()">&times;</span>
+        <img id="imgFull" style="max-width:90%; max-height:90%;">
+    </div>
+
+    <script>
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("imgFull");
+        document.querySelectorAll('.img-zoom').forEach(img => {
+            img.onclick = function() {
+                modal.style.display = "flex";
+                modalImg.src = this.src;
+            }
+        });
+        function closeModal() { modal.style.display = "none"; }
+        window.onclick = function(event) { if (event.target == modal) closeModal(); }
+    </script>
 </body>
 </html>
