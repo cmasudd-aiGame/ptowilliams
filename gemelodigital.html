@@ -12,6 +12,7 @@
             width: 100%;
             height: 80vh; /* Ocupa el 80% del alto de la ventana */
             margin-top: 20px;
+            margin-bottom: 40px; /* Espacio inferior antes del diagrama */
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -20,6 +21,20 @@
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        /* Estilos para el diagrama inferior */
+        .diagrama-container {
+            width: 100%;
+            text-align: center; /* Centra la imagen si es más pequeña que el contenedor */
+            margin-bottom: 40px;
+        }
+
+        .diagrama-imagen {
+            max-width: 100%; /* No supera el ancho del contenido principal */
+            height: auto; /* Mantiene la proporción */
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
     </style>
 </head>
@@ -39,7 +54,7 @@
             <li><a href="https://cmasudd-aigame.github.io/ptowilliams/experimento.html">Experimento</a></li>
             <li><a href="https://cmasudd-aigame.github.io/ptowilliams/gemelodigital.html">Gemelo Digital</a></li>
             <li><a href="https://cmasudd-aigame.github.io/ptowilliams/diseno.html">Diseño Inteligente</a></li>
-          <li><a href="#">Datos</a></li>
+            <li><a href="#">Datos</a></li>
             <li><a href="https://cmasudd-aigame.github.io/ptowilliams/puertowilliams2.html">Puerto Williams</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
         </ul>
@@ -54,9 +69,19 @@
         <div class="iframe-container">
             <iframe 
                 src="https://gemelodigital-puertowilliams.streamlit.app/?embed=true" 
-                allow="camera;microphone;geolocation">
+                allow="camera;microphone;geolocation"
+                title="Interfaz Gemelo Digital">
             </iframe>
         </div>
+
+        <div class="diagrama-container">
+            <h3>Diagrama de Arquitectura del Gemelo</h3>
+            <img 
+                src="https://cmasudd-aigame.github.io/ptowilliams/gemelo0.jpeg" 
+                alt="Diagrama de funcionamiento del Gemelo Digital" 
+                class="diagrama-imagen">
+        </div>
+
     </main>
 </body>
 </html>
