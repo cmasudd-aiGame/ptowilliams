@@ -6,17 +6,20 @@
     <title>Plataforma Territorial | Gemelo Digital</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos específicos para que el iframe se vea bien */
+        /* Ajuste para que el iframe sea el protagonista */
         .iframe-container {
             position: relative;
-            width: 100%;
-            height: 80vh; /* Ocupa el 80% del alto de la ventana */
+            width: 90vw; /* Usa el 90% del ancho de la ventana del navegador */
+            left: 50%;
+            transform: translateX(-50%); /* Estos dos centran el elemento aunque rompa el ancho del main */
+            height: 85vh; /* Un poco más de alto para aprovechar el ancho */
             margin-top: 20px;
-            margin-bottom: 40px; /* Espacio inferior antes del diagrama */
-            border-radius: 8px;
+            margin-bottom: 40px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
+
         iframe {
             width: 100%;
             height: 100%;
@@ -25,16 +28,24 @@
 
         /* Estilos para el diagrama inferior */
         .diagrama-container {
-            width: 100%;
-            text-align: center; /* Centra la imagen si es más pequeña que el contenedor */
-            margin-bottom: 40px;
+            width: 90%;
+            margin: 0 auto 40px auto;
+            text-align: center;
         }
 
         .diagrama-imagen {
-            max-width: 100%; /* No supera el ancho del contenido principal */
-            height: auto; /* Mantiene la proporción */
+            max-width: 100%;
+            height: auto;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Aseguramos que el h2 y p iniciales no queden pegados a los bordes si el main es muy ancho */
+        .main-content h2, .main-content p {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
         }
     </style>
 </head>
@@ -45,7 +56,6 @@
             <h1>Plataforma Territorial Isla Navarino</h1>
             <p>Gemelo Digital: Monitoreo y Simulación en Tiempo Real</p>
         </div>
-
     </header>
 
     <nav>
@@ -60,10 +70,12 @@
     </nav>
 
     <main class="main-content">
-        <h2>Visualización del Gemelo Digital</h2>
-        <p>
-            A continuación se presenta la interfaz interactiva para el monitoreo de los sensores y la simulación del comportamiento térmico del sistema en Puerto Williams.
-        </p>
+        <div style="text-align: center; padding: 20px 0;">
+            <h2>Visualización del Gemelo Digital</h2>
+            <p>
+                Interfaz interactiva para el monitoreo de sensores y simulación del comportamiento térmico.
+            </p>
+        </div>
 
         <div class="iframe-container">
             <iframe 
@@ -80,7 +92,6 @@
                 alt="Diagrama de funcionamiento del Gemelo Digital" 
                 class="diagrama-imagen">
         </div>
-
     </main>
 </body>
 </html>
