@@ -11,19 +11,18 @@
         }
         
         .data-section h2 {
-            border-bottom: 2px solid var(--primary);
+            border-bottom: 2px solid #2c3e50;
             padding-bottom: 10px;
             margin-bottom: 25px;
         }
 
-        /* Grilla para los gráficos del Gemelo Digital */
+        /* Grilla unificada para ambas secciones */
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 20px;
         }
 
-        /* Contenedor de imagen con zoom */
         .chart-card {
             background: #fff;
             border-radius: 8px;
@@ -44,18 +43,18 @@
             display: block;
         }
 
-        /* Sección especial para los gráficos de suelo (más anchos) */
-        .soil-charts {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .soil-chart-large {
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            cursor: zoom-in;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
         }
     </style>
 </head>
@@ -73,7 +72,7 @@
         <ul>
             <li><a href="index.html">Inicio</a></li>
             <li><a href="experimento.html">Experimento</a></li>
-            <li><a href="gemeloDigital.html">Gemelo Digital</a></li>
+            <li><a href="gemelodigital.html">Gemelo Digital</a></li>
             <li><a href="diseno.html">Diseño</a></li>
             <li><a href="datos.html">Datos</a></li>
             <li><a href="meteorologia.html">Meteorología</a></li>
@@ -84,49 +83,44 @@
         
         <section class="data-section">
             <h2>1. Análisis del Gemelo Digital</h2>
-            <p>Resultados y proyecciones generadas mediante la simulación del sistema geotérmico.</p>
             <div class="charts-grid">
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo1.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 1"></div>
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo2.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 2"></div>
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo3.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 3"></div>
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo4.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 4"></div>
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo5.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 5"></div>
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo6.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 6"></div>
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo7.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 7"></div>
-                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo8.jpeg" class="chart-img img-zoom" alt="Gráfico Gemelo 8"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo1.jpeg" class="chart-img img-zoom" alt="Gráfico 1"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo2.jpeg" class="chart-img img-zoom" alt="Gráfico 2"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo3.jpeg" class="chart-img img-zoom" alt="Gráfico 3"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo4.jpeg" class="chart-img img-zoom" alt="Gráfico 4"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo5.jpeg" class="chart-img img-zoom" alt="Gráfico 5"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo6.jpeg" class="chart-img img-zoom" alt="Gráfico 6"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo7.jpeg" class="chart-img img-zoom" alt="Gráfico 7"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/gemelo8.jpeg" class="chart-img img-zoom" alt="Gráfico 8"></div>
             </div>
         </section>
 
         <section class="data-section">
             <h2>2. Experimento Puerto Williams: Temperatura de Suelo</h2>
-            <p>Monitoreo in-situ de la inercia térmica del suelo subantártico para la validación del sistema.</p>
-            <div class="soil-charts">
-                <img src="https://cmasudd-aigame.github.io/ptowilliams/tempSueloWilliams.jpg" class="soil-chart-large img-zoom" alt="Temperatura Suelo 1">
-                <img src="https://cmasudd-aigame.github.io/ptowilliams/tempSueloWilliams2.jpg" class="soil-chart-large img-zoom" alt="Temperatura Suelo 2">
+            <div class="charts-grid">
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/tempSueloWilliams.jpg" class="chart-img img-zoom" alt="Suelo 1"></div>
+                <div class="chart-card"><img src="https://cmasudd-aigame.github.io/ptowilliams/tempSueloWilliams2.jpg" class="chart-img img-zoom" alt="Suelo 2"></div>
             </div>
         </section>
 
     </main>
 
-    <div id="imageModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:2000;">
+    <div id="imageModal" class="modal">
         <span style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;" onclick="closeModal()">&times;</span>
-        <img id="imgFull" style="max-width:95%; max-height:95%; border: 2px solid #fff;">
+        <img id="imgFull" style="max-width:90%; max-height:90%;">
     </div>
 
     <script>
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("imgFull");
-        
         document.querySelectorAll('.img-zoom').forEach(img => {
             img.onclick = function() {
                 modal.style.display = "flex";
                 modalImg.src = this.src;
             }
         });
-
         function closeModal() { modal.style.display = "none"; }
         window.onclick = function(event) { if (event.target == modal) closeModal(); }
     </script>
-
 </body>
 </html>
