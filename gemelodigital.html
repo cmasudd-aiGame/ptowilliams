@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Territorial | Gemelo Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para que el iframe se vea bien */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 80vh; /* Ocupa el 80% del alto de la ventana */
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-hero">
+        <img src="https://cmasudd-aigame.github.io/ptowilliams/puertowilliamsdrone2.jpg" alt="Drone Puerto Williams" class="header-image">
+        <div class="title-overlay">
+            <h1>Plataforma Territorial Isla Navarino</h1>
+            <p>Gemelo Digital: Monitoreo y Simulación en Tiempo Real</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/experimento.html">Experimento</a></li>
+            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/gemelodigital.html">Gemelo Digital</a></li>
+            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/diseno.html">Diseño Inteligente</a></li>
+          <li><a href="#">Datos</a></li>
+            <li><a href="https://cmasudd-aigame.github.io/ptowilliams/puertowilliams2.html">Puerto Williams</a></li>
+            <li><a href="meteorologia.html">Meteorología</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <h2>Visualización del Gemelo Digital</h2>
+        <p>
+            A continuación se presenta la interfaz interactiva para el monitoreo de los sensores y la simulación del comportamiento térmico del sistema en Puerto Williams.
+        </p>
+
+        <div class="iframe-container">
+            <iframe 
+                src="https://gemelodigital-puertowilliams.streamlit.app/?embed=true" 
+                allow="camera;microphone;geolocation">
+            </iframe>
+        </div>
+    </main>
+</body>
+</html>
